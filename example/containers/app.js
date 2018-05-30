@@ -32,7 +32,7 @@ class App extends Component {
             <Container inline>
               <Header>Reaptcha</Header>
               <Route
-                path={/(?!\/$)./}
+                path="/(.+)"
                 render={() => (
                   <Link to="/">
                     <Button small>Back</Button>
