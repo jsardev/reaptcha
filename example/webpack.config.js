@@ -9,7 +9,8 @@ module.exports = {
   },
   devServer: {
     hot: true,
-    contentBase: __dirname
+    contentBase: __dirname,
+    historyApiFallback: true
   },
   module: {
     rules: [
