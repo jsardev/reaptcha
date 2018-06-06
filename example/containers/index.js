@@ -26,14 +26,8 @@ const App = () => (
     <Fragment>
       <Section blue>
         <Container page>
-          <Container
-            inline
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <div>
+          <Container between>
+            <Container inline>
               <Header>Reaptcha</Header>
               <Route
                 path="/(.+)"
@@ -45,12 +39,9 @@ const App = () => (
                   </NavLink>
                 )}
               />
-            </div>
-
+            </Container>
             <div>
-              <Link href="https://github.com/sarneeh/reaptcha">
-                Docs
-              </Link>
+              <Link href="https://github.com/sarneeh/reaptcha">Docs</Link>
             </div>
           </Container>
           <SubHeader>reCAPTCHA for React.</SubHeader>

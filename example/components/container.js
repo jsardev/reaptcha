@@ -27,10 +27,17 @@ const inlineContainerMixin = css`
   }
 `;
 
+const betweenContainerMixin = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export default styled.div`
   ${props => {
     if (props.page) return pageContainerMixin;
     if (props.inline) return inlineContainerMixin;
+    if (props.between) return betweenContainerMixin;
     return containerMixin;
   }};
 `;
