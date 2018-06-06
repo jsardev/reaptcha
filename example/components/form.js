@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
-export default styled.h2`
-  font-size: 1rem;
-  font-weight: 400;
+export const FormGroup = styled.div`
   margin: 0 0 0.5rem 0;
 
-  &:last-child {
+  &:last-of-type {
     margin: 0;
   }
 `;

@@ -2,35 +2,40 @@ import React, { Component, Fragment } from 'react';
 import Helmet from 'react-helmet';
 import qs from 'query-string';
 
-class Reaptcha extends Component {
-  constructor(props) {
-    super(props);
-    this.widget = null;
-    this.timer = null;
-  }
+const RECAPTCHA_CLASSNAME = 'g-recaptcha';
 
-  isRecaptchaAvailable() {
+class Reaptcha extends Component {
+  timer = null;
+  container = null;
+
+  _isAvailable() {
     return window && window.grecaptcha && window.grecaptcha.ready;
   }
 
+  _prepare() {
+    return window.grecaptcha.ready(() => this.props.onLoad());
+  }
+
   renderRecaptcha() {
-    const { siteKey } = this.props;
-    window.grecaptcha.ready(() => {
-      window.grecaptcha.render(this.widget, {
+    if (this._isAvailable()) {
+      const { siteKey, theme, size } = this.props;
+      window.grecaptcha.render(this.container, {
         sitekey: siteKey,
-        size: 'compact'
+        theme,
+        size,
+        callback: this.cb
       });
-    });
+    }
   }
 
   componentDidMount() {
     if (this.props.explicit) {
-      if (this.isRecaptchaAvailable()) {
-        this.renderRecaptcha();
+      if (this._isAvailable()) {
+        this._prepare();
       } else {
         this.timer = setInterval(() => {
-          if (this.isRecaptchaAvailable()) {
-            this.renderRecaptcha();
+          if (this._isAvailable()) {
+            this._prepare();
             clearInterval(this.timer);
           }
         }, 500);
@@ -46,14 +51,13 @@ class Reaptcha extends Component {
       .forEach(script => script.remove());
   }
 
-  renderScript() {
+  _renderScript() {
     const parameters = qs.stringify({
       render: this.props.explicit ? 'explicit' : 'onload'
     });
     return (
       <Helmet>
         <script
-          name="sth"
           src={`https://www.google.com/recaptcha/api.js?${parameters}`}
           async
           defer
@@ -62,21 +66,30 @@ class Reaptcha extends Component {
     );
   }
 
-  renderAutomaticRecaptchaContainer() {
-    return <div className="g-recaptcha" data-sitekey={this.props.siteKey} />;
+  _renderAutomaticContainer() {
+    return (
+      <div
+        className={RECAPTCHA_CLASSNAME}
+        data-sitekey={this.props.siteKey}
+        data-theme={this.props.theme}
+        data-size={this.props.size}
+      />
+    );
   }
 
-  renderExplicitRecaptchaContainer() {
-    return <div className="g-recaptcha" ref={e => (this.widget = e)} />;
+  _renderExplicitContainer() {
+    return (
+      <div className={RECAPTCHA_CLASSNAME} ref={e => (this.container = e)} />
+    );
   }
 
   render() {
     return (
       <Fragment>
-        {this.renderScript()}
+        {this._renderScript()}
         {this.props.explicit
-          ? this.renderExplicitRecaptchaContainer()
-          : this.renderAutomaticRecaptchaContainer()}
+          ? this._renderExplicitContainer()
+          : this._renderAutomaticContainer()}
       </Fragment>
     );
   }

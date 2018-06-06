@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
-import styled, { injectGlobal } from 'styled-components';
-
-import Reaptcha from '../../index';
+import { injectGlobal } from 'styled-components';
 
 import Container from '../components/container';
 import Section from '../components/section';
@@ -12,6 +10,10 @@ import SubHeader from '../components/subheader';
 import Button from '../components/button';
 import Link from '../components/link';
 
+import Home from '../routes/home';
+import Automatic from '../routes/automatic';
+import Explicit from '../routes/explicit';
+
 injectGlobal`
   body {
     margin: 0;
@@ -19,58 +21,36 @@ injectGlobal`
   }
 `;
 
-// const SITE_KEY = 'YOUR_SITE_KEY';
-const SITE_KEY = '6LcIEVwUAAAAAEnR50W15N0XjSGG8vOTVgVCfqU6';
-
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <Container>
-          <Section>
-            <Container inline>
-              <Header>Reaptcha</Header>
-              <Route
-                path="/(.+)"
-                render={() => (
-                  <Link to="/">
-                    <Button small>Back</Button>
-                  </Link>
-                )}
-              />
-            </Container>
-            <SubHeader>reCAPTCHA for React.</SubHeader>
-          </Section>
-          <Section>
+const App = () => (
+  <Router>
+    <Fragment>
+      <Section blue>
+        <Container page>
+          <Container inline>
+            <Header>Reaptcha</Header>
             <Route
-              exact
-              path="/"
+              path="/(.+)"
               render={() => (
-                <Container inline>
-                  <Link to="/automatic">
-                    <Button>Automatic</Button>
-                  </Link>
-                  <Link to="/explicit">
-                    <Button>Explicit</Button>
-                  </Link>
-                </Container>
+                <Link to="/">
+                  <Button small white>
+                    Back
+                  </Button>
+                </Link>
               )}
             />
-            <Route
-              exact
-              path="/automatic"
-              render={() => <Reaptcha siteKey={SITE_KEY} />}
-            />
-            <Route
-              exact
-              path="/explicit"
-              render={() => <Reaptcha siteKey={SITE_KEY} explicit />}
-            />
-          </Section>
+          </Container>
+          <SubHeader>reCAPTCHA for React.</SubHeader>
         </Container>
-      </Router>
-    );
-  }
-}
+      </Section>
+      <Section>
+        <Container page>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/automatic" component={Automatic} />
+          <Route exact path="/explicit" component={Explicit} />
+        </Container>
+      </Section>
+    </Fragment>
+  </Router>
+);
 
 export default hot(module)(App);

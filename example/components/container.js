@@ -1,8 +1,10 @@
 import styled, { css } from 'styled-components';
 
+const containerMixin = css`
+  margin-bottom: 1.5rem;
+`;
+
 const pageContainerMixin = css`
-  display: flex;
-  flex-direction: column;
   max-width: 600px;
   margin: 0 auto;
 
@@ -14,8 +16,21 @@ const pageContainerMixin = css`
 const inlineContainerMixin = css`
   display: flex;
   align-items: center;
+
+  button,
+  a {
+    margin-right: 1rem;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
 `;
 
 export default styled.div`
-  ${props => (props.inline ? inlineContainerMixin : pageContainerMixin)};
+  ${props => {
+    if (props.page) return pageContainerMixin;
+    if (props.inline) return inlineContainerMixin;
+    return containerMixin;
+  }};
 `;
