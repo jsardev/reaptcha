@@ -1,16 +1,11 @@
 const path = require('path');
-const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
   entry: path.resolve(__dirname, 'index.js'),
   output: {
-    filename: 'app.js'
-  },
-  devServer: {
-    hot: true,
-    contentBase: __dirname,
-    historyApiFallback: true
+    filename: 'example.js',
+    path: path.resolve(__dirname, '..')
   },
   module: {
     rules: [
@@ -22,7 +17,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new HtmlWebpackPlugin({
+      template: 'example/index.html'
+    })
   ]
 };

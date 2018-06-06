@@ -7,7 +7,8 @@
   "author": "Jakub Sarnowski <sarneeh@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config example/webpack.config.js"
+    "start": "webpack-dev-server --config example/webpack.dev.js",
+    "build:example": "webpack --config example/webpack.prod.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -16,12 +17,14 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "formik": "^0.11.11",
+    "html-webpack-plugin": "^3.2.0",
     "react-hot-loader": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "styled-components": "^3.3.0",
     "webpack": "^4.10.0",
     "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
   },
   "dependencies": {
     "query-string": "^6.1.0",
