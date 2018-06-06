@@ -22,7 +22,7 @@ injectGlobal`
 `;
 
 const App = () => (
-  <Router>
+  <Router basename="/reaptcha">
     <Fragment>
       <Section blue>
         <Container page>
