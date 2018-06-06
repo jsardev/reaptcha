@@ -6,7 +6,7 @@ import SubHeader from '../components/subheader';
 import Container from '../components/container';
 import Button from '../components/button';
 import Radio from '../components/radio';
-import Link from '../components/link';
+import { NavLink } from '../components/link';
 import { FormGroup } from '../components/form';
 
 const initialConfig = {
@@ -35,12 +35,12 @@ export default () => (
           </Form>
         </Container>
         <Container inline>
-          <Link to={`/automatic?${qs.stringify(values)}`}>
+          <NavLink to={`/automatic?${qs.stringify(values)}`}>
             <Button>Automatic</Button>
-          </Link>
-          <Link to={`/explicit?${qs.stringify(values)}`}>
+          </NavLink>
+          <NavLink to={`/explicit?${qs.stringify(values)}`}>
             <Button>Explicit</Button>
-          </Link>
+          </NavLink>
         </Container>
       </Fragment>
     )}

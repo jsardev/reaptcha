@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 import { injectGlobal } from 'styled-components';
 
@@ -8,7 +8,7 @@ import Section from '../components/section';
 import Header from '../components/header';
 import SubHeader from '../components/subheader';
 import Button from '../components/button';
-import Link from '../components/link';
+import Link, { NavLink } from '../components/link';
 
 import Home from '../routes/home';
 import Automatic from '../routes/automatic';
@@ -26,18 +26,32 @@ const App = () => (
     <Fragment>
       <Section blue>
         <Container page>
-          <Container inline>
-            <Header>Reaptcha</Header>
-            <Route
-              path="/(.+)"
-              render={() => (
-                <Link to="/">
-                  <Button small white>
-                    Back
-                  </Button>
-                </Link>
-              )}
-            />
+          <Container
+            inline
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div>
+              <Header>Reaptcha</Header>
+              <Route
+                path="/(.+)"
+                render={() => (
+                  <NavLink to="/">
+                    <Button small white>
+                      Back
+                    </Button>
+                  </NavLink>
+                )}
+              />
+            </div>
+
+            <div>
+              <Link href="https://github.com/sarneeh/reaptcha">
+                Docs
+              </Link>
+            </div>
           </Container>
           <SubHeader>reCAPTCHA for React.</SubHeader>
         </Container>
