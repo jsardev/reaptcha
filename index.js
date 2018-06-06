@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import Helmet from 'react-helmet';
 import qs from 'query-string';
 
 const RECAPTCHA_CLASSNAME = 'g-recaptcha';
@@ -16,16 +15,26 @@ class Reaptcha extends Component {
     return window.grecaptcha.ready(() => this.props.onLoad());
   }
 
-  renderRecaptcha() {
-    if (this._isAvailable()) {
-      const { siteKey, theme, size } = this.props;
-      window.grecaptcha.render(this.container, {
-        sitekey: siteKey,
-        theme,
-        size,
-        callback: this.cb
-      });
-    }
+  componentWillMount() {
+    const parameters = qs.stringify({
+      render: this.props.explicit ? 'explicit' : 'onload'
+    });
+
+    const script = document.createElement('script');
+
+    script.async = true;
+    script.defer = true;
+    script.src = `https://www.google.com/recaptcha/api.js?${parameters}`;
+
+    document.head.appendChild(script);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+
+    Array.from(document.scripts)
+      .filter(script => script.src.indexOf('recaptcha') > 0)
+      .forEach(script => script.remove());
   }
 
   componentDidMount() {
@@ -43,27 +52,15 @@ class Reaptcha extends Component {
     }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
-
-    Array.from(document.scripts)
-      .filter(script => script.src.indexOf('recaptcha') > 0)
-      .forEach(script => script.remove());
-  }
-
-  _renderScript() {
-    const parameters = qs.stringify({
-      render: this.props.explicit ? 'explicit' : 'onload'
-    });
-    return (
-      <Helmet>
-        <script
-          src={`https://www.google.com/recaptcha/api.js?${parameters}`}
-          async
-          defer
-        />
-      </Helmet>
-    );
+  renderRecaptcha() {
+    if (this._isAvailable()) {
+      const { siteKey, theme, size } = this.props;
+      window.grecaptcha.render(this.container, {
+        sitekey: siteKey,
+        theme,
+        size
+      });
+    }
   }
 
   _renderAutomaticContainer() {
@@ -86,7 +83,6 @@ class Reaptcha extends Component {
   render() {
     return (
       <Fragment>
-        {this._renderScript()}
         {this.props.explicit
           ? this._renderExplicitContainer()
           : this._renderAutomaticContainer()}
