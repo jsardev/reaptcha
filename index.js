@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import qs from 'query-string';
 
 const RECAPTCHA_CLASSNAME = 'g-recaptcha';
 
@@ -16,15 +15,12 @@ class Reaptcha extends Component {
   }
 
   componentWillMount() {
-    const parameters = qs.stringify({
-      render: this.props.explicit ? 'explicit' : 'onload'
-    });
-
+    const params = `?render=${this.props.explicit ? 'explicit' : 'onload'}`;
     const script = document.createElement('script');
 
     script.async = true;
     script.defer = true;
-    script.src = `https://www.google.com/recaptcha/api.js?${parameters}`;
+    script.src = `https://www.google.com/recaptcha/api.js${params}`;
 
     document.head.appendChild(script);
   }
