@@ -40,7 +40,7 @@ class Reaptcha extends Component<Props> {
   };
 
   _isAvailable(): boolean {
-    return window && window.grecaptcha && Boolean(window.grecaptcha.ready);
+    return Boolean(window && window.grecaptcha && window.grecaptcha.ready);
   }
 
   _prepare(): void {
