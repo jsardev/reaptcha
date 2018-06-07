@@ -1,6 +1,16 @@
 /* @flow */
 
 import React, { Component } from 'react';
+import type { Ref } from 'react';
+
+declare var window: {
+  grecaptcha: {
+    ready: (callback: Function) => Promise<void>,
+    render: (container: HTMLElement, config: mixed) => string,
+    execute: (id: string) => void,
+    reset: (id: string) => void
+  }
+};
 
 type Props = {
   sitekey: string,
@@ -8,17 +18,19 @@ type Props = {
   size?: 'compact' | 'normal' | 'invisible',
   badge?: 'bottomright' | 'bottomleft' | 'inline',
   tabindex: number,
-  explicit?: boolean,
+  explicit: boolean,
   onLoad?: Function,
   onVerify: Function,
   inject: boolean
 };
 
-type State = {
-  rendered: boolean
-};
+class Reaptcha extends Component<Props> {
+  id: ?string = null;
+  timer: ?IntervalID = null;
+  container: ?HTMLDivElement = null;
+  rendered: boolean = false;
+  injected: boolean = false;
 
-class Reaptcha extends Component<Props, State> {
   static defaultProps = {
     theme: 'light',
     size: 'normal',
@@ -27,16 +39,8 @@ class Reaptcha extends Component<Props, State> {
     inject: false
   };
 
-  state = {
-    rendered: false,
-    injected: false
-  };
-
-  timer = null;
-  container = null;
-
   _isAvailable(): boolean {
-    return window && window.grecaptcha && window.grecaptcha.ready;
+    return window && window.grecaptcha && Boolean(window.grecaptcha.ready);
   }
 
   _prepare(): void {
@@ -72,7 +76,7 @@ class Reaptcha extends Component<Props, State> {
   componentWillUnmount(): void {
     this._stopTimer();
 
-    if (this.state.injected) {
+    if (this.injected) {
       Array.from(document.scripts)
         .filter(script => script.src.indexOf('recaptcha') > 0)
         .forEach(script => script.remove());
@@ -92,14 +96,18 @@ class Reaptcha extends Component<Props, State> {
     }
   }
 
+  shouldComponentUpdate(): boolean {
+    return !this.rendered;
+  }
+
   renderRecaptcha(): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (this._isAvailable()) {
+      if (this._isAvailable() && this.container) {
         const { sitekey, theme, size, badge, tabindex, onVerify } = this.props;
 
         const isInvisible = size === 'invisible';
 
-        window.grecaptcha.render(this.container, {
+        this.id = window.grecaptcha.render(this.container, {
           sitekey,
           theme: isInvisible ? null : theme,
           size,
@@ -108,14 +116,31 @@ class Reaptcha extends Component<Props, State> {
           callback: onVerify
         });
 
-        this.setState({ rendered: true });
+        this.rendered = true;
 
         resolve();
-      } else if (this.state.rendered) {
+      } else if (this.rendered) {
         reject('This recaptcha instance has been already rendered.');
-      } else {
-        reject('Recaptcha is not ready for rendering yet.');
       }
+      reject('Recaptcha is not ready for rendering yet.');
+    });
+  }
+
+  resetRecaptcha(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.rendered && this.id) {
+        window.grecaptcha.reset(this.id);
+      }
+      reject('This recaptcha instance did not render yet.');
+    });
+  }
+
+  executeRecaptcha(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.rendered && this.id) {
+        window.grecaptcha.execute(this.id);
+      }
+      reject('This recaptcha instance did not render yet.');
     });
   }
 
