@@ -24,26 +24,30 @@ export default class Explicit extends Component {
     return (
       <Fragment>
         <Container>
-        <Button
-          onClick={() => {
-            this.captcha.renderRecaptcha();
-            this.setState({ rendered: true });
-          }}
-          disabled={renderDisabled}
-        >
-          Render
-        </Button>
+          <Button
+            onClick={() => {
+              this.captcha.renderRecaptcha();
+              this.setState({ rendered: true });
+            }}
+            disabled={renderDisabled}
+          >
+            Render
+          </Button>
         </Container>
         <Reaptcha
           {...options}
           ref={e => (this.captcha = e)}
-          siteKey={SITE_KEY}
-          explicit
+          sitekey={SITE_KEY}
           onLoad={() => {
             this.setState({
               ready: true
             });
           }}
+          onVerify={() => {
+            console.log('Verified!');
+          }}
+          explicit
+          inject
         />
       </Fragment>
     );

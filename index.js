@@ -1,16 +1,47 @@
-import React, { Component, Fragment } from 'react';
+/* @flow */
 
-class Reaptcha extends Component {
+import React, { Component } from 'react';
+
+type Props = {
+  sitekey: string,
+  theme?: 'light' | 'dark',
+  size?: 'compact' | 'normal' | 'invisible',
+  badge?: 'bottomright' | 'bottomleft' | 'inline',
+  tabindex: number,
+  explicit?: boolean,
+  onLoad?: Function,
+  onVerify: Function,
+  inject: boolean
+};
+
+type State = {
+  rendered: boolean
+};
+
+class Reaptcha extends Component<Props, State> {
+  static defaultProps = {
+    theme: 'light',
+    size: 'normal',
+    badge: 'bottomright',
+    tabindex: 0,
+    inject: false
+  };
+
+  state = {
+    rendered: false,
+    injected: false
+  };
+
   timer = null;
   container = null;
 
-  _isAvailable() {
+  _isAvailable(): boolean {
     return window && window.grecaptcha && window.grecaptcha.ready;
   }
 
-  _prepare() {
+  _prepare(): void {
     const { explicit, onLoad } = this.props;
-    return window.grecaptcha.ready(() => {
+    window.grecaptcha.ready(() => {
       if (!explicit) {
         this.renderRecaptcha();
       }
@@ -20,46 +51,72 @@ class Reaptcha extends Component {
     });
   }
 
-  componentWillMount() {
-    const script = document.createElement('script');
-
-    script.async = true;
-    script.defer = true;
-    script.src = `https://www.google.com/recaptcha/api.js?render=explicit`;
-
-    document.head.appendChild(script);
+  _stopTimer(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
+  componentWillMount(): void {
+    if (this.props.inject) {
+      const script = document.createElement('script');
 
-    Array.from(document.scripts)
-      .filter(script => script.src.indexOf('recaptcha') > 0)
-      .forEach(script => script.remove());
+      script.async = true;
+      script.defer = true;
+      script.src = 'https://google.com/recaptcha/api.js?render=explicit';
+
+      document.head && document.head.appendChild(script);
+    }
   }
 
-  componentDidMount() {
+  componentWillUnmount(): void {
+    this._stopTimer();
+
+    if (this.state.injected) {
+      Array.from(document.scripts)
+        .filter(script => script.src.indexOf('recaptcha') > 0)
+        .forEach(script => script.remove());
+    }
+  }
+
+  componentDidMount(): void {
     if (this._isAvailable()) {
       this._prepare();
     } else {
       this.timer = setInterval(() => {
         if (this._isAvailable()) {
           this._prepare();
-          clearInterval(this.timer);
+          this._stopTimer();
         }
       }, 500);
     }
   }
 
-  renderRecaptcha() {
-    if (this._isAvailable()) {
-      const { siteKey, theme, size } = this.props;
-      window.grecaptcha.render(this.container, {
-        sitekey: siteKey,
-        theme,
-        size
-      });
-    }
+  renderRecaptcha(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this._isAvailable()) {
+        const { sitekey, theme, size, badge, tabindex, onVerify } = this.props;
+
+        const isInvisible = size === 'invisible';
+
+        window.grecaptcha.render(this.container, {
+          sitekey,
+          theme: isInvisible ? null : theme,
+          size,
+          badge: isInvisible ? badge : null,
+          tabindex,
+          callback: onVerify
+        });
+
+        this.setState({ rendered: true });
+
+        resolve();
+      } else if (this.state.rendered) {
+        reject('This recaptcha instance has been already rendered.');
+      } else {
+        reject('Recaptcha is not ready for rendering yet.');
+      }
+    });
   }
 
   render() {

@@ -7,5 +7,5 @@ const SITE_KEY = '6LcIEVwUAAAAAEnR50W15N0XjSGG8vOTVgVCfqU6';
 
 export default props => {
   const options = qs.parse(props.location.search);
-  return <Reaptcha siteKey={SITE_KEY} {...options} />;
+  return <Reaptcha sitekey={SITE_KEY} {...options} inject />;
 };
