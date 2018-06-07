@@ -9,7 +9,9 @@ module.exports = merge(common, {
     hot: true,
     contentBase: __dirname,
     publicPath: '/reaptcha/',
-    historyApiFallback: true
+    historyApiFallback: {
+      index: '/reaptcha/'
+    }
   },
   plugins: [
     new webpack.NamedModulesPlugin(),

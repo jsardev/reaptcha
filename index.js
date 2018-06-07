@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
 
-const RECAPTCHA_CLASSNAME = 'g-recaptcha';
-
 class Reaptcha extends Component {
   timer = null;
   container = null;
@@ -11,16 +9,23 @@ class Reaptcha extends Component {
   }
 
   _prepare() {
-    return window.grecaptcha.ready(() => this.props.onLoad());
+    const { explicit, onLoad } = this.props;
+    return window.grecaptcha.ready(() => {
+      if (!explicit) {
+        this.renderRecaptcha();
+      }
+      if (onLoad) {
+        onLoad();
+      }
+    });
   }
 
   componentWillMount() {
-    const params = `?render=${this.props.explicit ? 'explicit' : 'onload'}`;
     const script = document.createElement('script');
 
     script.async = true;
     script.defer = true;
-    script.src = `https://www.google.com/recaptcha/api.js${params}`;
+    script.src = `https://www.google.com/recaptcha/api.js?render=explicit`;
 
     document.head.appendChild(script);
   }
@@ -34,17 +39,15 @@ class Reaptcha extends Component {
   }
 
   componentDidMount() {
-    if (this.props.explicit) {
-      if (this._isAvailable()) {
-        this._prepare();
-      } else {
-        this.timer = setInterval(() => {
-          if (this._isAvailable()) {
-            this._prepare();
-            clearInterval(this.timer);
-          }
-        }, 500);
-      }
+    if (this._isAvailable()) {
+      this._prepare();
+    } else {
+      this.timer = setInterval(() => {
+        if (this._isAvailable()) {
+          this._prepare();
+          clearInterval(this.timer);
+        }
+      }, 500);
     }
   }
 
@@ -59,31 +62,8 @@ class Reaptcha extends Component {
     }
   }
 
-  _renderAutomaticContainer() {
-    return (
-      <div
-        className={RECAPTCHA_CLASSNAME}
-        data-sitekey={this.props.siteKey}
-        data-theme={this.props.theme}
-        data-size={this.props.size}
-      />
-    );
-  }
-
-  _renderExplicitContainer() {
-    return (
-      <div className={RECAPTCHA_CLASSNAME} ref={e => (this.container = e)} />
-    );
-  }
-
   render() {
-    return (
-      <Fragment>
-        {this.props.explicit
-          ? this._renderExplicitContainer()
-          : this._renderAutomaticContainer()}
-      </Fragment>
-    );
+    return <div className="g-recaptcha" ref={e => (this.container = e)} />;
   }
 }
 
