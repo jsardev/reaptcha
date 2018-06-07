@@ -1,7 +1,6 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import type { Ref } from 'react';
 
 declare var window: {
   grecaptcha: {
@@ -61,7 +60,7 @@ class Reaptcha extends Component<Props> {
     }
   }
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     if (this.props.inject) {
       const script = document.createElement('script');
 
