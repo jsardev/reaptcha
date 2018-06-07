@@ -12,15 +12,17 @@ declare var window: {
 };
 
 type Props = {
+  id?: string,
+  className?: string,
   sitekey: string,
   theme?: 'light' | 'dark',
   size?: 'compact' | 'normal' | 'invisible',
   badge?: 'bottomright' | 'bottomleft' | 'inline',
-  tabindex: number,
-  explicit: boolean,
+  tabindex?: number,
+  explicit?: boolean,
   onLoad?: Function,
   onVerify: Function,
-  inject: boolean
+  inject?: boolean
 };
 
 class Reaptcha extends Component<Props> {
@@ -31,15 +33,22 @@ class Reaptcha extends Component<Props> {
   injected: boolean = false;
 
   static defaultProps = {
+    id: '',
+    className: '',
     theme: 'light',
     size: 'normal',
     badge: 'bottomright',
     tabindex: 0,
+    explicit: false,
     inject: false
   };
 
   _isAvailable(): boolean {
     return Boolean(window && window.grecaptcha && window.grecaptcha.ready);
+  }
+
+  _isInvisible(): boolean {
+    return this.props.size === 'invisible';
   }
 
   _prepare(): void {
@@ -68,7 +77,10 @@ class Reaptcha extends Component<Props> {
       script.defer = true;
       script.src = 'https://google.com/recaptcha/api.js?render=explicit';
 
-      document.head && document.head.appendChild(script);
+      if (document.head) {
+        document.head.appendChild(script);
+        this.injected = true;
+      }
     }
   }
 
@@ -101,27 +113,27 @@ class Reaptcha extends Component<Props> {
 
   renderRecaptcha(): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (this.rendered) {
+        return reject('This recaptcha instance has been already rendered.');
+      }
       if (this._isAvailable() && this.container) {
         const { sitekey, theme, size, badge, tabindex, onVerify } = this.props;
 
-        const isInvisible = size === 'invisible';
-
         this.id = window.grecaptcha.render(this.container, {
           sitekey,
-          theme: isInvisible ? null : theme,
+          theme: this._isInvisible() ? null : theme,
           size,
-          badge: isInvisible ? badge : null,
+          badge: this._isInvisible() ? badge : null,
           tabindex,
           callback: onVerify
         });
 
         this.rendered = true;
 
-        resolve();
-      } else if (this.rendered) {
-        reject('This recaptcha instance has been already rendered.');
+        return resolve();
+      } else {
+        return reject('Recaptcha is not ready for rendering yet.');
       }
-      reject('Recaptcha is not ready for rendering yet.');
     });
   }
 
@@ -129,6 +141,7 @@ class Reaptcha extends Component<Props> {
     return new Promise((resolve, reject) => {
       if (this.rendered && this.id) {
         window.grecaptcha.reset(this.id);
+        return resolve();
       }
       reject('This recaptcha instance did not render yet.');
     });
@@ -136,15 +149,25 @@ class Reaptcha extends Component<Props> {
 
   executeRecaptcha(): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (!this._isInvisible()) {
+        return reject('Manual execution is only available for invisible size.');
+      }
       if (this.rendered && this.id) {
         window.grecaptcha.execute(this.id);
+        return resolve();
       }
-      reject('This recaptcha instance did not render yet.');
+      return reject('This recaptcha instance did not render yet.');
     });
   }
 
   render() {
-    return <div className="g-recaptcha" ref={e => (this.container = e)} />;
+    return (
+      <div
+        id={this.props.id}
+        className={this.props.className}
+        ref={e => (this.container = e)}
+      />
+    );
   }
 }
 
