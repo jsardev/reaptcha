@@ -5,7 +5,9 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack.prod.js",
-    "publish": "gh-pages -d dist"
+    "publish": "gh-pages -d dist",
+    "flow": "flow src",
+    "lint": "eslint src"
   },
   "dependencies": {
     "formik": "^1.0.0-beta.2",
@@ -17,11 +19,15 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.9.1",
+    "flow-bin": "^0.73.0",
     "gh-pages": "^1.2.0",
     "html-webpack-plugin": "^3.2.0",
     "react-hot-loader": "^4.3.0",

@@ -1,21 +1,35 @@
+/* @flow */
+
 import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
 import qs from 'query-string';
 
-import Reaptcha from '../../index';
+import Reaptcha from '../../../index';
 import Button from '../components/button';
 import Container from '../components/container';
 
 const SITE_KEY = '6LcIEVwUAAAAAEnR50W15N0XjSGG8vOTVgVCfqU6';
 
-export default class Explicit extends Component {
-  constructor(props) {
+type Props = {
+  location: {
+    search: string
+  }
+};
+
+type State = {
+  ready: boolean,
+  rendered: boolean
+};
+
+export default class Explicit extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       ready: false,
       rendered: false
     };
   }
+
+  captcha: ?Reaptcha = null;
 
   render() {
     const options = qs.parse(this.props.location.search);
@@ -26,7 +40,9 @@ export default class Explicit extends Component {
         <Container>
           <Button
             onClick={() => {
-              this.captcha.renderRecaptcha();
+              if (this.captcha) {
+                this.captcha.renderRecaptcha();
+              }
               this.setState({ rendered: true });
             }}
             disabled={renderDisabled}
@@ -44,7 +60,7 @@ export default class Explicit extends Component {
             });
           }}
           onVerify={() => {
-            console.log('Verified!');
+            // Do something
           }}
           explicit
           inject

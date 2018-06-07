@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react';
 import styled from 'styled-components';
 import { Field } from 'formik';
@@ -14,7 +16,14 @@ const RadioInput = styled.input.attrs({
   }
 `;
 
-export default ({ id, name, label, value }) => (
+type Props = {
+  id: string,
+  name: string,
+  label: string,
+  value: string
+};
+
+const Radio = ({ id, name, label, value }: Props) => (
   <Container inline>
     <Field
       name={name}
@@ -31,3 +40,5 @@ export default ({ id, name, label, value }) => (
     <label htmlFor={id}>{label}</label>
   </Container>
 );
+
+export default Radio;

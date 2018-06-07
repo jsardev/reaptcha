@@ -1,11 +1,21 @@
+/* @flow */
+
 import React from 'react';
 import qs from 'query-string';
 
-import Reaptcha from '../../index';
+import Reaptcha from '../../../index';
 
 const SITE_KEY = '6LcIEVwUAAAAAEnR50W15N0XjSGG8vOTVgVCfqU6';
 
-export default props => {
+type Props = {
+  location: {
+    search: string
+  }
+};
+
+const Automatic = (props: Props) => {
   const options = qs.parse(props.location.search);
   return <Reaptcha sitekey={SITE_KEY} {...options} inject />;
 };
+
+export default Automatic;

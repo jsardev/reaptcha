@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Formik, Form } from 'formik';
 import qs from 'query-string';
 
@@ -14,7 +14,7 @@ const initialConfig = {
   size: 'normal'
 };
 
-export default () => (
+const Home = () => (
   <Formik
     onSubmit={() => {}}
     initialValues={initialConfig}
@@ -46,3 +46,5 @@ export default () => (
     )}
   />
 );
+
+export default Home;
