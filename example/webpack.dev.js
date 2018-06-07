@@ -8,9 +8,9 @@ module.exports = merge(common, {
   devServer: {
     hot: true,
     contentBase: __dirname,
-    publicPath: '/reaptcha/',
+    publicPath: common.output.publicPath,
     historyApiFallback: {
-      index: '/reaptcha/'
+      index: common.output.publicPath
     }
   },
   plugins: [
