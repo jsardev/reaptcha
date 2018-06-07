@@ -6,6 +6,9 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'production',
+  output: {
+    filename: 'index.[chunkhash].js'
+  },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new webpack.DefinePlugin({
