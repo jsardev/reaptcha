@@ -23,7 +23,7 @@ const defaultProps = {
 test.beforeEach(() => {
   window = {
     grecaptcha: {
-      ready: fn => fn(),
+      ready: callback => callback(),
       render: renderSpy,
       reset: resetSpy,
       execute: executeSpy
@@ -59,7 +59,7 @@ test('should pass className', t => {
   );
 });
 
-test('should render normal recaptcha', t => {
+test('should render recaptcha', t => {
   t.plan(2);
   const callback = () => {};
   mount(
@@ -80,7 +80,8 @@ test('should render normal recaptcha', t => {
       size: 'normal',
       badge: null,
       tabindex: 2,
-      callback
+      callback,
+      isolated: null
     })
   );
 });
@@ -96,6 +97,7 @@ test('should render invisible recaptcha', t => {
       tabindex={3}
       onVerify={callback}
       explicit={false}
+      isolated={true}
     />
   );
   t.true(renderSpy.calledOnce);
@@ -106,7 +108,8 @@ test('should render invisible recaptcha', t => {
       size: 'invisible',
       badge: 'bottomleft',
       tabindex: 3,
-      callback
+      callback,
+      isolated: true
     })
   );
 });
@@ -205,7 +208,7 @@ test.serial('should throw error when no grecaptcha available on render', t => {
 });
 
 test.serial(
-  'should throw error when trying to execute not on invisible size',
+  'should throw error when trying to execute while not in invisible mode',
   t => {
     t.plan(2);
     const wrapper = mount(<Reaptcha {...defaultProps} size="normal" />);

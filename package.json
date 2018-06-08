@@ -13,7 +13,7 @@
     "build": "webpack --config webpack.config.js",
     "flow": "flow index.js",
     "lint": "eslint index.js",
-    "test": "ava index.test.js"
+    "test": "ava --verbose index.test.js"
   },
   "dependencies": {
     "react": "^16.4.0",
@@ -41,6 +41,7 @@
     "webpack-cli": "^3.0.3"
   },
   "ava": {
+    "powerAssert": false,
     "require": [
       "babel-register"
     ],

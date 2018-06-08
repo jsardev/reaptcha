@@ -22,7 +22,8 @@ type Props = {
   explicit?: boolean,
   onLoad?: Function,
   onVerify: Function,
-  inject?: boolean
+  inject?: boolean,
+  isolated: boolean
 };
 
 class Reaptcha extends Component<Props> {
@@ -40,7 +41,8 @@ class Reaptcha extends Component<Props> {
     badge: 'bottomright',
     tabindex: 0,
     explicit: false,
-    inject: false
+    inject: false,
+    isolated: false
   };
 
   _isAvailable(): boolean {
@@ -117,15 +119,16 @@ class Reaptcha extends Component<Props> {
         return reject('This recaptcha instance has been already rendered.');
       }
       if (this._isAvailable() && this.container) {
-        const { sitekey, theme, size, badge, tabindex, onVerify } = this.props;
+        const isInvisible = this._isInvisible();
 
         this.id = window.grecaptcha.render(this.container, {
-          sitekey,
-          theme: this._isInvisible() ? null : theme,
-          size,
-          badge: this._isInvisible() ? badge : null,
-          tabindex,
-          callback: onVerify
+          sitekey: this.props.sitekey,
+          theme: isInvisible ? null : this.props.theme,
+          size: this.props.size,
+          badge: isInvisible ? this.props.badge : null,
+          tabindex: this.props.tabindex,
+          callback: this.props.onVerify,
+          isolated: isInvisible ? this.props.isolated : null
         });
 
         this.rendered = true;
