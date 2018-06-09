@@ -5,9 +5,22 @@ import React, { Component } from 'react';
 declare var window: {
   grecaptcha: {
     ready: (callback: Function) => Promise<void>,
-    render: (container: HTMLElement, config: mixed) => string,
-    execute: (id: string) => void,
-    reset: (id: string) => void
+    render: (
+      container: ?HTMLElement,
+      config: {
+        sitekey: string,
+        theme: ?string,
+        size: ?string,
+        badge: ?string,
+        tabindex: ?number,
+        callback: ?Function,
+        'expired-callback': ?Function,
+        'error-callback': ?Function,
+        isolated: ?boolean
+      }
+    ) => number,
+    execute: (id: ?number) => void,
+    reset: (id: ?number) => void
   }
 };
 
@@ -21,13 +34,16 @@ type Props = {
   tabindex?: number,
   explicit?: boolean,
   onLoad?: Function,
+  onRender?: Function,
   onVerify: Function,
+  onExpire?: Function,
+  onError?: Function,
   inject?: boolean,
   isolated: boolean
 };
 
 class Reaptcha extends Component<Props> {
-  id: ?string = null;
+  id: ?number = null;
   timer: ?IntervalID = null;
   container: ?HTMLDivElement = null;
   rendered: boolean = false;
@@ -128,10 +144,16 @@ class Reaptcha extends Component<Props> {
           badge: isInvisible ? this.props.badge : null,
           tabindex: this.props.tabindex,
           callback: this.props.onVerify,
+          'expired-callback': this.props.onExpire,
+          'error-callback': this.props.onError,
           isolated: isInvisible ? this.props.isolated : null
         });
 
         this.rendered = true;
+
+        if (this.props.onRender) {
+          this.props.onRender();
+        }
 
         return resolve();
       } else {
@@ -142,7 +164,7 @@ class Reaptcha extends Component<Props> {
 
   resetRecaptcha(): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (this.rendered && this.id) {
+      if (this.rendered && this.id !== null) {
         window.grecaptcha.reset(this.id);
         return resolve();
       }
@@ -155,7 +177,7 @@ class Reaptcha extends Component<Props> {
       if (!this._isInvisible()) {
         return reject('Manual execution is only available for invisible size.');
       }
-      if (this.rendered && this.id) {
+      if (this.rendered && this.id !== null) {
         window.grecaptcha.execute(this.id);
         return resolve();
       }
