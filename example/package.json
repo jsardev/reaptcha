@@ -5,7 +5,6 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack.prod.js",
-    "publish": "gh-pages -d dist",
     "flow": "flow",
     "lint": "eslint src"
   },

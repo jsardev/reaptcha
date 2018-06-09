@@ -7,7 +7,20 @@ cache:
     - node_modules
 install:
   - yarn install
+  - yarn --cwd example install
 script:
   - yarn lint
   - yarn flow
   - yarn test
+  - yarn --cwd example lint
+  - yarn --cwd example flow
+  - yarn --cwd example build
+deploy:
+    provider: pages
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    target-branch: gh-pages
+    local-dir: example/dist
+    on:
+      branch: master
