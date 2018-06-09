@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "flow": "flow index.js",
+    "flow": "flow",
     "lint": "eslint index.js",
     "test": "ava --verbose index.test.js"
   },
