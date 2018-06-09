@@ -245,7 +245,7 @@ test.serial('should throw error on double render', t => {
 test.serial('should throw error when no grecaptcha available on render', t => {
   t.plan(2);
 
-  window = { grecaptcha: null };
+  window.grecaptcha = null;
   const wrapper = mount(<Reaptcha {...defaultProps} explicit={true} />);
 
   return t.throws(wrapper.instance().renderRecaptcha()).then(message => {
