@@ -6,9 +6,9 @@
   "license": "MIT",
   "author": "Jakub Sarnowski <sarneeh@gmail.com>",
   "files": [
-    "dist/*.js"
+    "dist"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js"
   },
