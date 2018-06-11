@@ -1,6 +1,6 @@
 {
   "name": "reaptcha",
-  "version": "0.1.0-1",
+  "version": "0.1.0-2",
   "description": "Google reCAPTCHA for React",
   "repository": "git@github.com:sarneeh/reaptcha.git",
   "license": "MIT",
