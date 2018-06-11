@@ -9,7 +9,7 @@
     "flow": "flow",
     "lint": "eslint .",
     "test": "ava --verbose **/*.test.js",
-    "prepublishOnly": "yarn build"
+    "publish": "yarn build && lerna publish"
   },
   "devDependencies": {
     "ava": "^0.25.0",
