@@ -12,9 +12,8 @@
   "scripts": {
     "build": "webpack --config webpack.config.js"
   },
-  "dependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+  "peerDependencies": {
+    "react": "^16.4.0"
   },
   "devDependencies": {
     "webpack": "^4.11.1"
