@@ -27,7 +27,8 @@ export default styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: ${props => (props.white ? 'lightgray' : props.theme.darkblue)};
+    background-color: ${props =>
+      props.white ? 'lightgray' : props.theme.darkblue};
     box-shadow: 0 3px 0 0 ${props =>
       props.white ? 'darkgray' : props.theme.darkestblue};
   }
