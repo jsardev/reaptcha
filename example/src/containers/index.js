@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
-import { injectGlobal } from 'styled-components';
+import { ThemeProvider, injectGlobal } from 'styled-components';
 
 import Container from '../components/container';
 import Section from '../components/section';
@@ -21,41 +21,49 @@ injectGlobal`
   }
 `;
 
+const theme = {
+  blue: '#4683F3',
+  darkblue: '#3060D1',
+  darkestblue: '#2F5AC9'
+};
+
 const App = () => (
-  <Router basename="/reaptcha/">
-    <Fragment>
-      <Section blue>
-        <Container page>
-          <Container between>
-            <Container inline>
-              <Header>Reaptcha</Header>
-              <Route
-                path="/(.+)"
-                render={() => (
-                  <NavLink to="/">
-                    <Button small white>
-                      Back
-                    </Button>
-                  </NavLink>
-                )}
-              />
+  <ThemeProvider theme={theme}>
+    <Router basename="/reaptcha/">
+      <Fragment>
+        <Section blue>
+          <Container page>
+            <Container between>
+              <Container inline>
+                <Header>Reaptcha</Header>
+                <Route
+                  path="/(.+)"
+                  render={() => (
+                    <NavLink to="/">
+                      <Button small white>
+                        Back
+                      </Button>
+                    </NavLink>
+                  )}
+                />
+              </Container>
+              <div>
+                <Link href="https://github.com/sarneeh/reaptcha">Docs</Link>
+              </div>
             </Container>
-            <div>
-              <Link href="https://github.com/sarneeh/reaptcha">Docs</Link>
-            </div>
+            <SubHeader>reCAPTCHA for React.</SubHeader>
           </Container>
-          <SubHeader>reCAPTCHA for React.</SubHeader>
-        </Container>
-      </Section>
-      <Section>
-        <Container page>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/automatic" component={Automatic} />
-          <Route exact path="/explicit" component={Explicit} />
-        </Container>
-      </Section>
-    </Fragment>
-  </Router>
+        </Section>
+        <Section>
+          <Container page>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/automatic" component={Automatic} />
+            <Route exact path="/explicit" component={Explicit} />
+          </Container>
+        </Section>
+      </Fragment>
+    </Router>
+  </ThemeProvider>
 );
 
 export default hot(module)(App);
