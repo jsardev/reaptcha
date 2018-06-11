@@ -2,8 +2,7 @@
 
 import React from 'react';
 import qs from 'query-string';
-
-import Reaptcha from '../../../index';
+import Reaptcha from 'reaptcha';
 
 const SITE_KEY = '6LcIEVwUAAAAAEnR50W15N0XjSGG8vOTVgVCfqU6';
 

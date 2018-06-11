@@ -1,0 +1,22 @@
+{
+  "name": "reaptcha",
+  "version": "0.0.0",
+  "description": "Google reCAPTCHA for React",
+  "repository": "git@github.com:sarneeh/reaptcha.git",
+  "license": "MIT",
+  "author": "Jakub Sarnowski <sarneeh@gmail.com>",
+  "files": [
+    "dist/*.js"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "dependencies": {
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.11.1"
+  }
+}

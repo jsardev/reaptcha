@@ -5,11 +5,9 @@
     "plugin:react/recommended",
     "plugin:flowtype/recommended"
   ],
-  "plugins": [
-    "react",
-    "flowtype"
-  ],
+  "plugins": ["react", "flowtype"],
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true
   }
 }

@@ -5,16 +5,12 @@ cache:
   yarn: true
   directories:
     - node_modules
-install:
-  - yarn install
-  - yarn --cwd example install
+install: yarn install
 script:
   - yarn lint
   - yarn flow
   - yarn test
-  - yarn --cwd example lint
-  - yarn --cwd example flow
-  - yarn --cwd example build
+before_deploy: yarn build
 deploy:
     provider: pages
     skip-cleanup: true

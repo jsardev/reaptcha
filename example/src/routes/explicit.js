@@ -2,8 +2,8 @@
 
 import React, { Component, Fragment } from 'react';
 import qs from 'query-string';
+import Reaptcha from 'reaptcha';
 
-import Reaptcha from '../../../index';
 import Button from '../components/button';
 import Container from '../components/container';
 
