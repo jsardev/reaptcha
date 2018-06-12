@@ -6,7 +6,8 @@
   "license": "MIT",
   "author": "Jakub Sarnowski <sarneeh@gmail.com>",
   "files": [
-    "dist"
+    "dist",
+    "../README.md"
   ],
   "main": "dist/index.js",
   "scripts": {
