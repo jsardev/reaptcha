@@ -3,7 +3,9 @@
 [![npm version](https://badge.fury.io/js/reaptcha.svg)](https://badge.fury.io/js/reaptcha)
 [![TravisCI badge](https://travis-ci.org/sarneeh/reaptcha.svg?branch=master)](https://travis-ci.org/)
 [![Greenkeeper badge](https://badges.greenkeeper.io/sarneeh/reaptcha.svg)](https://greenkeeper.io/)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![GitHub license](https://img.shields.io/github/license/sarneeh/reaptcha.svg)](https://github.com/sarneeh/reaptcha)
+
 
 [![NPM](https://nodei.co/npm/reaptcha.png)](https://nodei.co/npm/reaptcha/)
 
