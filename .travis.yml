@@ -15,13 +15,14 @@ script:
   - yarn lint
   - yarn flow
   - yarn test
+  - yarn coverage
 after_script: greenkeeper-lockfile-upload
 
 before_deploy: yarn build
 deploy:
     provider: pages
     skip-cleanup: true
-    github-token: $GITHUB_TOKEN
+    github-token: $GH_TOKEN
     keep-history: true
     target-branch: gh-pages
     local-dir: example/dist

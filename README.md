@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/reaptcha.svg)](https://badge.fury.io/js/reaptcha)
 [![TravisCI badge](https://travis-ci.org/sarneeh/reaptcha.svg?branch=master)](https://travis-ci.org/)
+[![Coverage Status](https://coveralls.io/repos/github/sarneeh/reaptcha/badge.svg?branch=polishing)](https://coveralls.io/github/sarneeh/reaptcha?branch=polishing)
 [![Greenkeeper badge](https://badges.greenkeeper.io/sarneeh/reaptcha.svg)](https://greenkeeper.io/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
