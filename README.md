@@ -17,18 +17,21 @@ This is why I've decided to give it a try to create a cleaner approach and this 
 
 What are the advantages?
 
-- All callbacks in your React component
+- **All callbacks in your React component**
 - Inject the reCAPTCHA script automatically (this is only available in `react-google-recaptcha`)
 
 ## Installation
 
 Just install the package with `npm`:
 
-`npm install --save reaptcha`
+```
+npm install --save reaptcha
+```
 
 or with `yarn`:
-
-`yarn add reaptcha`
+```
+yarn add reaptcha
+```
 
 ## Usage
 
@@ -217,9 +220,9 @@ Reaptcha allows to customize your reCAPTCHA instances with any available propert
 | id        | no       | `string`                                  | -               | Id for the container element                                                                   |
 | className | no       | `string`                                  | `g-recaptcha`   | Classname for the container element                                                            |
 | sitekey   | yes      | `string`                                  | -               | Your reCAPTCHA API key                                                                         |
-| theme     | no       | `'light' | 'dark'`                        | `'light'`       | reCAPTCHA color theme                                                                          |
-| size      | no       | `'compact' | 'normal' | 'invisible'`      | `'normal'`      | reCAPTCHA size                                                                                 |
-| badge     | no       | `'bottomright' | 'bottomleft' | 'inline'` | `'bottomright'` | Position of the reCAPTCHA badge                                                                |
+| theme     | no       | `'light' \| 'dark'`                        | `'light'`       | reCAPTCHA color theme                                                                          |
+| size      | no       | `'compact' \| 'normal' \| 'invisible'`      | `'normal'`      | reCAPTCHA size                                                                                 |
+| badge     | no       | `'bottomright' \| 'bottomleft' \| 'inline'` | `'bottomright'` | Position of the reCAPTCHA badge                                                                |
 | tabindex  | no       | `number`                                  | 0               | Tabindex of the challenge                                                                      |
 | explicit  | no       | `boolean`                                 | false           | Allows to explicitly render reCAPTCHA                                                          |
 | inject    | no       | `boolean`                                 | true            | Injecting the reCAPTCHA script into DOM                                                        |
