@@ -41,7 +41,7 @@ export default class Explicit extends Component<Props, State> {
           <Button
             onClick={() => {
               if (this.captcha) {
-                this.captcha.renderRecaptcha();
+                this.captcha.renderExplicitly();
               }
               this.setState({ rendered: true });
             }}
