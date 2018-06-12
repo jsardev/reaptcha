@@ -7,7 +7,7 @@
 
 [![NPM](https://nodei.co/npm/reaptcha.png)](https://nodei.co/npm/reaptcha/)
 
-A simple React wrapper for [Google reCAPTCHA](https://developers.google.com/recaptcha/).
+A clean and simple React wrapper for [Google reCAPTCHA](https://developers.google.com/recaptcha/).
 
 ## Why another library?
 
@@ -36,6 +36,10 @@ yarn add reaptcha
 ## Usage
 
 First of all, you'll need a reCAPTCHA API key. To find out how to get it - [check this guide](https://developers.google.com/recaptcha/intro).
+
+To see how `Reaptcha` actually works, visit the [example page](https://sarneeh.github.io/reaptcha). 
+
+If you'd also like to see the code for the examples, it is right [here](https://github.com/sarneeh/reaptcha/tree/docs/example/src).
 
 ### Default - Automatic render
 
