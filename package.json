@@ -1,4 +1,5 @@
 {
+  "name": "reaptcha-monorepo",
   "private": true,
   "workspaces": [
     "lib",
