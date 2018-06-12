@@ -2,8 +2,9 @@ import styled, { css } from 'styled-components';
 
 const initialState = css`
   cursor: default;
-  background-color: ${props => (props.white ? 'white' : '#4683F3')};
-  box-shadow: 0 3px 0 0 ${props => (props.white ? 'lightgray' : '#3060D1')};
+  background-color: ${props => (props.white ? 'white' : props.theme.blue)};
+  box-shadow: 0 3px 0 0
+    ${props => (props.white ? 'lightgray' : props.theme.darkblue)};
 `;
 
 export default styled.button`
@@ -26,7 +27,9 @@ export default styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: ${props => (props.white ? 'lightgray' : '#3060D1')};
-    box-shadow: 0 3px 0 0 ${props => (props.white ? 'darkgray' : '#2F5AC9')};
+    background-color: ${props =>
+      props.white ? 'lightgray' : props.theme.darkblue};
+    box-shadow: 0 3px 0 0 ${props =>
+      props.white ? 'darkgray' : props.theme.darkestblue};
   }
 `;
