@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/sarneeh/reaptcha/compare/v1.0.0...v1.1.0) (2018-06-13)
+
+
+### Features
+
+* make package usable in script tags ([c5ac515](https://github.com/sarneeh/reaptcha/commit/c5ac515))
+
+
+
+
 <a name="1.1.0-beta.1"></a>
 # [1.1.0-beta.1](https://github.com/sarneeh/reaptcha/compare/v1.0.0...v1.1.0-beta.1) (2018-06-13)
 
