@@ -1,19 +1,10 @@
-import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-const link = css`
+export default styled.a`
   text-decoration: none;
   color: ${props => props.theme.white};
 
   &:hover {
     color: ${props => props.theme.darkwhite};
   }
-`;
-
-export const NavLink = styled(Link)`
-  ${link};
-`;
-
-export default styled.a`
-  ${link};
 `;

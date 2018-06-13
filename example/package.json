@@ -8,10 +8,8 @@
   },
   "dependencies": {
     "formik": "^1.0.0-beta.2",
-    "query-string": "^6.1.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-router-dom": "^4.3.1",
     "reaptcha": "^0.1.0-beta.0",
     "styled-components": "^3.3.2"
   },
