@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 const header = css`
   font-weight: 400;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 1rem 0;
   display: inline-block;
 
   + a button {
