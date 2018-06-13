@@ -96,7 +96,7 @@ export default class Example extends Component<Props, State> {
 
     return (
       <Fragment>
-        <H2 mb>Example form</H2>
+        <H2 mb>Example</H2>
         <Container inline mb>
           <div>reCAPTCHA status:</div>
           <Container inline>
