@@ -18,6 +18,7 @@ export const theme = {
   darkwhite: '#e5e5e5',
   darkestwhite: '#cccccc',
   black: '#000000',
+  gray: '#f5f5f5',
   red: '#E15554',
 
   margin: '1rem',

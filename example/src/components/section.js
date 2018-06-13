@@ -1,11 +1,21 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const blue = css`
+  background-color: ${props => props.theme.blue};
+  color: ${props => props.theme.white};
+`;
+
+const gray = css`
+  background-color: ${props => props.theme.gray};
+  color: ${props => props.theme.black};
+`;
 
 export default styled.div`
-  margin: 0.5rem 0;
-  padding: 1rem 0;
+  padding: 2rem 0;
   width: 100%;
-  background-color: ${props => (props.blue ? props.theme.blue : 'none')};
-  color: ${props => (props.blue ? props.theme.white : 'inherit')};
+
+  ${props => (props.blue ? blue : null)};
+  ${props => (props.gray ? gray : null)};
 
   &:first-of-type {
     margin-top: 0;
