@@ -32,10 +32,10 @@ export default class Example extends Component<Props, State> {
   captcha: ?Reaptcha = null;
 
   render() {
-    const options = qs.parse(this.props.location.search);
+    const { render, size, theme } = qs.parse(this.props.location.search);
     const renderDisabled = !this.state.ready || this.state.rendered;
 
-    const isExplicit = options.render === 'explicit';
+    const isExplicit = render === 'explicit';
 
     return (
       <Fragment>
@@ -55,7 +55,6 @@ export default class Example extends Component<Props, State> {
           </Container>
         )}
         <Reaptcha
-          {...options}
           ref={e => (this.captcha = e)}
           sitekey={SITE_KEY}
           onLoad={() => {
@@ -67,6 +66,8 @@ export default class Example extends Component<Props, State> {
             // Do something
           }}
           explicit={isExplicit}
+          size={size}
+          theme={theme}
         />
       </Fragment>
     );
