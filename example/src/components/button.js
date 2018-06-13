@@ -48,8 +48,20 @@ const orangeButton = css`
   }
 `;
 
+const ml = css`
+  margin-left: ${props => props.theme.smallmargin};
+`;
+
+const mr = css`
+  margin-right: ${props => props.theme.smallmargin};
+`;
+
 const initialState = css`
   cursor: default;
+
+  ${props => (props.ml ? ml : null)};
+  ${props => (props.mr ? mr : null)};
+
   ${props => {
     if (props.executing) return orangeButton;
     if (props.submitted) return greenButton;
