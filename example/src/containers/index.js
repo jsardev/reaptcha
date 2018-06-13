@@ -8,6 +8,7 @@ import Section from '../components/section';
 import { H1, H2 } from '../components/header';
 import Button from '../components/button';
 import Link, { NavLink } from '../components/link';
+import { theme } from '../config';
 
 import Home from '../routes/home';
 import Example from '../routes/example';
@@ -18,12 +19,6 @@ injectGlobal`
     font-family: 'Open Sans', sans-serif;
   }
 `;
-
-const theme = {
-  blue: '#4683F3',
-  darkblue: '#3060D1',
-  darkestblue: '#2F5AC9'
-};
 
 const App = () => (
   <ThemeProvider theme={theme}>

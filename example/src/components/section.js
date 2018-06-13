@@ -5,7 +5,7 @@ export default styled.div`
   padding: 1rem 0;
   width: 100%;
   background-color: ${props => (props.blue ? props.theme.blue : 'none')};
-  color: ${props => (props.blue ? 'white' : 'inherit')};
+  color: ${props => (props.blue ? props.theme.white : 'inherit')};
 
   &:first-of-type {
     margin-top: 0;

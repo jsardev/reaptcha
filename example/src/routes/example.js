@@ -8,7 +8,7 @@ import Button from '../components/button';
 import { FormGroup } from '../components/form';
 import Input from '../components/input';
 import { H2 } from '../components/header';
-import config from '../config';
+import { getSiteKey } from '../config';
 
 type Props = {
   location: {
@@ -79,7 +79,7 @@ export default class Example extends Component<Props, State> {
 
     const explicit = render === 'explicit';
     const invisible = size === 'invisible';
-    const sitekey = config(invisible);
+    const sitekey = getSiteKey(invisible);
 
     return (
       <Fragment>
