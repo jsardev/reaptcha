@@ -8,8 +8,7 @@ import Button from '../components/button';
 import { FormGroup } from '../components/form';
 import Input from '../components/input';
 import { H2 } from '../components/header';
-
-const SITE_KEY = '6LcIEVwUAAAAAEnR50W15N0XjSGG8vOTVgVCfqU6';
+import config from '../config';
 
 type Props = {
   location: {
@@ -18,94 +17,105 @@ type Props = {
 };
 
 type State = {
-  ready: boolean,
+  token: string,
+  loaded: boolean,
   rendered: boolean,
   verified: boolean,
-  submitted: boolean
+  submitted: boolean,
+  executing: boolean
 };
 
 export default class Example extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      ready: false,
-      rendered: false,
-      verified: false,
-      submitted: false
-    };
-  }
-
   captcha: ?Reaptcha = null;
+
+  state = {
+    token: '',
+    loaded: false,
+    rendered: false,
+    verified: false,
+    submitted: false,
+    executing: false
+  };
+
+  onLoad = () => this.setState({ loaded: true });
+
+  onRender = () => this.setState({ rendered: true });
+
+  onVerify = (invisible: boolean) => (token: string) => {
+    this.setState({ token, verified: true });
+    if (invisible) {
+      this.setState({ executing: false, submitted: true });
+    }
+  };
+
+  onExpire = () => this.setState({ verified: false });
+
+  renderRecaptcha = () => {
+    if (this.captcha) {
+      this.captcha.renderExplicitly();
+    }
+    this.setState({ rendered: true });
+  };
+
+  executeRecaptcha = () => {
+    if (this.captcha) {
+      this.setState({ executing: true });
+      this.captcha.execute();
+    }
+  };
+
+  submitForm = (invisible: boolean) => e => {
+    e.preventDefault();
+    if (invisible) {
+      this.executeRecaptcha();
+    } else {
+      this.setState({ submitted: true });
+    }
+  };
 
   render() {
     const { render, size, theme } = qs.parse(this.props.location.search);
+    const { loaded, rendered, verified, submitted, executing } = this.state;
 
-    const renderDisabled = !this.state.ready || this.state.rendered;
-    const isExplicit = render === 'explicit';
+    const explicit = render === 'explicit';
+    const invisible = size === 'invisible';
+    const sitekey = config(invisible);
 
     return (
       <Fragment>
         <H2>Example form</H2>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            this.setState({ submitted: true });
-          }}
-        >
+        <form onSubmit={this.submitForm(invisible)}>
           <FormGroup>
             <Input id="name" name="name" placeholder="Your name" label="Name" />
           </FormGroup>
           <FormGroup>
             <Reaptcha
               ref={e => (this.captcha = e)}
-              sitekey={SITE_KEY}
+              sitekey={sitekey}
               size={size}
               theme={theme}
-              explicit={isExplicit}
-              onLoad={() => {
-                this.setState({
-                  ready: true
-                });
-              }}
-              onRender={() => {
-                this.setState({
-                  rendered: true
-                });
-              }}
-              onVerify={() => {
-                this.setState({
-                  verified: true
-                });
-              }}
-              onExpire={() => {
-                this.setState({
-                  verified: false
-                });
-              }}
+              explicit={explicit}
+              onLoad={this.onLoad}
+              onRender={this.onRender}
+              onVerify={this.onVerify(invisible)}
+              onExpire={this.onExpire}
             />
           </FormGroup>
           <FormGroup>
-            {isExplicit &&
-              !this.state.rendered && (
-                <Button
-                  onClick={() => {
-                    if (this.captcha) {
-                      this.captcha.renderExplicitly();
-                    }
-                    this.setState({ rendered: true });
-                  }}
-                  disabled={renderDisabled}
-                >
+            {explicit &&
+              !rendered && (
+                <Button onClick={this.renderRecaptcha} disabled={!loaded}>
                   Verify
                 </Button>
               )}
-            {!isExplicit && (
+            {(!explicit || rendered) && (
               <Button
                 type="submit"
-                disabled={!this.state.verified || this.state.submitted}
-                submitted={this.state.submitted}
+                disabled={(!verified && !invisible) || executing || submitted}
+                executing={executing}
+                submitted={submitted}
               >
-                {this.state.submitted ? 'Done!' : 'Submit'}
+                {submitted ? 'Done!' : executing ? 'Executing' : 'Submit'}
               </Button>
             )}
           </FormGroup>
