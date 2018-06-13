@@ -10,12 +10,13 @@ export const theme = {
   blue: '#4683F3',
   darkblue: '#3060D1',
   darkestblue: '#2F5AC9',
-  green: '#32cd32',
-  darkgreen: '#2db82d',
-  orange: '#ffa500',
-  darkorange: '#e59400',
+  green: '#3BB273',
+  darkgreen: '#36A269',
+  orange: '#E1BC29',
+  darkorange: '#CDAB26',
   white: '#ffffff',
   darkwhite: '#e5e5e5',
   darkestwhite: '#cccccc',
-  black: '#000000'
+  black: '#000000',
+  red: '#E15554',
 };
