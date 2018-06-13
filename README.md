@@ -1,17 +1,19 @@
 # Reaptcha
 
-[![npm version](https://badge.fury.io/js/reaptcha.svg)](https://badge.fury.io/js/reaptcha)
+[![Latest npm version](https://img.shields.io/npm/v/reaptcha/latest.svg)]()
+[![Next npm version](https://img.shields.io/npm/v/reaptcha/next.svg)]()
+[![GitHub license](https://img.shields.io/github/license/sarneeh/reaptcha.svg)](https://github.com/sarneeh/reaptcha)
 [![TravisCI badge](https://travis-ci.org/sarneeh/reaptcha.svg?branch=master)](https://travis-ci.org/)
 [![Coverage Status](https://coveralls.io/repos/github/sarneeh/reaptcha/badge.svg?branch=polishing)](https://coveralls.io/github/sarneeh/reaptcha?branch=polishing)
 [![Greenkeeper badge](https://badges.greenkeeper.io/sarneeh/reaptcha.svg)](https://greenkeeper.io/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![GitHub license](https://img.shields.io/github/license/sarneeh/reaptcha.svg)](https://github.com/sarneeh/reaptcha)
-
+[![Minified package size](https://img.shields.io/bundlephobia/min/reaptcha.svg)]()
+[![Minified gzipped package size](https://img.shields.io/bundlephobia/minzip/reaptcha.svg)]()
 
 [![NPM](https://nodei.co/npm/reaptcha.png)](https://nodei.co/npm/reaptcha/)
 
-A clean and simple React wrapper for [Google reCAPTCHA](https://developers.google.com/recaptcha/).
+A clean, modern and simple React wrapper for [Google reCAPTCHA](https://developers.google.com/recaptcha/).
 
 ## Why another library?
 
