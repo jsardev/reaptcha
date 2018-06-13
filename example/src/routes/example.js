@@ -35,21 +35,25 @@ export default class Example extends Component<Props, State> {
     const options = qs.parse(this.props.location.search);
     const renderDisabled = !this.state.ready || this.state.rendered;
 
+    const isExplicit = options.render === 'explicit';
+
     return (
       <Fragment>
-        <Container>
-          <Button
-            onClick={() => {
-              if (this.captcha) {
-                this.captcha.renderExplicitly();
-              }
-              this.setState({ rendered: true });
-            }}
-            disabled={renderDisabled}
-          >
-            Render
-          </Button>
-        </Container>
+        {isExplicit && (
+          <Container>
+            <Button
+              onClick={() => {
+                if (this.captcha) {
+                  this.captcha.renderExplicitly();
+                }
+                this.setState({ rendered: true });
+              }}
+              disabled={renderDisabled}
+            >
+              Render
+            </Button>
+          </Container>
+        )}
         <Reaptcha
           {...options}
           ref={e => (this.captcha = e)}
@@ -62,8 +66,7 @@ export default class Example extends Component<Props, State> {
           onVerify={() => {
             // Do something
           }}
-          explicit
-          inject
+          explicit={isExplicit}
         />
       </Fragment>
     );
