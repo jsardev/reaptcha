@@ -12,11 +12,7 @@ import Input from '../components/input';
 import { H2 } from '../components/header';
 
 type Props = {
-  config: {
-    render?: string,
-    size?: string,
-    theme?: string
-  }
+  config: any
 };
 
 type State = {
