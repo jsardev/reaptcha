@@ -3,14 +3,22 @@ import styled, { css } from 'styled-components';
 const initialState = css`
   cursor: default;
   background-color: ${props =>
-    props.white ? 'white' : props.submitted ? 'limegreen' : props.theme.blue};
+    props.white
+      ? 'white'
+      : props.submitted
+        ? 'limegreen'
+        : props.executing
+          ? 'orange'
+          : props.theme.blue};
   box-shadow: 0 3px 0 0
     ${props =>
       props.white
         ? 'lightgray'
         : props.submitted
           ? 'seagreen'
-          : props.theme.darkblue};
+          : props.executing
+            ? 'darkorange'
+            : props.theme.darkblue};
 `;
 
 export default styled.button`
@@ -34,16 +42,8 @@ export default styled.button`
   &:hover {
     cursor: pointer;
     background-color: ${props =>
-      props.white
-        ? 'lightgray'
-        : props.submitted
-          ? 'seagreen'
-          : props.theme.darkblue};
+      props.white ? 'lightgray' : props.theme.darkblue};
     box-shadow: 0 3px 0 0 ${props =>
-      props.white
-        ? 'darkgray'
-        : props.submitted
-          ? 'seagreen'
-          : props.theme.darkestblue};
+      props.white ? 'darkgray' : props.theme.darkestblue};
   }
 `;
