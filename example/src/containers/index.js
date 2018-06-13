@@ -62,6 +62,14 @@ class App extends Component<{}, State> {
               <Example key={this.state.key} config={this.state.config} />
             </Container>
           </Section>
+          <Section>
+            <Container page>
+              Created by{' '}
+              <Link black href="https://github.com/sarneeh">
+                Jakub Sarnowski
+              </Link>.
+            </Container>
+          </Section>
         </Fragment>
       </ThemeProvider>
     );
