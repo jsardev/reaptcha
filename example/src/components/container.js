@@ -5,12 +5,16 @@ const mb = css`
 `;
 
 const page = css`
-  max-width: 600px;
+  max-width: 400px;
   margin: 0 auto;
 
   @media (max-width: 600px) {
     margin: 0 ${props => props.theme.margin};
   }
+`;
+
+const flex = css`
+  display: flex;
 `;
 
 const inline = css`
@@ -25,8 +29,9 @@ const between = css`
 `;
 
 export default styled.div`
+  ${props => (props.mb ? mb : null)};
   ${props => (props.page ? page : null)};
+  ${props => (props.flex ? flex : null)};
   ${props => (props.inline ? inline : null)};
   ${props => (props.between ? between : null)};
-  ${props => (props.mb ? mb : null)};
 `;
