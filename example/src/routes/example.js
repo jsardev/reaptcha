@@ -67,6 +67,16 @@ export default class Example extends Component<Props, State> {
     }
   };
 
+  resetRecaptcha = () => {
+    if (this.captcha) {
+      this.captcha.reset();
+      this.setState({
+        verified: false,
+        submitted: false
+      });
+    }
+  };
+
   submitForm = (invisible: boolean) => e => {
     e.preventDefault();
     if (invisible) {
@@ -124,7 +134,7 @@ export default class Example extends Component<Props, State> {
               onExpire={this.onExpire}
             />
           </Container>
-          <Container mb>
+          <Container inline>
             {explicit &&
               !rendered && (
                 <Button onClick={this.renderRecaptcha} disabled={!loaded}>
@@ -141,6 +151,9 @@ export default class Example extends Component<Props, State> {
                 {submitted ? 'Done!' : executing ? 'Verifying' : 'Submit'}
               </Button>
             )}
+            <Button onClick={this.resetRecaptcha} disabled={!verified} ml>
+              Reset
+            </Button>
           </Container>
         </form>
       </Fragment>
