@@ -7,7 +7,6 @@ import Container from '../components/container';
 import Button from '../components/button';
 import Radio from '../components/radio';
 import { NavLink } from '../components/link';
-import { FormGroup } from '../components/form';
 
 const initialConfig = {
   theme: 'light',
@@ -21,16 +20,16 @@ const Home = () => (
     initialValues={initialConfig}
     render={({ values }) => (
       <Fragment>
-        <H2>Configuration</H2>
-        <Container>
+        <H2 mb>Configuration</H2>
+        <Container mb>
           <Form>
-            <FormGroup>
-              <H3>Theme</H3>
+            <Container mb>
+              <H3 mbs>Theme</H3>
               <Radio id="theme-1" name="theme" label="Light" value="light" />
               <Radio id="theme-2" name="theme" label="Dark" value="dark" />
-            </FormGroup>
-            <FormGroup>
-              <H3>Size</H3>
+            </Container>
+            <Container mb>
+              <H3 mbs>Size</H3>
               <Radio id="size-1" name="size" label="Normal" value="normal" />
               <Radio id="size-2" name="size" label="Compact" value="compact" />
               <Radio
@@ -39,9 +38,9 @@ const Home = () => (
                 label="Invisible"
                 value="invisible"
               />
-            </FormGroup>
-            <FormGroup>
-              <H3>Render</H3>
+            </Container>
+            <Container mb>
+              <H3 mbs>Render</H3>
               <Radio
                 id="render-1"
                 name="render"
@@ -54,14 +53,12 @@ const Home = () => (
                 label="Explicit"
                 value="explicit"
               />
-            </FormGroup>
+            </Container>
           </Form>
         </Container>
-        <Container>
-          <NavLink to={`/example?${qs.stringify(values)}`}>
-            <Button>Show Example</Button>
-          </NavLink>
-        </Container>
+        <NavLink to={`/example?${qs.stringify(values)}`}>
+          <Button>Show Example</Button>
+        </NavLink>
       </Fragment>
     )}
   />
