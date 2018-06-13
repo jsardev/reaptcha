@@ -66,8 +66,8 @@ export default class Example extends Component<Props, State> {
   };
 
   executeRecaptcha = () => {
+    this.setState({ executing: true });
     if (this.captcha) {
-      this.setState({ executing: true });
       this.captcha.execute();
     }
   };
@@ -82,7 +82,7 @@ export default class Example extends Component<Props, State> {
     }
   };
 
-  submitForm = (invisible: boolean) => e => {
+  submitForm = (invisible: boolean) => (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (invisible) {
       this.executeRecaptcha();
