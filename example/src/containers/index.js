@@ -5,7 +5,7 @@ import { ThemeProvider, injectGlobal } from 'styled-components';
 
 import Container from '../components/container';
 import Section from '../components/section';
-import { H1, H2 } from '../components/header';
+import { H1 } from '../components/header';
 import Button from '../components/button';
 import Link, { NavLink } from '../components/link';
 import { theme } from '../config';
@@ -26,23 +26,13 @@ const App = () => (
       <Fragment>
         <Section blue>
           <Container page>
-            <Container between>
-              <Container inline>
+            <Container between mb>
+              <NavLink to="/">
                 <H1>Reaptcha</H1>
-                <Route
-                  path="/(.+)"
-                  render={() => (
-                    <NavLink to="/">
-                      <Button small white>
-                        Back
-                      </Button>
-                    </NavLink>
-                  )}
-                />
-              </Container>
-              <div>
-                <Link href="https://github.com/sarneeh/reaptcha">Docs</Link>
-              </div>
+              </NavLink>
+              <Button small white>
+                <Link href="https://github.com/sarneeh/reaptcha">Documentation</Link>
+              </Button>
             </Container>
             <div>reCAPTCHA for React.</div>
           </Container>

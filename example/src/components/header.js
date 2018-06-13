@@ -13,9 +13,8 @@ const inline = css`
 `;
 
 const header = css`
+  margin: 0;
   font-weight: 400;
-  margin: 0 0 1rem 0;
-  display: inline-block;
 
   ${props => (props.mb ? mb : null)};
   ${props => (props.mbs ? mbs : null)};

@@ -68,6 +68,14 @@ const initialState = css`
     if (props.white) return whiteButton;
     return blueButton;
   }};
+
+  a {
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+    }
+  }
 `;
 
 export default styled.button`
@@ -76,8 +84,9 @@ export default styled.button`
   outline: none;
   border: none;
   border-radius: 4px;
-  padding: ${props => (props.small ? '.5rem' : '1rem')};
-  font-size: ${props => (props.small ? '.7rem' : '1rem')};
+  padding: ${props => (props.short ? '.3rem' : props.small ? '.5rem' : '1rem')};
+  font-size: ${props => (props.small || props.small ? '.7rem' : '1rem')};
+  margin-bottom: 3px;
 
   &:disabled {
     opacity: 0.5;

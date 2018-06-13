@@ -19,4 +19,7 @@ export const theme = {
   darkestwhite: '#cccccc',
   black: '#000000',
   red: '#E15554',
+
+  margin: '1rem',
+  smallmargin: '.5rem',
 };
