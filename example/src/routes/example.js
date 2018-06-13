@@ -127,7 +127,7 @@ export default class Example extends Component<Props, State> {
                 executing={executing}
                 submitted={submitted}
               >
-                {submitted ? 'Done!' : executing ? 'Executing' : 'Submit'}
+                {submitted ? 'Done!' : executing ? 'Verifying' : 'Submit'}
               </Button>
             )}
           </FormGroup>
