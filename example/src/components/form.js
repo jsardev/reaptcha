@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const FormGroup = styled.div`
-  margin: 0 0 0.5rem 0;
+  margin-right: 5rem;
 
-  &:last-of-type {
-    margin: 0;
+  @media (max-width: 600px) {
+    margin-right: 0;
+    margin-bottom: 1rem;
   }
 `;

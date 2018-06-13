@@ -1,18 +1,19 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+/* @flow */
+
+import React, { Component, Fragment } from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 
+import { theme } from '../config';
+
 import Container from '../components/container';
 import Section from '../components/section';
-import Header from '../components/header';
-import SubHeader from '../components/subheader';
+import { H1 } from '../components/header';
 import Button from '../components/button';
-import Link, { NavLink } from '../components/link';
+import Link from '../components/link';
 
-import Home from '../routes/home';
-import Automatic from '../routes/automatic';
-import Explicit from '../routes/explicit';
+import Options from '../modules/options';
+import Example from '../modules/example';
 
 injectGlobal`
   body {
@@ -21,49 +22,58 @@ injectGlobal`
   }
 `;
 
-const theme = {
-  blue: '#4683F3',
-  darkblue: '#3060D1',
-  darkestblue: '#2F5AC9'
+type State = {
+  key: number,
+  config: any
 };
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <Router basename="/reaptcha/">
-      <Fragment>
-        <Section blue>
-          <Container page>
-            <Container between>
-              <Container inline>
-                <Header>Reaptcha</Header>
-                <Route
-                  path="/(.+)"
-                  render={() => (
-                    <NavLink to="/">
-                      <Button small white>
-                        Back
-                      </Button>
-                    </NavLink>
-                  )}
-                />
+class App extends Component<{}, State> {
+  state = {
+    key: 0,
+    config: {}
+  };
+
+  onChange = config => this.setState({ key: this.state.key + 1, config });
+
+  render() {
+    return (
+      <ThemeProvider theme={theme}>
+        <Fragment>
+          <Section blue>
+            <Container page>
+              <Container between mb>
+                <H1>Reaptcha</H1>
+                <Button small white>
+                  <Link href="https://github.com/sarneeh/reaptcha">
+                    Documentation
+                  </Link>
+                </Button>
               </Container>
-              <div>
-                <Link href="https://github.com/sarneeh/reaptcha">Docs</Link>
-              </div>
+              <div>reCAPTCHA for React.</div>
             </Container>
-            <SubHeader>reCAPTCHA for React.</SubHeader>
-          </Container>
-        </Section>
-        <Section>
-          <Container page>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/automatic" component={Automatic} />
-            <Route exact path="/explicit" component={Explicit} />
-          </Container>
-        </Section>
-      </Fragment>
-    </Router>
-  </ThemeProvider>
-);
+          </Section>
+          <Section>
+            <Container page>
+              <Options onChange={this.onChange} />
+            </Container>
+          </Section>
+          <Section gray>
+            <Container page>
+              <Example key={this.state.key} config={this.state.config} />
+            </Container>
+          </Section>
+          <Section>
+            <Container page>
+              Created by{' '}
+              <Link black href="https://github.com/sarneeh">
+                Jakub Sarnowski
+              </Link>.
+            </Container>
+          </Section>
+        </Fragment>
+      </ThemeProvider>
+    );
+  }
+}
 
 export default hot(module)(App);

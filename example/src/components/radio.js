@@ -6,7 +6,7 @@ import { Field } from 'formik';
 
 import Container from './container';
 
-const RadioInput = styled.input.attrs({
+const Radio = styled.input.attrs({
   type: 'radio'
 })`
   margin: 0;
@@ -23,12 +23,12 @@ type Props = {
   value: string
 };
 
-const Radio = ({ id, name, label, value }: Props) => (
+const RadioInput = ({ id, name, label, value }: Props) => (
   <Container inline>
     <Field
       name={name}
       render={({ field }) => (
-        <RadioInput
+        <Radio
           {...field}
           id={id}
           type="radio"
@@ -41,4 +41,4 @@ const Radio = ({ id, name, label, value }: Props) => (
   </Container>
 );
 
-export default Radio;
+export default RadioInput;
