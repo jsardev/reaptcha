@@ -5,6 +5,8 @@ import qs from 'query-string';
 import Reaptcha from 'reaptcha';
 
 import Button from '../components/button';
+import Container from '../components/container';
+import Status from '../components/status';
 import { FormGroup } from '../components/form';
 import Input from '../components/input';
 import { H2 } from '../components/header';
@@ -84,6 +86,16 @@ export default class Example extends Component<Props, State> {
     return (
       <Fragment>
         <H2>Example form</H2>
+        <Container>
+          <Container inline>
+            <div>reCAPTCHA status:</div>
+            <Container inline>
+              <Status active={loaded}>Loaded</Status>
+              <Status active={rendered}>Rendered</Status>
+              <Status active={verified}>Verified</Status>
+            </Container>
+          </Container>
+        </Container>
         <form onSubmit={this.submitForm(invisible)}>
           <FormGroup>
             <Input id="name" name="name" placeholder="Your name" label="Name" />
