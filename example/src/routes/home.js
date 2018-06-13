@@ -33,6 +33,7 @@ const Home = () => (
               <H3>Size</H3>
               <Radio id="size-1" name="size" label="Normal" value="normal" />
               <Radio id="size-2" name="size" label="Compact" value="compact" />
+              <Radio id="size-3" name="size" label="Invisible" value="invisible" />
             </FormGroup>
             <FormGroup>
               <H3>Render</H3>
