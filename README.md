@@ -116,6 +116,13 @@ class MyForm extends Component {
   render() {
     return (
       <Fragment>
+        <Reaptcha
+          ref={e => (this.captcha = e)}
+          sitekey="YOUR_API_KEY"
+          onLoad={this.onLoad}
+          onVerify={this.onVerify}
+          explicit
+        />
         <button
           onClick={() => {
             this.captcha.renderExplicitly();
@@ -124,13 +131,6 @@ class MyForm extends Component {
         >
           Render reCAPTCHA
         </button>
-        <Reaptcha
-          ref={e => (this.captcha = e)}
-          sitekey="YOUR_API_KEY"
-          onLoad={this.onLoad}
-          onVerify={this.onVerify}
-          explicit
-        />
       </Fragment>
     );
   }
@@ -242,7 +242,7 @@ Available and usable `Reaptcha` instance methods:
 | onError   | no       | `Function`                                  | -               | Callback function executed when reCAPTCHA fails with an error                                                                                 |
 
 ### Caveats
-There are props that are size-specific and some of the props are **not available** for all of the sizes. 
+There are props that are size-specific and some of the props are **not available** for all of the sizes. Although if you will pass these props nothing bad will happen, they will just be ignored.
 
 The size-exclusive props are:
 
