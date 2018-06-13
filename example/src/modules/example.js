@@ -1,21 +1,21 @@
 /* @flow */
 
 import React, { Component, Fragment } from 'react';
-import qs from 'query-string';
-import { Route } from 'react-router-dom';
 import Reaptcha from 'reaptcha';
+
+import { getSiteKey } from '../config';
 
 import Button from '../components/button';
 import Container from '../components/container';
 import Status from '../components/status';
 import Input from '../components/input';
 import { H2 } from '../components/header';
-import { getSiteKey } from '../config';
-import { NavLink } from '../components/link';
 
 type Props = {
-  location: {
-    search: string
+  config: {
+    render?: string,
+    size?: string,
+    theme?: string
   }
 };
 
@@ -87,7 +87,7 @@ export default class Example extends Component<Props, State> {
   };
 
   render() {
-    const { render, size, theme } = qs.parse(this.props.location.search);
+    const { render, size, theme } = this.props.config;
     const { loaded, rendered, verified, submitted, executing } = this.state;
 
     const explicit = render === 'explicit';
@@ -96,19 +96,7 @@ export default class Example extends Component<Props, State> {
 
     return (
       <Fragment>
-        <Container inline mb>
-          <H2>Example form</H2>
-          <Route
-            path="/(.+)"
-            render={() => (
-              <NavLink to="/">
-                <Button small short ml>
-                  Back
-                </Button>
-              </NavLink>
-            )}
-          />
-        </Container>
+        <H2 mb>Example form</H2>
         <Container inline mb>
           <div>reCAPTCHA status:</div>
           <Container inline>
