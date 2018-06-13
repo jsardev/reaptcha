@@ -15,6 +15,10 @@ const page = css`
 
 const flex = css`
   display: flex;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const inline = css`
