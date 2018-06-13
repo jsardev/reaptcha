@@ -51,7 +51,12 @@ export default class Example extends Component<Props, State> {
     }
   };
 
-  onExpire = () => this.setState({ verified: false });
+  onExpire = (invisible: boolean) => () => {
+    this.setState({ verified: false });
+    if (invisible) {
+      this.setState({ submitted: true });
+    }
+  };
 
   renderRecaptcha = () => {
     if (this.captcha) {
@@ -119,7 +124,7 @@ export default class Example extends Component<Props, State> {
               onLoad={this.onLoad}
               onRender={this.onRender}
               onVerify={this.onVerify(invisible)}
-              onExpire={this.onExpire}
+              onExpire={this.onExpire(invisible)}
             />
           </Container>
           <Container inline>
