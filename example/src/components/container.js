@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const containerMixin = css`
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 `;
 
 const pageContainerMixin = css`
