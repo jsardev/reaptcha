@@ -10,8 +10,7 @@ import Button from '../components/button';
 import Link, { NavLink } from '../components/link';
 
 import Home from '../routes/home';
-import Automatic from '../routes/automatic';
-import Explicit from '../routes/explicit';
+import Example from '../routes/example';
 
 injectGlobal`
   body {
@@ -56,8 +55,7 @@ const App = () => (
         <Section>
           <Container page>
             <Route exact path="/" component={Home} />
-            <Route exact path="/automatic" component={Automatic} />
-            <Route exact path="/explicit" component={Explicit} />
+            <Route exact path="/example" component={Example} />
           </Container>
         </Section>
       </Fragment>
