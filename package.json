@@ -12,6 +12,7 @@
     "test": "ava --verbose **/*.test.js",
     "coverage": "nyc yarn test && nyc report --reporter=text-lcov | coveralls",
     "release": "yarn build && lerna publish --conventional-commits",
+    "pre-release": "yarn release --npm-tag next",
     "commitmsg": "commitlint -E GIT_PARAMS"
   },
   "devDependencies": {
