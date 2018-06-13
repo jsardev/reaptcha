@@ -15,7 +15,7 @@ const InputLabel = styled.label`
 const Input = styled(Field)`
   padding: 0.5rem;
   border-radius: 4px;
-  border: 1px solid lightgray;
+  border: 1px solid ${props => props.theme.darkwhite};
 
   &:focus {
     outline: none;

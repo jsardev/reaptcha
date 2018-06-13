@@ -5,9 +5,9 @@ export const NavLink = Link;
 
 export default styled.a`
   text-decoration: none;
-  color: white;
+  color: ${props => props.theme.white};
 
   &:hover {
-    color: lightgray;
+    color: ${props => props.theme.darkwhite};
   }
 `;
