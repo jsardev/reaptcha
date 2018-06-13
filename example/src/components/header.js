@@ -1,14 +1,25 @@
 import styled, { css } from 'styled-components';
 
+const mb = css`
+  margin-bottom: ${props => props.theme.margin};
+`;
+
+const mbs = css`
+  margin-bottom: ${props => props.theme.smallmargin};
+`;
+
+const inline = css`
+  display: inline-block;
+`;
+
 const header = css`
   font-weight: 400;
   margin: 0 0 1rem 0;
   display: inline-block;
 
-  + a button,
-  + button {
-    margin: 0 0 0.5rem 0.5rem;
-  }
+  ${props => (props.mb ? mb : null)};
+  ${props => (props.mbs ? mbs : null)};
+  ${props => (props.inline ? inline : null)};
 `;
 
 export const H1 = styled.h1`
