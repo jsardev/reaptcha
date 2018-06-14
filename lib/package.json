@@ -10,12 +10,15 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "rollup -c"
   },
   "peerDependencies": {
     "react": "^16.4.0"
   },
   "devDependencies": {
-    "webpack": "^4.11.1"
+    "rollup": "^0.63.4",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-flow": "^1.1.1",
+    "rollup-plugin-uglify": "^4.0.0"
   }
 }
