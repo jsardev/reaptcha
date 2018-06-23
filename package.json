@@ -31,7 +31,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "eslint-plugin-flowtype": "^2.49.3",
     "eslint-plugin-react": "^7.9.1",
     "flow-bin": "^0.74.0",
