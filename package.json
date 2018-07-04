@@ -13,7 +13,8 @@
     "coverage": "nyc yarn test && nyc report --reporter=text-lcov | coveralls",
     "release": "yarn build && lerna publish --conventional-commits",
     "pre-release": "yarn release --npm-tag next",
-    "commitmsg": "commitlint -E GIT_PARAMS"
+    "commitmsg": "commitlint -E GIT_PARAMS",
+    "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
@@ -41,6 +42,8 @@
     "jsdom-global": "^3.0.2",
     "lerna": "^2.11.0",
     "nyc": "^12.0.2",
+    "prettier": "^1.13.7",
+    "pretty-quick": "^1.6.0",
     "react-hot-loader": "^4.3.0",
     "sinon": "^6.0.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
