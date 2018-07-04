@@ -242,6 +242,7 @@ Available and usable `Reaptcha` instance methods:
 | onVerify  | **yes**  | `Function`                                  | -               | Callback function executed on user's captcha verification. Returns [user response token](https://developers.google.com/recaptcha/docs/verify) |
 | onExpire  | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA response expires and the user needs to re-verify                                                |
 | onError   | no       | `Function`                                  | -               | Callback function executed when reCAPTCHA fails with an error                                                                                 |
+| hl        | no       | `string`                                    | ''              | [Language code](https://developers.google.com/recaptcha/docs/language) for reCAPTCHA                                                          |
 
 ### Caveats
 There are props that are size-specific and some of the props are **not available** for all of the sizes. Although if you will pass these props nothing bad will happen, they will just be ignored.
