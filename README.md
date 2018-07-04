@@ -236,13 +236,13 @@ Available and usable `Reaptcha` instance methods:
 | tabindex  | no       | `number`                                    | 0               | Tabindex of the challenge                                                                                                                     |
 | explicit  | no       | `boolean`                                   | false           | Allows to explicitly render reCAPTCHA                                                                                                         |
 | inject    | no       | `boolean`                                   | true            | Injecting the reCAPTCHA script into DOM                                                                                                       |
-| isolated  | no       | `boolean`                                   | false           | For plugin owners to not interfere with existing reCAPTCHA installations on a page                                                            |
+| isolated  | no       | `boolean`                                   | false           | For plugin owners to not interfere with existing reCAPTCHA installations on a page    
+| hl        | no       | `string`                                    | -              | [Language code](https://developers.google.com/recaptcha/docs/language) for reCAPTCHA                                                          |                                                        |
 | onLoad    | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA script sucessfully loads                                                                        |
 | onRender  | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA successfuly renders                                                                             |
 | onVerify  | **yes**  | `Function`                                  | -               | Callback function executed on user's captcha verification. Returns [user response token](https://developers.google.com/recaptcha/docs/verify) |
 | onExpire  | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA response expires and the user needs to re-verify                                                |
 | onError   | no       | `Function`                                  | -               | Callback function executed when reCAPTCHA fails with an error                                                                                 |
-| hl        | no       | `string`                                    | ''              | [Language code](https://developers.google.com/recaptcha/docs/language) for reCAPTCHA                                                          |
 
 ### Caveats
 There are props that are size-specific and some of the props are **not available** for all of the sizes. Although if you will pass these props nothing bad will happen, they will just be ignored.
