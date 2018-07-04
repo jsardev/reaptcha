@@ -22,5 +22,5 @@ export const theme = {
   red: '#E15554',
 
   margin: '1rem',
-  smallmargin: '.5rem',
+  smallmargin: '.5rem'
 };
