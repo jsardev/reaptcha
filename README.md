@@ -11,8 +11,6 @@
 [![Minified package size](https://img.shields.io/bundlephobia/min/reaptcha.svg)]()
 [![Minified gzipped package size](https://img.shields.io/bundlephobia/minzip/reaptcha.svg)]()
 
-[![NPM](https://nodei.co/npm/reaptcha.png)](https://nodei.co/npm/reaptcha/)
-
 A clean, modern and simple React wrapper for [Google reCAPTCHA](https://developers.google.com/recaptcha/).
 
 ## Why another library?
@@ -21,10 +19,13 @@ I've been using other React wrappers for reCAPTCHA like [react-recaptcha](https:
 
 This is why I've decided to give it a try to create a cleaner approach and this is the result.
 
-What are the advantages?
+## Features
 
 - **All callbacks in your React component**
-- Inject the reCAPTCHA script automatically (this is only available in `react-google-recaptcha`)
+- Automatic reCAPTCHA script injection and cleanup
+- Usable with multiple reCAPTCHA instances
+- Full control over every reCAPTCHA instance
+- reCAPTCHA instance methods with promises and clean error messages
 
 ## Installation
 
@@ -35,17 +36,20 @@ npm install --save reaptcha
 ```
 
 or with `yarn`:
+
 ```
 yarn add reaptcha
 ```
 
 ## Usage
 
+**IMPORTANT NOTE: `Reaptcha` injects reCAPTCHA script into DOM automatically by default. If you are doing it manually, [check out this description](#attaching-recaptcha-script-manually).**
+
 First of all, you'll need a reCAPTCHA API key. To find out how to get it - [check this guide](https://developers.google.com/recaptcha/intro).
 
-To see how `Reaptcha` actually works, visit the [example page](https://sarneeh.github.io/reaptcha). 
+To see how `Reaptcha` actually works, visit the [example page](https://sarneeh.github.io/reaptcha).
 
-If you'd also like to see the code for the examples, it is right [here](https://github.com/sarneeh/reaptcha/tree/docs/example/src).
+If you'd also like to see the code for the example, it is right [here](https://github.com/sarneeh/reaptcha/tree/docs/example/src).
 
 ### Default - Automatic render
 
@@ -205,7 +209,7 @@ It's known that calling methods of a React component class is a really bad pract
 So to get access to the methods, just save the reference to the component instance:
 
 ```js
-<Reaptcha ref={e => this.captcha = e} />
+<Reaptcha ref={e => (this.captcha = e)} />
 ```
 
 **If you have an idea how to do this better, feel free to file an issue to discuss it!**
@@ -235,19 +239,30 @@ Available and usable `Reaptcha` instance methods:
 | badge     | no       | `'bottomright' \| 'bottomleft' \| 'inline'` | `'bottomright'` | Position of the reCAPTCHA badge                                                                                                               |
 | tabindex  | no       | `number`                                    | 0               | Tabindex of the challenge                                                                                                                     |
 | explicit  | no       | `boolean`                                   | false           | Allows to explicitly render reCAPTCHA                                                                                                         |
-| inject    | no       | `boolean`                                   | true            | Injecting the reCAPTCHA script into DOM                                                                                                       |
-| isolated  | no       | `boolean`                                   | false           | For plugin owners to not interfere with existing reCAPTCHA installations on a page    
-| hl        | no       | `string`                                    | -              | [Language code](https://developers.google.com/recaptcha/docs/language) for reCAPTCHA                                                          |                                                        |
+| inject    | no       | `boolean`                                   | true            | Handle reCAPTCHA script DOM injection automatically                                                                                           |
+| isolated  | no       | `boolean`                                   | false           | For plugin owners to not interfere with existing reCAPTCHA installations on a page                                                            |
+| hl        | no       | `string`                                    | -               | [Language code](https://developers.google.com/recaptcha/docs/language) for reCAPTCHA                                                          |  |
 | onLoad    | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA script sucessfully loads                                                                        |
 | onRender  | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA successfuly renders                                                                             |
 | onVerify  | **yes**  | `Function`                                  | -               | Callback function executed on user's captcha verification. Returns [user response token](https://developers.google.com/recaptcha/docs/verify) |
 | onExpire  | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA response expires and the user needs to re-verify                                                |
 | onError   | no       | `Function`                                  | -               | Callback function executed when reCAPTCHA fails with an error                                                                                 |
 
-### Caveats
+## Caveats
+
+### Size-specific props
+
 There are props that are size-specific and some of the props are **not available** for all of the sizes. Although if you will pass these props nothing bad will happen, they will just be ignored.
 
 The size-exclusive props are:
 
-*  I'm a robot: `theme`
-*  Invisible: `badge`, `isolated`
+- I'm a robot: `theme`
+- Invisible: `badge`, `isolated`
+
+### Attaching reCAPTCHA script manually
+
+If you want to attach the reCAPTCHA script manually to the DOM, simply pass the `inject` prop as `false`, like this:
+
+`<Reaptcha {...props} inject={false} />`
+
+This way `Reaptcha` won't inject the scripts by itself and won't break because of multiple reCAPTCHA scripts attached.
