@@ -26,6 +26,7 @@ This is why I've decided to give it a try to create a cleaner approach and this 
 - Usable with multiple reCAPTCHA instances
 - Full control over every reCAPTCHA instance
 - reCAPTCHA instance methods with promises and clean error messages
+- SSR ready
 
 ## Installation
 
