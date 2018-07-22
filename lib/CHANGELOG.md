@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/sarneeh/reaptcha/compare/v1.2.1...v1.3.0) (2018-07-22)
+
+
+### Bug Fixes
+
+* cleanup on unmount, removed deprecated react methods ([7c30ba4](https://github.com/sarneeh/reaptcha/commit/7c30ba4)), closes [#29](https://github.com/sarneeh/reaptcha/issues/29) [#28](https://github.com/sarneeh/reaptcha/issues/28) [#26](https://github.com/sarneeh/reaptcha/issues/26)
+* do not inject script when one already present ([5db105d](https://github.com/sarneeh/reaptcha/commit/5db105d)), closes [#18](https://github.com/sarneeh/reaptcha/issues/18)
+
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/sarneeh/reaptcha/compare/v1.2.0...v1.2.1) (2018-07-04)
 
