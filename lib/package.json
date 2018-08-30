@@ -16,6 +16,6 @@
     "react": "^16.4.0"
   },
   "devDependencies": {
-    "webpack": "^4.11.1"
+    "webpack": "^4.17.1"
   }
 }
