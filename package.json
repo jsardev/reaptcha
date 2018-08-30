@@ -25,7 +25,7 @@
     "@babel/register": "^7.0.0",
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
-    "ava": "^0.25.0",
+    "ava": "^1.0.0-beta.8",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^0.1.19",
@@ -58,7 +58,11 @@
     "require": [
       "@babel/register"
     ],
-    "babel": "inherit"
+    "babel": {
+      "testOptions": {
+        "configFile": "./babel.config.js"
+      }
+    }
   },
   "config": {
     "commitizen": {
