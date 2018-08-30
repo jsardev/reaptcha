@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Field } from 'formik';
 
 import Container from './container';
 
@@ -12,7 +11,7 @@ const InputLabel = styled.label`
   }
 `;
 
-const Input = styled(Field)`
+const Input = styled.input`
   padding: 0.5rem;
   border-radius: 4px;
   border: 1px solid ${props => props.theme.darkwhite};
