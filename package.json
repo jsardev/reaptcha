@@ -41,7 +41,7 @@
     "husky": "^0.14.3",
     "jsdom": "^11.11.0",
     "jsdom-global": "^3.0.2",
-    "lerna": "^3.2.0",
+    "lerna": "^3.2.1",
     "nyc": "^12.0.2",
     "prettier": "^1.13.7",
     "pretty-quick": "^1.6.0",
