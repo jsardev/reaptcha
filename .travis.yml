@@ -20,6 +20,7 @@ script:
   - yarn flow
   - yarn test
   - yarn coverage
+  - yarn build
 after_script: greenkeeper-lockfile-upload
 
 before_deploy: yarn build
