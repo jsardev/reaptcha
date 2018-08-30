@@ -17,16 +17,17 @@
     "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
     "ava": "^0.25.0",
-    "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^8.0.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-flow": "^6.23.0",
-    "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "coveralls": "^3.0.1",
     "cz-conventional-changelog": "^2.1.0",
@@ -47,15 +48,15 @@
     "react-hot-loader": "^4.3.0",
     "sinon": "^6.0.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^4.11.1",
-    "webpack-cli": "^3.0.3",
-    "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.1.2"
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.7",
+    "webpack-merge": "^4.1.4"
   },
   "ava": {
     "powerAssert": false,
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "babel": "inherit"
   },
