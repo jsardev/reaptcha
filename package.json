@@ -26,7 +26,7 @@
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
     "ava": "^1.0.0-beta.8",
-    "babel-eslint": "^8.2.3",
+    "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^0.1.19",
     "coveralls": "^3.0.1",
