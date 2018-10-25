@@ -2,7 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { hot } from 'react-hot-loader';
-import { ThemeProvider, injectGlobal } from 'styled-components';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import { theme } from '../config';
 
@@ -15,7 +15,7 @@ import Link from '../components/link';
 import Options from '../modules/options';
 import Example from '../modules/example';
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
@@ -39,6 +39,7 @@ class App extends Component<{}, State> {
     return (
       <ThemeProvider theme={theme}>
         <Fragment>
+          <GlobalStyle />
           <Section blue>
             <Container page>
               <Container between mb>
@@ -67,7 +68,8 @@ class App extends Component<{}, State> {
               Created by{' '}
               <Link black href="https://github.com/sarneeh">
                 Jakub Sarnowski
-              </Link>.
+              </Link>
+              .
             </Container>
           </Section>
         </Fragment>
