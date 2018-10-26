@@ -1,4 +1,4 @@
-![Reaptcha](https://i.imgur.com/t8owQFA.png)
+![Reaptcha](https://i.imgur.com/44zEjD5.png)
 
 [![Latest npm version](https://img.shields.io/npm/v/reaptcha/latest.svg)]()
 [![Next npm version](https://img.shields.io/npm/v/reaptcha/next.svg)]()
