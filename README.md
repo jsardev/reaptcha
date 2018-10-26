@@ -4,7 +4,7 @@
 [![Next npm version](https://img.shields.io/npm/v/reaptcha/next.svg)]()
 [![GitHub license](https://img.shields.io/github/license/sarneeh/reaptcha.svg)](https://github.com/sarneeh/reaptcha)
 [![TravisCI badge](https://travis-ci.org/sarneeh/reaptcha.svg?branch=master)](https://travis-ci.org/)
-[![Coverage Status](https://coveralls.io/repos/github/sarneeh/reaptcha/badge.svg?branch=polishing)](https://coveralls.io/github/sarneeh/reaptcha?branch=polishing)
+[![Coverage Status](https://coveralls.io/repos/github/sarneeh/reaptcha/badge.svg?branch=master)](https://coveralls.io/github/sarneeh/reaptcha?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/sarneeh/reaptcha.svg)](https://greenkeeper.io/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
