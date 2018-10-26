@@ -1,4 +1,4 @@
-# Reaptcha
+![Reaptcha](https://i.imgur.com/t8owQFA.png)
 
 [![Latest npm version](https://img.shields.io/npm/v/reaptcha/latest.svg)]()
 [![Next npm version](https://img.shields.io/npm/v/reaptcha/next.svg)]()
@@ -230,24 +230,24 @@ Available and usable `Reaptcha` instance methods:
 - [I'm a robot](https://developers.google.com/recaptcha/docs/display#render_param)
 - [Invisible](https://developers.google.com/recaptcha/docs/invisible#render_param)
 
-| Name      | Required | Type                                        | Default         | Description                                                                                                                                   |
-| --------- | -------- | ------------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| id        | no       | `string`                                    | -               | Id for the container element                                                                                                                  |
-| className | no       | `string`                                    | `'g-recaptcha'` | Classname for the container element                                                                                                           |
-| sitekey   | **yes**  | `string`                                    | -               | Your reCAPTCHA API key                                                                                                                        |
-| theme     | no       | `'light' \| 'dark'`                         | `'light'`       | reCAPTCHA color theme                                                                                                                         |
-| size      | no       | `'compact' \| 'normal' \| 'invisible'`      | `'normal'`      | reCAPTCHA size                                                                                                                                |
-| badge     | no       | `'bottomright' \| 'bottomleft' \| 'inline'` | `'bottomright'` | Position of the reCAPTCHA badge                                                                                                               |
-| tabindex  | no       | `number`                                    | 0               | Tabindex of the challenge                                                                                                                     |
-| explicit  | no       | `boolean`                                   | false           | Allows to explicitly render reCAPTCHA                                                                                                         |
-| inject    | no       | `boolean`                                   | true            | Handle reCAPTCHA script DOM injection automatically                                                                                           |
-| isolated  | no       | `boolean`                                   | false           | For plugin owners to not interfere with existing reCAPTCHA installations on a page                                                            |
-| hl        | no       | `string`                                    | -               | [Language code](https://developers.google.com/recaptcha/docs/language) for reCAPTCHA                                                          |  |
-| onLoad    | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA script sucessfully loads                                                                        |
-| onRender  | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA successfuly renders                                                                             |
-| onVerify  | **yes**  | `Function`                                  | -               | Callback function executed on user's captcha verification. Returns [user response token](https://developers.google.com/recaptcha/docs/verify) |
-| onExpire  | no       | `Function`                                  | -               | Callback function executed when the reCAPTCHA response expires and the user needs to re-verify                                                |
-| onError   | no       | `Function`                                  | -               | Callback function executed when reCAPTCHA fails with an error                                                                                 |
+| Name      | Required           | Type                                        | Default         | Description                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| id        | :heavy_minus_sign: | `string`                                    | -               | Id for the container element                                                                                                                  |
+| className | :heavy_minus_sign: | `string`                                    | `'g-recaptcha'` | Classname for the container element                                                                                                           |
+| sitekey   | :heavy_plus_sign:  | `string`                                    | -               | Your reCAPTCHA API key                                                                                                                        |
+| theme     | :heavy_minus_sign: | `'light' \| 'dark'`                         | `'light'`       | reCAPTCHA color theme                                                                                                                         |
+| size      | :heavy_minus_sign: | `'compact' \| 'normal' \| 'invisible'`      | `'normal'`      | reCAPTCHA size                                                                                                                                |
+| badge     | :heavy_minus_sign: | `'bottomright' \| 'bottomleft' \| 'inline'` | `'bottomright'` | Position of the reCAPTCHA badge                                                                                                               |
+| tabindex  | :heavy_minus_sign: | `number`                                    | 0               | Tabindex of the challenge                                                                                                                     |
+| explicit  | :heavy_minus_sign: | `boolean`                                   | false           | Allows to explicitly render reCAPTCHA                                                                                                         |
+| inject    | :heavy_minus_sign: | `boolean`                                   | true            | Handle reCAPTCHA script DOM injection automatically                                                                                           |
+| isolated  | :heavy_minus_sign: | `boolean`                                   | false           | For plugin owners to not interfere with existing reCAPTCHA installations on a page                                                            |
+| hl        | :heavy_minus_sign: | `string`                                    | -               | [Language code](https://developers.google.com/recaptcha/docs/language) for reCAPTCHA                                                          |  |
+| onLoad    | :heavy_minus_sign: | `Function`                                  | -               | Callback function executed when the reCAPTCHA script sucessfully loads                                                                        |
+| onRender  | :heavy_minus_sign: | `Function`                                  | -               | Callback function executed when the reCAPTCHA successfuly renders                                                                             |
+| onVerify  | :heavy_plus_sign:  | `Function`                                  | -               | Callback function executed on user's captcha verification. Returns [user response token](https://developers.google.com/recaptcha/docs/verify) |
+| onExpire  | :heavy_minus_sign: | `Function`                                  | -               | Callback function executed when the reCAPTCHA response expires and the user needs to re-verify                                                |
+| onError   | :heavy_minus_sign: | `Function`                                  | -               | Callback function executed when reCAPTCHA fails with an error                                                                                 |
 
 ## Caveats
 
