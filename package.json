@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production lerna run build",
     "flow": "flow",
     "lint": "eslint .",
-    "test": "ava --verbose **/*.test.js",
+    "test": "ava --verbose 'lib/**/*.test.js'",
     "coverage": "nyc yarn test && nyc report --reporter=text-lcov | coveralls",
     "release": "yarn build && lerna publish --conventional-commits",
     "pre-release": "yarn release --npm-tag next"
