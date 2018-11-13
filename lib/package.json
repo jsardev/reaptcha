@@ -13,7 +13,7 @@
     "build": "webpack --config webpack.config.js"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.6.3"
   },
   "devDependencies": {
     "webpack": "^4.17.1"
