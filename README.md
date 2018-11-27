@@ -51,7 +51,7 @@ First of all, you'll need a reCAPTCHA API key. To find out how to get it - [chec
 
 To see how `Reaptcha` actually works, visit the [example page](https://sarneeh.github.io/reaptcha).
 
-If you'd also like to see the code for the example, it is right [here](https://github.com/sarneeh/reaptcha/tree/docs/example/src).
+If you'd also like to see the code for the example, it is right [here](https://github.com/sarneeh/reaptcha/tree/master/example/src).
 
 ### Default - Automatic render
 
