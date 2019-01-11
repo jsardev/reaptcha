@@ -2,7 +2,10 @@
   "name": "reaptcha",
   "version": "1.4.0",
   "description": "Google reCAPTCHA for React",
-  "repository": "git@github.com:sarneeh/reaptcha.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sarneeh/reaptcha"
+  },
   "license": "MIT",
   "author": "Jakub Sarnowski <sarneeh@gmail.com>",
   "files": [
