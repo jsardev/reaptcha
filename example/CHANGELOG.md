@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.1"></a>
+
+## [1.4.1](https://github.com/sarneeh/reaptcha/compare/v1.4.0...v1.4.1) (2019-01-11)
+
+### Bug Fixes
+
+- **package:** update styled-components to version 4.0.3 ([9bd381a](https://github.com/sarneeh/reaptcha/commit/9bd381a))
+- **package:** update styled-components to version 4.1.0 ([f3fe8d9](https://github.com/sarneeh/reaptcha/commit/f3fe8d9))
+- **package:** update styled-components to version 4.1.2 ([75e76aa](https://github.com/sarneeh/reaptcha/commit/75e76aa))
+- **package:** update styled-components to version 4.1.3 ([8d5b72c](https://github.com/sarneeh/reaptcha/commit/8d5b72c))
+
 <a name="1.4.0"></a>
 
 # [1.4.0](https://github.com/sarneeh/reaptcha/compare/v1.3.0...v1.4.0) (2018-10-25)
