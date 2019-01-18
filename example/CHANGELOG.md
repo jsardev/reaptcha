@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.2"></a>
+
+## [1.4.2](https://github.com/sarneeh/reaptcha/compare/v1.4.1...v1.4.2) (2019-01-18)
+
+**Note:** Version bump only for package reaptcha-example
+
 <a name="1.4.1"></a>
 
 ## [1.4.1](https://github.com/sarneeh/reaptcha/compare/v1.4.0...v1.4.1) (2019-01-11)
