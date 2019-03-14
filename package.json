@@ -30,7 +30,7 @@
     "coveralls": "^3.0.1",
     "cz-conventional-changelog": "^2.1.0",
     "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.10.0",
+    "enzyme-adapter-react-16": "1.11.2",
     "eslint": "^5.0.0",
     "eslint-plugin-flowtype": "3.4.2",
     "eslint-plugin-react": "^7.9.1",
