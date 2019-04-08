@@ -3512,10 +3512,10 @@ escodegen@^1.11.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-plugin-flowtype@3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-3.5.0.tgz#3b73b445cc4ec6f34a0472f9ec041157ac5b2fe4"
-  integrity sha512-MjReILZxs40ip9SZwg3BjrJ3qh9UyYUxqvweHvN8CxBw1dPeGul9CjjGrwi7md9tyuHyPg3cEG4xKmYb8q+yLg==
+eslint-plugin-flowtype@3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-3.6.0.tgz#375a3d77f5dbd3a0d2c3554fadcd1d0735a6eb2e"
+  integrity sha512-7wRfgzXteB9jswXreGG64FlOdscV4z4hIW2lS+mC5t1K2QQkUDh7A+95dB4nU7io8zIOq4cRpftF+41xvMCtiA==
   dependencies:
     lodash "^4.17.11"
 
