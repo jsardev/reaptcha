@@ -9,9 +9,11 @@
   "license": "MIT",
   "author": "Jakub Sarnowski <sarneeh@gmail.com>",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "main": "dist/index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "build": "webpack --config webpack.config.js"
   },
