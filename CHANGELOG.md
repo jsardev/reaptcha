@@ -7,7 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.5.1](https://github.com/sarneeh/reaptcha/compare/v1.5.0...v1.5.1) (2019-06-28)
 
-**Note:** Version bump only for package reaptcha-monorepo
+### Features
+
+- add typescript definitions ([c2a4f3](https://github.com/sarneeh/reaptcha/commit/c2a4f3))
 
 <a name="1.5.0"></a>
 
