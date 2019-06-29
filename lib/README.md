@@ -228,6 +228,26 @@ Available and usable `Reaptcha` instance methods:
 | reset            | `Promise<void>` | Resets the reCAPTCHA instance             |
 | execute          | `Promise<void>` | Executes the reCAPTCHA instance           |
 
+### Render prop
+
+Using instance methods can be avoided by passing `children` render function.
+
+```js
+<Reaptcha>
+  {({ renderExplicitly, reset, execute, recaptchaComponent }) => {
+    return (
+      <div>
+        {recaptchaComponent}
+
+        <button onClick={reset}>Reset</button>
+      </div>
+    );
+  }}
+</Reaptcha>
+```
+
+When passing `children` render prop, you are responsible for rendering `recaptchaComponent` into the DOM.
+
 ## Customisation
 
 `Reaptcha` allows to customize your reCAPTCHA instances with any available properties documented in the reCAPTCHA docs for all of the types:
@@ -253,6 +273,7 @@ Available and usable `Reaptcha` instance methods:
 | onVerify  | :heavy_plus_sign:  | `Function`                                  | -               | Callback function executed on user's captcha verification. Returns [user response token](https://developers.google.com/recaptcha/docs/verify) |
 | onExpire  | :heavy_minus_sign: | `Function`                                  | -               | Callback function executed when the reCAPTCHA response expires and the user needs to re-verify                                                |
 | onError   | :heavy_minus_sign: | `Function`                                  | -               | Callback function executed when reCAPTCHA fails with an error                                                                                 |
+| children  | :heavy_minus_sign: | `Function`                                  | -               | Render function that can be used to get access to instance methods without the need to explicitly use refs                                    |
 
 ## Caveats
 

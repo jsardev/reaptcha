@@ -1,5 +1,12 @@
 import * as React from 'react';
 
+export type RenderProps = {
+  renderExplicitly: () => Promise<void>;
+  reset: () => Promise<void>;
+  execute: () => Promise<void>;
+  recaptchaComponent: React.ReactNode;
+};
+
 export interface ReaptchaProps {
   id?: string;
   className?: string;
@@ -17,6 +24,7 @@ export interface ReaptchaProps {
   inject?: boolean;
   isolated?: boolean;
   hl?: string;
+  children?: (renderProps: RenderProps) => React.ReactNode;
 }
 
 export default class Reaptcha extends React.Component<ReaptchaProps> {
