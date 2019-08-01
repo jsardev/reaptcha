@@ -275,6 +275,10 @@ When passing `children` render prop, you are responsible for rendering `recaptch
 
 ## Caveats
 
+### Array.from
+
+This library is using `Array.from` which is [not supported by few browsers](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Array/from) i.e. Internet Explorer or Opera. If you want to use `reaptcha` and keep supporting these browsers, you need to use a polyfill for it.
+
 ### Size-specific props
 
 There are props that are size-specific and some of the props are **not available** for all of the sizes. Although if you will pass these props nothing bad will happen, they will just be ignored.
