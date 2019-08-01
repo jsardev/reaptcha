@@ -1,7 +1,6 @@
 ![Reaptcha](https://i.imgur.com/44zEjD5.png)
 
 [![Latest npm version](https://img.shields.io/npm/v/reaptcha/latest.svg)]()
-[![Next npm version](https://img.shields.io/npm/v/reaptcha/next.svg)]()
 [![GitHub license](https://img.shields.io/github/license/sarneeh/reaptcha.svg)](https://github.com/sarneeh/reaptcha)
 [![TravisCI badge](https://travis-ci.com/sarneeh/reaptcha.svg?branch=master)](https://travis-ci.com/)
 [![Coverage Status](https://coveralls.io/repos/github/sarneeh/reaptcha/badge.svg?branch=master)](https://coveralls.io/github/sarneeh/reaptcha?branch=master)

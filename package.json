@@ -11,8 +11,7 @@
     "lint": "eslint .",
     "test": "ava --verbose 'lib/**/*.test.js'",
     "coverage": "nyc yarn test && nyc report --reporter=text-lcov | coveralls",
-    "release": "yarn build && lerna publish --conventional-commits",
-    "pre-release": "yarn release --npm-tag next"
+    "release": "yarn build && lerna publish --conventional-commits"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
