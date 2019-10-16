@@ -21,6 +21,7 @@ export interface ReaptchaProps {
   onVerify: (response: string) => void;
   onExpire?: () => void;
   onError?: () => void;
+  onClose?: () => void;
   inject?: boolean;
   isolated?: boolean;
   hl?: string;
