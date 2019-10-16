@@ -4,6 +4,7 @@ export type RenderProps = {
   renderExplicitly: () => Promise<void>;
   reset: () => Promise<void>;
   execute: () => Promise<void>;
+  getResponse: () => Promise<string>;
   recaptchaComponent: React.ReactNode;
 };
 
