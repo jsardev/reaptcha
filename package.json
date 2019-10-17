@@ -42,8 +42,6 @@
     "nyc": "^13.2.0",
     "prettier": "^1.13.7",
     "pretty-quick": "^1.6.0",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
     "react-hot-loader": "^4.3.0",
     "sinon": "^7.2.4",
     "uglifyjs-webpack-plugin": "^2.0.0",
