@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.7.0"></a>
+
+# [1.7.0](https://github.com/sarneeh/reaptcha/compare/v1.6.0...v1.7.0) (2019-10-20)
+
+### Bug Fixes
+
+- add missing render prop ([2137d81](https://github.com/sarneeh/reaptcha/commit/2137d81))
+- cant call this.props.children cause getResponse missing ([77ee190](https://github.com/sarneeh/reaptcha/commit/77ee190))
+- resolve and reject not defined ([eac3a13](https://github.com/sarneeh/reaptcha/commit/eac3a13))
+
+### Features
+
+- added getResponse to types ([33d6d16](https://github.com/sarneeh/reaptcha/commit/33d6d16))
+- exposed getResponse ([c0793aa](https://github.com/sarneeh/reaptcha/commit/c0793aa))
+
 <a name="1.5.1"></a>
 
 ## [1.5.1](https://github.com/sarneeh/reaptcha/compare/v1.5.0...v1.5.1) (2019-06-28)
