@@ -220,11 +220,12 @@ So to get access to the methods, just save the reference to the component instan
 
 Available and usable `Reaptcha` instance methods:
 
-| Name             | Returns         | Description                               |
-| ---------------- | --------------- | ----------------------------------------- |
-| renderExplicitly | `Promise<void>` | Renders the reCAPTCHA instance explicitly |
-| reset            | `Promise<void>` | Resets the reCAPTCHA instance             |
-| execute          | `Promise<void>` | Executes the reCAPTCHA instance           |
+| Name             | Returns           | Description                               |
+| ---------------- | ----------------- | ----------------------------------------- |
+| renderExplicitly | `Promise<void>`   | Renders the reCAPTCHA instance explicitly |
+| reset            | `Promise<void>`   | Resets the reCAPTCHA instance             |
+| execute          | `Promise<void>`   | Executes the reCAPTCHA instance           |
+| getResponse      | `Promise<string>` | Returns the reCATPCHA response            |
 
 ### Render prop
 
