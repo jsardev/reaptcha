@@ -78,6 +78,14 @@ export default class Example extends Component<Props, State> {
     }
   };
 
+  getResponseRecaptcha = () => {
+    if (this.captcha) {
+      this.captcha.getResponse().then(response => {
+        alert(response);
+      });
+    }
+  };
+
   submitForm = (invisible: boolean) => (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (invisible) {
@@ -142,6 +150,9 @@ export default class Example extends Component<Props, State> {
             )}
             <Button onClick={this.resetRecaptcha} disabled={!verified} ml>
               Reset
+            </Button>
+            <Button onClick={this.getResponseRecaptcha} ml>
+              Get Response
             </Button>
           </Container>
         </form>
