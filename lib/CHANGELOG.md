@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.7.1"></a>
+
+## [1.7.1](https://github.com/sarneeh/reaptcha/compare/v1.7.0...v1.7.1) (2019-12-28)
+
+### Bug Fixes
+
+- add getResponse method ([ab57db7](https://github.com/sarneeh/reaptcha/commit/ab57db7))
+
 <a name="1.7.0"></a>
 
 # [1.7.0](https://github.com/sarneeh/reaptcha/compare/v1.6.0...v1.7.0) (2019-10-20)
