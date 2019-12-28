@@ -34,4 +34,6 @@ export default class Reaptcha extends React.Component<ReaptchaProps> {
   public reset(): Promise<void>;
 
   public renderExplicitly(): Promise<void>;
+  
+  public getResponse(): Promise<string>;
 }
