@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.7.2"></a>
+
+## [1.7.2](https://github.com/sarneeh/reaptcha/compare/v1.7.1...v1.7.2) (2019-12-28)
+
+### Bug Fixes
+
+- update component on className change ([3a376d4](https://github.com/sarneeh/reaptcha/commit/3a376d4)), closes [#189](https://github.com/sarneeh/reaptcha/issues/189)
+
 <a name="1.7.1"></a>
 
 ## [1.7.1](https://github.com/sarneeh/reaptcha/compare/v1.7.0...v1.7.1) (2019-12-28)
