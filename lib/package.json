@@ -14,7 +14,7 @@
   ],
   "source": "index.js",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.esm.js",
   "unpkg": "dist/index.umd.js",
   "typings": "./index.d.ts",
   "scripts": {
