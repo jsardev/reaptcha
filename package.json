@@ -41,7 +41,7 @@
     "lerna": "^3.20.2",
     "nyc": "^13.3.0",
     "prettier": "^1.19.1",
-    "pretty-quick": "^1.11.1",
+    "pretty-quick": "^2.0.1",
     "react-hot-loader": "^4.12.19",
     "sinon": "^7.5.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
