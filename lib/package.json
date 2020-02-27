@@ -12,15 +12,20 @@
     "dist",
     "index.d.ts"
   ],
+  "source": "index.js",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/index.umd.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "microbundle --jsx React.createElement"
   },
   "peerDependencies": {
     "react": "^16.6.3"
   },
   "devDependencies": {
+    "microbundle": "^0.11.0",
     "webpack": "^4.17.1"
-  }
+  },
+  "dependencies": {}
 }
