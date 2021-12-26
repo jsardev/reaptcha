@@ -13,5 +13,10 @@ jobs:
       - run: yarn install
       - run: yarn lint
       - run: yarn test
-      - run: yarn coverage
+      - run: yarn test:coverage
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./nyc_output/
+          verbose: true
       - run: yarn build
