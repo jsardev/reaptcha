@@ -17,6 +17,6 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./nyc_output/
+          directory: ./coverage/
           verbose: true
       - run: yarn build
