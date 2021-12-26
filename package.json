@@ -10,7 +10,7 @@
     "flow": "flow",
     "lint": "eslint .",
     "test": "ava --verbose 'lib/**/*.test.js'",
-    "test:coverage": "nyc npm test --reporter=lcov",
+    "test:coverage": "c8 --reporter lcovonly --clean npm test",
     "release": "npm run build && lerna publish --conventional-commits"
   },
   "devDependencies": {
@@ -25,6 +25,7 @@
     "ava": "^1.4.1",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
+    "c8": "^7.10.0",
     "clean-webpack-plugin": "^1.0.0",
     "cz-conventional-changelog": "^3.0.2",
     "enzyme": "3.9.0",
@@ -38,7 +39,6 @@
     "jsdom": "15.0.0",
     "jsdom-global": "^3.0.2",
     "lerna": "^3.2.1",
-    "nyc": "^15.1.0",
     "prettier": "^1.13.7",
     "pretty-quick": "^1.6.0",
     "react-hot-loader": "^4.3.0",
