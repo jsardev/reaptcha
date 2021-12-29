@@ -10,7 +10,7 @@
     "flow": "flow",
     "lint": "eslint .",
     "test": "ava --verbose 'lib/**/*.test.js'",
-    "test:coverage": "c8 --reporter lcovonly --clean npm test",
+    "test:coverage": "c8 --reporter lcovonly --clean --100 npm test",
     "release": "npm run build && lerna publish --conventional-commits"
   },
   "devDependencies": {

@@ -6,5 +6,10 @@ on:
       - master
 
 jobs:
-  lint-test-coverage-build:
-    uses: sarneeh/reaptcha/.github/workflows/lint-test-coverage-build.yml@master
+  lint-test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/lint-test-build
+        with:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
