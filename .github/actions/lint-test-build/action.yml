@@ -1,0 +1,27 @@
+name: lint-test-build
+
+description: Lint, test, build
+
+inputs:
+  CODECOV_TOKEN:
+    description: 'Codecov token'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: yarn install
+      shell: bash
+    - run: yarn lint
+      shell: bash
+    - run: yarn test:coverage
+      shell: bash
+    - uses: codecov/codecov-action@v2
+      with:
+        token: ${{ inputs.CODECOV_TOKEN }}
+        directory: ./coverage
+    - run: yarn build
+      shell: bash
