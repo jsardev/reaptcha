@@ -1,6 +1,6 @@
 {
   "name": "reaptcha",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Google reCAPTCHA for React",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "build": "microbundle --jsx React.createElement"
   },
   "peerDependencies": {
-    "react": "^16.6.3"
+    "react": "^16.6.3 || ^17.0.0"
   },
   "devDependencies": {
     "microbundle": "^0.11.0",

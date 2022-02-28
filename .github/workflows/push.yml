@@ -1,0 +1,15 @@
+name: push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint-test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/lint-test-build
+        with:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
