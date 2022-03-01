@@ -132,12 +132,11 @@ export default class Example extends Component<Props, State> {
             />
           </Container>
           <Container inline>
-            {explicit &&
-              !rendered && (
-                <Button onClick={this.renderRecaptcha} disabled={!loaded}>
-                  Verify
-                </Button>
-              )}
+            {explicit && !rendered && (
+              <Button onClick={this.renderRecaptcha} disabled={!loaded}>
+                Verify
+              </Button>
+            )}
             {(!explicit || rendered) && (
               <Button
                 type="submit"
