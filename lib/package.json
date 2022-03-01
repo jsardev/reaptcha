@@ -26,6 +26,5 @@
   "devDependencies": {
     "microbundle": "^0.11.0",
     "webpack": "^4.17.1"
-  },
-  "dependencies": {}
+  }
 }
