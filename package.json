@@ -14,21 +14,16 @@
     "publish": "changeset publish"
   },
   "devDependencies": {
-    "@ava/babel": "^1.0.1",
-    "@babel/core": "^7.8.6",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/preset-flow": "^7.8.3",
-    "@babel/preset-react": "^7.8.3",
-    "@babel/register": "^7.8.6",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-flow": "^7.16.7",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/register": "^7.17.0",
     "@changesets/cli": "^2.21.0",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "ava": "^3.4.0",
+    "ava": "^4.0.1",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.0.6",
     "c8": "^7.10.0",
-    "clean-webpack-plugin": "^3.0.0",
     "cz-conventional-changelog": "^3.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -36,20 +31,13 @@
     "eslint-plugin-flowtype": "^4.6.0",
     "eslint-plugin-react": "^7.18.3",
     "flow-bin": "^0.119.1",
-    "html-webpack-plugin": "^3.2.0",
     "husky": "^4.2.3",
     "jsdom": "^16.2.0",
     "jsdom-global": "^3.0.2",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
-    "react-hot-loader": "^4.12.19",
     "sinon": "^9.0.0",
-    "turbo": "^1.1.4",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-merge": "^4.2.2"
+    "turbo": "^1.1.4"
   },
   "husky": {
     "hooks": {
@@ -58,15 +46,9 @@
     }
   },
   "ava": {
-    "powerAssert": false,
     "require": [
       "@babel/register"
-    ],
-    "babel": {
-      "testOptions": {
-        "configFile": "./babel.config.js"
-      }
-    }
+    ]
   },
   "config": {
     "commitizen": {
