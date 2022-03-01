@@ -1,5 +1,18 @@
 # Change Log
 
+## 1.8.0
+
+### Minor Changes
+
+- 8163760: Improved bundle, removed redundant dependencies
+
+### Patch Changes
+
+- 03bf4ff: Migrate from lerna to turborepo + changeset
+- Updated dependencies [8163760]
+- Updated dependencies [03bf4ff]
+  - reaptcha@1.8.0
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
