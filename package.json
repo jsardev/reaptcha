@@ -39,9 +39,6 @@
     "sinon": "^9.0.0",
     "turbo": "^1.1.4"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
