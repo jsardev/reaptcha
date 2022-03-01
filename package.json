@@ -11,6 +11,7 @@
     "test": "ava --verbose 'lib/**/*.test.js'",
     "test:coverage": "c8 --reporter lcovonly --clean --100 npm test",
     "build": "NODE_ENV=production turbo run build",
+    "version": "changeset version",
     "publish": "npm run build && changeset publish"
   },
   "devDependencies": {
