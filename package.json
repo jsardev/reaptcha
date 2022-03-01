@@ -11,7 +11,7 @@
     "test": "ava --verbose 'lib/**/*.test.js'",
     "test:coverage": "c8 --reporter lcovonly --clean --100 npm test",
     "build": "NODE_ENV=production turbo run build",
-    "publish": "changeset publish"
+    "publish": "npm run build && changeset publish"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
@@ -38,6 +38,9 @@
     "pretty-quick": "^2.0.1",
     "sinon": "^9.0.0",
     "turbo": "^1.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "husky": {
     "hooks": {

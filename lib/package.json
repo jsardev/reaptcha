@@ -25,5 +25,8 @@
   },
   "devDependencies": {
     "microbundle": "^0.14.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
