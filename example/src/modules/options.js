@@ -1,5 +1,3 @@
-/* @flow */
-
 import React, { Fragment } from 'react';
 import { Formik, Form } from 'formik';
 
