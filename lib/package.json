@@ -12,7 +12,7 @@
     "dist",
     "index.d.ts"
   ],
-  "source": "index.js",
+  "source": "index.tsx",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "unpkg": "dist/index.umd.js",
