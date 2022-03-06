@@ -1,5 +1,15 @@
 import styled, { css } from 'styled-components';
 
+export type Props = {
+  ml?: boolean;
+  mr?: boolean;
+  executing?: boolean;
+  submitted?: boolean;
+  white?: boolean;
+  short?: boolean;
+  small?: boolean;
+};
+
 const whiteButton = css`
   color: ${props => props.theme.black};
   background-color: ${props => props.theme.white};
@@ -56,7 +66,7 @@ const mr = css`
   margin-right: ${props => props.theme.smallmargin};
 `;
 
-const initialState = css`
+const initialState = css<Props>`
   cursor: default;
 
   ${props => (props.ml ? ml : null)};
@@ -78,7 +88,7 @@ const initialState = css`
   }
 `;
 
-export default styled.button`
+export default styled.button<Props>`
   ${initialState};
 
   outline: none;

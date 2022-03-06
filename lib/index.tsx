@@ -26,7 +26,7 @@ type RecaptchaBaseConfig = {
   isolated?: boolean;
 };
 
-export type RecaptchaConfig = RecaptchaBaseConfig & {
+type RecaptchaConfig = RecaptchaBaseConfig & {
   // eslint-disable-next-line @typescript-eslint/ban-types
   callback?: Function;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -35,7 +35,7 @@ export type RecaptchaConfig = RecaptchaBaseConfig & {
   'error-callback'?: Function;
 };
 
-type RenderProps = {
+export type RenderProps = {
   renderExplicitly: () => Promise<void>;
   reset: () => Promise<void>;
   execute: () => Promise<void>;
@@ -43,7 +43,7 @@ type RenderProps = {
   recaptchaComponent: ReactNode;
 };
 
-type Props = RecaptchaBaseConfig & {
+export type Props = RecaptchaBaseConfig & {
   id?: string;
   className?: string;
   explicit?: boolean;

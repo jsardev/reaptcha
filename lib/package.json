@@ -9,15 +9,15 @@
   "license": "MIT",
   "author": "Jakub Sarnowski <hello@jsarnowski.com>",
   "files": [
-    "dist",
-    "index.d.ts"
+    "dist"
   ],
-  "source": "index.tsx",
+  "source": "./index.tsx",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "unpkg": "dist/index.umd.js",
-  "typings": "./index.d.ts",
+  "typings": "dist/index.d.ts",
   "scripts": {
+    "dev": "npm run build -- -w",
     "build": "microbundle --jsx React.createElement"
   },
   "peerDependencies": {

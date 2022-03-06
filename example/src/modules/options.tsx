@@ -14,7 +14,8 @@ const initialConfig = {
 };
 
 type Props = {
-  onChange: Function
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  onChange: Function;
 };
 
 const Options = (props: Props) => (
@@ -26,12 +27,12 @@ const Options = (props: Props) => (
         <H2 mb>Configuration</H2>
         <Form>
           <Container flex mb>
-            <FormGroup mb>
+            <FormGroup>
               <H3 mbs>Theme</H3>
               <Radio id="theme-1" name="theme" label="Light" value="light" />
               <Radio id="theme-2" name="theme" label="Dark" value="dark" />
             </FormGroup>
-            <FormGroup mb>
+            <FormGroup>
               <H3 mbs>Size</H3>
               <Radio id="size-1" name="size" label="Normal" value="normal" />
               <Radio id="size-2" name="size" label="Compact" value="compact" />
@@ -42,7 +43,7 @@ const Options = (props: Props) => (
                 value="invisible"
               />
             </FormGroup>
-            <FormGroup mb>
+            <FormGroup>
               <H3 mbs>Render</H3>
               <Radio
                 id="render-1"

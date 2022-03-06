@@ -15,17 +15,17 @@ const Radio = styled.input.attrs({
 `;
 
 type Props = {
-  id: string,
-  name: string,
-  label: string,
-  value: string
+  id: string;
+  name: string;
+  label: string;
+  value: string;
 };
 
 const RadioInput = ({ id, name, label, value }: Props) => (
   <Container inline>
     <Field
       name={name}
-      render={({ field }) => (
+      render={({ field }: { field: typeof Radio }) => (
         <Radio
           {...field}
           id={id}

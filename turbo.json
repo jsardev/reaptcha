@@ -4,6 +4,9 @@
     "lint": {},
     "test": {},
     "test:coverage": {},
+    "dev": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"]
     },
