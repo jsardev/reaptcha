@@ -1,5 +1,13 @@
 import styled, { css } from 'styled-components';
 
+export type Props = {
+  mb?: boolean;
+  page?: boolean;
+  flex?: boolean;
+  inline?: boolean;
+  between?: boolean;
+};
+
 const mb = css`
   margin-bottom: ${props => props.theme.margin};
 `;
@@ -32,7 +40,7 @@ const between = css`
   justify-content: space-between;
 `;
 
-export default styled.div`
+export default styled.div<Props>`
   ${props => (props.mb ? mb : null)};
   ${props => (props.page ? page : null)};
   ${props => (props.flex ? flex : null)};

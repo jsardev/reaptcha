@@ -1,6 +1,0 @@
-[include]
-.*/lib/.*
-.*/example/.*
-
-[ignore]
-.*/node_modules/.*/test/.*\.json$

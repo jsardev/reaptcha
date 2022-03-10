@@ -1,5 +1,3 @@
-/* @flow */
-
 export default (scriptSrc: string): void => {
   const script = document.createElement('script');
 

@@ -1,7 +1,5 @@
-/* @flow */
-
-import React, { Component, Fragment } from 'react';
-import Reaptcha from 'reaptcha';
+import React, { Component, Fragment, SyntheticEvent } from 'react';
+import Reaptcha, { Props as ReaptchaProps } from 'reaptcha';
 
 import { getSiteKey } from '../config';
 
@@ -11,21 +9,25 @@ import Status from '../components/status';
 import Input from '../components/input';
 import { H2 } from '../components/header';
 
+export type Config = Pick<ReaptchaProps, 'size' | 'theme'> & {
+  render: 'explicit' | 'automatic';
+};
+
 type Props = {
-  config: any
+  config: Config;
 };
 
 type State = {
-  token: string,
-  loaded: boolean,
-  rendered: boolean,
-  verified: boolean,
-  submitted: boolean,
-  executing: boolean
+  token: string;
+  loaded: boolean;
+  rendered: boolean;
+  verified: boolean;
+  submitted: boolean;
+  executing: boolean;
 };
 
 export default class Example extends Component<Props, State> {
-  captcha: ?Reaptcha = null;
+  captcha?: Reaptcha | null;
 
   state = {
     token: '',
@@ -134,7 +136,7 @@ export default class Example extends Component<Props, State> {
           <Container inline>
             {explicit && !rendered && (
               <Button onClick={this.renderRecaptcha} disabled={!loaded}>
-                Verify
+                Render
               </Button>
             )}
             {(!explicit || rendered) && (

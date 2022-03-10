@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import styled from 'styled-components';
 
@@ -23,10 +21,10 @@ const Input = styled.input`
 `;
 
 type Props = {
-  id: string,
-  name: string,
-  label: string,
-  placeholder: string
+  id: string;
+  name: string;
+  label: string;
+  placeholder: string;
 };
 
 const TextInput = ({ id, name, label, placeholder }: Props) => (

@@ -1,7 +1,4 @@
-/* @flow */
-
 import React, { Component, Fragment } from 'react';
-import { hot } from 'react-hot-loader';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import { theme } from '../config';
@@ -13,7 +10,7 @@ import Button from '../components/button';
 import Link from '../components/link';
 
 import Options from '../modules/options';
-import Example from '../modules/example';
+import Example, { Config } from '../modules/example';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -23,17 +20,22 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 type State = {
-  key: number,
-  config: any
+  key: number;
+  config: Config;
 };
 
-class App extends Component<{}, State> {
-  state = {
+class App extends Component<Record<string, never>, State> {
+  state: State = {
     key: 0,
-    config: {}
+    config: {
+      size: 'normal',
+      theme: 'light',
+      render: 'automatic'
+    }
   };
 
-  onChange = config => this.setState({ key: this.state.key + 1, config });
+  onChange = (config: Config) =>
+    this.setState({ key: this.state.key + 1, config });
 
   render() {
     return (
@@ -78,4 +80,4 @@ class App extends Component<{}, State> {
   }
 }
 
-export default hot(module)(App);
+export default App;

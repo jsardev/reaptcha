@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components';
 
+export type Props = {
+  active?: boolean;
+};
+
 const redBadge = css`
   background-color: ${props => props.theme.red};
 `;
@@ -8,7 +12,7 @@ const greenBadge = css`
   background-color: ${props => props.theme.green};
 `;
 
-export default styled.div`
+export default styled.div<Props>`
   border-radius: 4px;
   margin-right: 0.5rem;
   font-size: 0.7rem;

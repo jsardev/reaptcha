@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import React from 'react';
 import test from 'ava';
 import sinon from 'sinon';
@@ -5,11 +7,11 @@ import jsdom from 'jsdom-global';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
+import Reaptcha, { Grecaptcha } from './index';
+
 jsdom();
 
 Enzyme.configure({ adapter: new Adapter() });
-
-import Reaptcha from './index';
 
 const renderSpy = sinon.spy();
 const executeSpy = sinon.spy();
@@ -19,6 +21,13 @@ const getResponseStub = sinon.stub().returns('stubbed-response');
 const defaultProps = {
   sitekey: 'some-key',
   onVerify: () => {}
+};
+
+const stubGrecaptcha = (mockedProps: Partial<Grecaptcha>) => {
+  window.grecaptcha = {
+    ...(window.grecaptcha as Grecaptcha),
+    ...mockedProps
+  };
 };
 
 test.beforeEach(() => {
@@ -38,10 +47,10 @@ test.beforeEach(() => {
   getResponseStub.resetHistory();
 });
 
-test.serial('should pass id', t => {
+test('should pass id', t => {
   t.plan(1);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} id="some-id" />);
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} id="some-id" />);
 
   t.true(
     wrapper
@@ -51,10 +60,12 @@ test.serial('should pass id', t => {
   );
 });
 
-test.serial('should pass className', t => {
+test('should pass className', t => {
   t.plan(1);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} className="class-1" />);
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} className="class-1" />
+  );
 
   t.true(
     wrapper
@@ -64,10 +75,10 @@ test.serial('should pass className', t => {
   );
 });
 
-test.serial('should have default className', t => {
+test('should have default className', t => {
   t.plan(1);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} />);
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
 
   t.true(
     wrapper
@@ -77,12 +88,12 @@ test.serial('should have default className', t => {
   );
 });
 
-test.serial('should execute render prop if passed', t => {
+test('should execute render prop if passed', t => {
   t.plan(2);
 
   const childrenSpy = sinon.spy(({ recaptchaComponent }) => recaptchaComponent);
 
-  mount(<Reaptcha {...defaultProps}>{childrenSpy}</Reaptcha>);
+  mount<Reaptcha>(<Reaptcha {...defaultProps}>{childrenSpy}</Reaptcha>);
 
   t.true(childrenSpy.called);
   t.true(
@@ -97,14 +108,14 @@ test.serial('should execute render prop if passed', t => {
   );
 });
 
-test.serial('should render recaptcha', t => {
+test('should render recaptcha', t => {
   t.plan(2);
 
   const onVerify = sinon.stub();
   const onExpire = sinon.stub();
   const onError = sinon.stub();
 
-  mount(
+  mount<Reaptcha>(
     <Reaptcha
       sitekey="my-key"
       theme="dark"
@@ -122,32 +133,33 @@ test.serial('should render recaptcha', t => {
       sitekey: 'my-key',
       theme: 'dark',
       size: 'normal',
-      badge: null,
+      badge: undefined,
       tabindex: 2,
       callback: onVerify,
       'expired-callback': onExpire,
       'error-callback': onError,
-      isolated: null,
+      isolated: undefined,
       hl: ''
     })
   );
 });
 
-test.serial('should render recaptcha on delayed grecaptcha load', t => {
+test('should render recaptcha on delayed grecaptcha load', t => {
   t.plan(1);
   const clock = sinon.useFakeTimers();
 
-  window.grecaptcha = null;
+  window.grecaptcha = undefined;
   setTimeout(() => {
     window.grecaptcha = {
       ready: callback => callback(),
       render: renderSpy,
       reset: resetSpy,
-      execute: executeSpy
+      execute: executeSpy,
+      getResponse: () => ''
     };
   }, 500);
 
-  mount(<Reaptcha {...defaultProps} />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
 
   clock.tick(500);
 
@@ -156,14 +168,14 @@ test.serial('should render recaptcha on delayed grecaptcha load', t => {
   clock.restore();
 });
 
-test.serial('should render invisible recaptcha', t => {
+test('should render invisible recaptcha', t => {
   t.plan(2);
 
   const onVerify = sinon.stub();
   const onExpire = sinon.stub();
   const onError = sinon.stub();
 
-  mount(
+  mount<Reaptcha>(
     <Reaptcha
       sitekey="my-key"
       badge="bottomleft"
@@ -189,19 +201,19 @@ test.serial('should render invisible recaptcha', t => {
       'expired-callback': onExpire,
       'error-callback': onError,
       isolated: true,
-      hl: null
+      hl: undefined
     })
   );
 });
 
-test.serial('should render invisible recaptcha in dark mode', t => {
+test('should render invisible recaptcha in dark mode', t => {
   t.plan(2);
 
   const onVerify = sinon.stub();
   const onExpire = sinon.stub();
   const onError = sinon.stub();
 
-  mount(
+  mount<Reaptcha>(
     <Reaptcha
       sitekey="my-key"
       badge="bottomleft"
@@ -228,15 +240,15 @@ test.serial('should render invisible recaptcha in dark mode', t => {
       'expired-callback': onExpire,
       'error-callback': onError,
       isolated: true,
-      hl: null
+      hl: undefined
     })
   );
 });
 
-test.serial('should render recaptcha with hl', t => {
+test('should render recaptcha with hl', t => {
   t.plan(1);
 
-  mount(<Reaptcha {...defaultProps} hl="fr" />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} hl="fr" />);
 
   t.true(
     renderSpy.calledWith(
@@ -248,10 +260,10 @@ test.serial('should render recaptcha with hl', t => {
   );
 });
 
-test.serial('should render recaptcha explicitly', t => {
+test('should render recaptcha explicitly', t => {
   t.plan(2);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} explicit />);
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
 
   t.false(renderSpy.calledOnce);
 
@@ -263,12 +275,12 @@ test.serial('should render recaptcha explicitly', t => {
     });
 });
 
-test.serial('should not render recaptcha when grecaptcha not available', t => {
+test('should not render recaptcha when grecaptcha not available', t => {
   t.plan(1);
   const clock = sinon.useFakeTimers();
-  window.grecaptcha = null;
+  window.grecaptcha = undefined;
 
-  mount(<Reaptcha {...defaultProps} />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
 
   clock.tick(1000);
 
@@ -277,11 +289,12 @@ test.serial('should not render recaptcha when grecaptcha not available', t => {
   clock.restore();
 });
 
-test.serial('should reset recaptcha', t => {
+test('should reset recaptcha', t => {
   t.plan(2);
 
-  window.grecaptcha.render = sinon.stub().returns('reset-test-id');
-  const wrapper = mount(<Reaptcha {...defaultProps} />);
+  stubGrecaptcha({ render: sinon.stub().returns('reset-test-id') });
+
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
 
   return wrapper
     .instance()
@@ -292,11 +305,13 @@ test.serial('should reset recaptcha', t => {
     });
 });
 
-test.serial('should execute recaptcha', t => {
+test('should execute recaptcha', t => {
   t.plan(2);
 
-  window.grecaptcha.render = sinon.stub().returns('execute-test-id');
-  const wrapper = mount(<Reaptcha {...defaultProps} size="invisible" />);
+  stubGrecaptcha({ render: sinon.stub().returns('execute-test-id') });
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} size="invisible" />
+  );
 
   return wrapper
     .instance()
@@ -307,11 +322,13 @@ test.serial('should execute recaptcha', t => {
     });
 });
 
-test.serial('should getResponse from recaptcha', t => {
+test('should getResponse from recaptcha', t => {
   t.plan(3);
 
-  window.grecaptcha.render = sinon.stub().returns('get-response-test-id');
-  const wrapper = mount(<Reaptcha {...defaultProps} size="invisible" />);
+  stubGrecaptcha({ render: sinon.stub().returns('get-response-test-id') });
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} size="invisible" />
+  );
 
   return wrapper
     .instance()
@@ -323,10 +340,10 @@ test.serial('should getResponse from recaptcha', t => {
     });
 });
 
-test.serial('should inject script', t => {
+test('should inject script', t => {
   t.plan(4);
 
-  mount(<Reaptcha {...defaultProps} />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
   t.is(document.scripts.length, 1);
   const script = document.scripts[0];
   t.true(script.async);
@@ -334,10 +351,10 @@ test.serial('should inject script', t => {
   t.truthy(script.src);
 });
 
-test.serial('should not inject script', t => {
+test('should not inject script', t => {
   t.plan(1);
 
-  mount(<Reaptcha {...defaultProps} inject={false} />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} inject={false} />);
 
   t.is(document.scripts.length, 0);
 });
@@ -350,26 +367,23 @@ test.serial('should not inject script', t => {
   'https://gstatic.com/recaptcha',
   'https://www.gstatic.com/recaptcha'
 ].forEach(src => {
-  test.serial(
-    `should not inject script if one with src ${src} already present`,
-    t => {
-      t.plan(1);
+  test(`should not inject script if one with src ${src} already present`, t => {
+    t.plan(1);
 
-      const script = document.createElement('script');
-      script.src = src;
-      document.head.appendChild(script);
+    const script = document.createElement('script');
+    script.src = src;
+    document.head.appendChild(script);
 
-      mount(<Reaptcha {...defaultProps} />);
+    mount<Reaptcha>(<Reaptcha {...defaultProps} />);
 
-      t.is(document.scripts.length, 1);
-    }
-  );
+    t.is(document.scripts.length, 1);
+  });
 });
 
-test.serial('should inject script with hl parameter if specified', t => {
+test('should inject script with hl parameter if specified', t => {
   t.plan(3);
 
-  mount(<Reaptcha {...defaultProps} hl="en" />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} hl="en" />);
 
   t.is(document.scripts.length, 1);
   const script = document.scripts[0];
@@ -377,10 +391,10 @@ test.serial('should inject script with hl parameter if specified', t => {
   t.regex(script.src, new RegExp('hl=en'));
 });
 
-test.serial('should inject script without hl parameter if not specified', t => {
+test('should inject script without hl parameter if not specified', t => {
   t.plan(3);
 
-  mount(<Reaptcha {...defaultProps} />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
 
   t.is(document.scripts.length, 1);
   const script = document.scripts[0];
@@ -388,10 +402,10 @@ test.serial('should inject script without hl parameter if not specified', t => {
   t.notRegex(script.src, new RegExp('hl='));
 });
 
-test.serial('should inject only one script on multiple instances', t => {
+test('should inject only one script on multiple instances', t => {
   t.plan(1);
 
-  mount(
+  mount<Reaptcha>(
     <div>
       <Reaptcha {...defaultProps} />
       <Reaptcha {...defaultProps} />
@@ -402,38 +416,38 @@ test.serial('should inject only one script on multiple instances', t => {
   t.is(document.scripts.length, 1);
 });
 
-test.serial('should reset recaptcha on unmount', t => {
+test('should reset recaptcha on unmount', t => {
   t.plan(1);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} />);
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
 
   wrapper.unmount();
 
   t.true(resetSpy.calledOnce);
 });
 
-test.serial('should call onLoad', t => {
+test('should call onLoad', t => {
   t.plan(1);
 
   const onLoadSpy = sinon.spy();
-  mount(<Reaptcha {...defaultProps} onLoad={onLoadSpy} />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} onLoad={onLoadSpy} />);
 
   t.true(onLoadSpy.calledOnce);
 });
 
-test.serial('should call onRender', t => {
+test('should call onRender', t => {
   t.plan(1);
 
   const onRender = sinon.spy();
-  mount(<Reaptcha {...defaultProps} onRender={onRender} />);
+  mount<Reaptcha>(<Reaptcha {...defaultProps} onRender={onRender} />);
 
   t.true(onRender.calledOnce);
 });
 
-test.serial('should throw error on double render', t => {
+test('should throw error on double render', t => {
   t.plan(2);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} explicit />);
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
   const instance = wrapper.instance();
 
   return instance.renderExplicitly().then(() => {
@@ -446,11 +460,13 @@ test.serial('should throw error on double render', t => {
   });
 });
 
-test.serial('should throw error when no grecaptcha available on render', t => {
+test('should throw error when no grecaptcha available on render', t => {
   t.plan(1);
 
-  window.grecaptcha.ready = () => {};
-  const wrapper = mount(<Reaptcha {...defaultProps} explicit />);
+  stubGrecaptcha({
+    ready: () => {}
+  });
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
 
   return t.throwsAsync(
     wrapper.instance().renderExplicitly(),
@@ -459,10 +475,10 @@ test.serial('should throw error when no grecaptcha available on render', t => {
   );
 });
 
-test.serial('should throw error when recaptcha not rendered on reset', t => {
+test('should throw error when recaptcha not rendered on reset', t => {
   t.plan(1);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} explicit />);
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
 
   return t.throwsAsync(
     wrapper.instance().reset(),
@@ -471,59 +487,50 @@ test.serial('should throw error when recaptcha not rendered on reset', t => {
   );
 });
 
-test.serial(
-  'should throw error when trying to execute while not in invisible mode',
-  t => {
-    t.plan(1);
-
-    const wrapper = mount(<Reaptcha {...defaultProps} size="normal" />);
-
-    return t.throwsAsync(
-      wrapper.instance().execute(),
-      undefined,
-      'Manual execution is only available for invisible size.'
-    );
-  }
-);
-
-test.serial(
-  'should throw error when trying to execute while not rendered',
-  t => {
-    t.plan(1);
-
-    const wrapper = mount(
-      <Reaptcha {...defaultProps} size="invisible" explicit />
-    );
-
-    return t.throwsAsync(
-      wrapper.instance().execute(),
-      undefined,
-      'This recaptcha instance did not render yet.'
-    );
-  }
-);
-
-test.serial(
-  'should throw error when trying to getResponse while not rendered',
-  t => {
-    t.plan(1);
-
-    const wrapper = mount(
-      <Reaptcha {...defaultProps} size="invisible" explicit />
-    );
-
-    return t.throwsAsync(
-      wrapper.instance().getResponse(),
-      undefined,
-      'This recaptcha instance did not render yet.'
-    );
-  }
-);
-
-test.serial('should not throw error on unmount when not rendered', t => {
+test('should throw error when trying to execute while not in invisible mode', t => {
   t.plan(1);
 
-  const wrapper = mount(<Reaptcha {...defaultProps} explicit />);
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} size="normal" />);
+
+  return t.throwsAsync(
+    wrapper.instance().execute(),
+    undefined,
+    'Manual execution is only available for invisible size.'
+  );
+});
+
+test('should throw error when trying to execute while not rendered', t => {
+  t.plan(1);
+
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} size="invisible" explicit />
+  );
+
+  return t.throwsAsync(
+    wrapper.instance().execute(),
+    undefined,
+    'This recaptcha instance did not render yet.'
+  );
+});
+
+test('should throw error when trying to getResponse while not rendered', t => {
+  t.plan(1);
+
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} size="invisible" explicit />
+  );
+
+  return t.throwsAsync(
+    wrapper.instance().getResponse(),
+    undefined,
+    'This recaptcha instance did not render yet.'
+  );
+});
+
+test('should not throw error on unmount when not rendered', t => {
+  t.plan(1);
+
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
 
   t.notThrows(() => wrapper.unmount());
 });

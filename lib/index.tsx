@@ -1,63 +1,80 @@
-/* @flow */
-
-import React, { Component } from 'react';
-import type { Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 
 import injectScript from './utils/injectScript';
 import isAnyScriptPresent from './utils/isAnyScriptPresent';
-import type { RecaptchaConfig } from './types';
 
-type RenderProps = {
-  renderExplicitly: () => Promise<void>,
-  reset: () => Promise<void>,
-  execute: () => Promise<void>,
-  getResponse: () => Promise<string>,
-  recaptchaComponent: Node
+declare global {
+  interface Window {
+    grecaptcha?: Grecaptcha;
+  }
+}
+
+export type Grecaptcha = {
+  ready: (callback: () => void) => void;
+  render: (container?: HTMLElement, config?: RecaptchaConfig) => number;
+  reset: (id?: number) => void;
+  execute: (id?: number) => void;
+  getResponse: (id?: number) => string;
 };
 
-type Props = {
-  id?: string,
-  className?: string,
-  sitekey: string,
-  theme?: 'light' | 'dark',
-  size?: 'compact' | 'normal' | 'invisible',
-  badge?: 'bottomright' | 'bottomleft' | 'inline',
-  tabindex?: number,
-  explicit?: boolean,
-  onLoad?: () => void,
-  onRender?: () => void,
-  onVerify: (response: string) => void,
-  onExpire?: () => void,
-  onError?: () => void,
-  inject?: boolean,
-  isolated?: boolean,
-  hl?: string,
-  children?: (renderProps: RenderProps) => Node
+type RecaptchaBaseConfig = {
+  sitekey: string;
+  theme?: 'light' | 'dark';
+  size?: 'compact' | 'normal' | 'invisible';
+  badge?: 'bottomright' | 'bottomleft' | 'inline';
+  tabindex?: number;
+  hl?: string;
+  isolated?: boolean;
+};
+
+type RecaptchaConfig = RecaptchaBaseConfig & {
+  callback?: (response: string) => void;
+  'expired-callback'?: () => void;
+  'error-callback'?: () => void;
+};
+
+export type RenderProps = {
+  renderExplicitly: () => Promise<void>;
+  reset: () => Promise<void>;
+  execute: () => Promise<void>;
+  getResponse: () => Promise<string>;
+  recaptchaComponent: ReactNode;
+};
+
+export type Props = RecaptchaBaseConfig & {
+  id?: string;
+  className?: string;
+  explicit?: boolean;
+  onLoad?: () => void;
+  onRender?: () => void;
+  onVerify: (response: string) => void;
+  onExpire?: () => void;
+  onError?: () => void;
+  inject?: boolean;
+  children?: (renderProps: RenderProps) => Node;
 };
 
 type State = {
-  instanceId: ?number,
-  ready: boolean,
-  rendered: boolean,
-  invisible: boolean,
-  timer: ?IntervalID
+  instanceId?: number;
+  ready: boolean;
+  rendered: boolean;
+  invisible: boolean;
+  timer?: number;
 };
 
 const RECAPTCHA_SCRIPT_URL = 'https://recaptcha.net/recaptcha/api.js';
 const RECAPTCHA_SCRIPT_REGEX = /(http|https):\/\/(www)?.+\/recaptcha/;
 
 class Reaptcha extends Component<Props, State> {
-  container: ?HTMLDivElement = null;
+  container?: HTMLDivElement | null;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      instanceId: null,
       ready: false,
       rendered: false,
-      invisible: this.props.size === 'invisible',
-      timer: null
+      invisible: this.props.size === 'invisible'
     };
   }
 
@@ -74,8 +91,7 @@ class Reaptcha extends Component<Props, State> {
     hl: ''
   };
 
-  _isAvailable = (): boolean =>
-    Boolean(window && window.grecaptcha && window.grecaptcha.ready);
+  _isAvailable = (): boolean => Boolean(window.grecaptcha?.ready);
 
   _inject = (): void => {
     if (this.props.inject && !isAnyScriptPresent(RECAPTCHA_SCRIPT_REGEX)) {
@@ -87,6 +103,7 @@ class Reaptcha extends Component<Props, State> {
 
   _prepare = (): void => {
     const { explicit, onLoad } = this.props;
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
     window.grecaptcha.ready(() => {
       this.setState({ ready: true }, () => {
         if (!explicit) {
@@ -102,14 +119,18 @@ class Reaptcha extends Component<Props, State> {
   _renderRecaptcha = (
     container: HTMLDivElement,
     config: RecaptchaConfig
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
   ): number => window.grecaptcha.render(container, config);
 
+  // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
   _resetRecaptcha = (): void => window.grecaptcha.reset(this.state.instanceId);
 
   _executeRecaptcha = (): void =>
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
     window.grecaptcha.execute(this.state.instanceId);
 
   _getResponseRecaptcha = (): string =>
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
     window.grecaptcha.getResponse(this.state.instanceId);
 
   _stopTimer = (): void => {
@@ -124,7 +145,7 @@ class Reaptcha extends Component<Props, State> {
     if (this._isAvailable()) {
       this._prepare();
     } else {
-      const timer = setInterval(() => {
+      const timer = window.setInterval(() => {
         if (this._isAvailable()) {
           this._prepare();
           this._stopTimer();
@@ -157,13 +178,13 @@ class Reaptcha extends Component<Props, State> {
           sitekey: this.props.sitekey,
           theme: this.props.theme,
           size: this.props.size,
-          badge: this.state.invisible ? this.props.badge : null,
+          badge: this.state.invisible ? this.props.badge : undefined,
           tabindex: this.props.tabindex,
           callback: this.props.onVerify,
           'expired-callback': this.props.onExpire,
           'error-callback': this.props.onError,
-          isolated: this.state.invisible ? this.props.isolated : null,
-          hl: this.state.invisible ? null : this.props.hl
+          isolated: this.state.invisible ? this.props.isolated : undefined,
+          hl: this.state.invisible ? undefined : this.props.hl
         });
 
         this.setState(
