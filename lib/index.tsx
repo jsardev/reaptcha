@@ -5,16 +5,18 @@ import isAnyScriptPresent from './utils/isAnyScriptPresent';
 
 declare global {
   interface Window {
-    grecaptcha: {
-      // eslint-disable-next-line @typescript-eslint/ban-types
-      ready: (callback: Function) => void;
-      render: (container?: HTMLElement, config?: RecaptchaConfig) => number;
-      execute: (id?: number) => void;
-      reset: (id?: number) => void;
-      getResponse: (id?: number) => string;
-    };
+    grecaptcha?: Grecaptcha;
   }
 }
+
+export type Grecaptcha = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  ready: (callback: Function) => void;
+  render: (container?: HTMLElement, config?: RecaptchaConfig) => number;
+  reset: (id?: number) => void;
+  execute: (id?: number) => void;
+  getResponse: (id?: number) => string;
+};
 
 type RecaptchaBaseConfig = {
   sitekey: string;
@@ -106,7 +108,7 @@ class Reaptcha extends Component<Props, State> {
 
   _prepare = (): void => {
     const { explicit, onLoad } = this.props;
-    window.grecaptcha.ready(() => {
+    window.grecaptcha?.ready(() => {
       this.setState({ ready: true }, () => {
         if (!explicit) {
           this.renderExplicitly();
@@ -121,15 +123,15 @@ class Reaptcha extends Component<Props, State> {
   _renderRecaptcha = (
     container: HTMLDivElement,
     config: RecaptchaConfig
-  ): number => window.grecaptcha.render(container, config);
+  ): number => window.grecaptcha?.render(container, config) || 0;
 
-  _resetRecaptcha = (): void => window.grecaptcha.reset(this.state.instanceId);
+  _resetRecaptcha = (): void => window.grecaptcha?.reset(this.state.instanceId);
 
   _executeRecaptcha = (): void =>
-    window.grecaptcha.execute(this.state.instanceId);
+    window.grecaptcha?.execute(this.state.instanceId);
 
   _getResponseRecaptcha = (): string =>
-    window.grecaptcha.getResponse(this.state.instanceId);
+    window.grecaptcha?.getResponse(this.state.instanceId) || '';
 
   _stopTimer = (): void => {
     if (this.state.timer) {
