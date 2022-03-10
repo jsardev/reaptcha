@@ -7,11 +7,11 @@ import jsdom from 'jsdom-global';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
+import Reaptcha, { Grecaptcha } from './index';
+
 jsdom();
 
 Enzyme.configure({ adapter: new Adapter() });
-
-import Reaptcha, { Grecaptcha } from './index';
 
 const renderSpy = sinon.spy();
 const executeSpy = sinon.spy();

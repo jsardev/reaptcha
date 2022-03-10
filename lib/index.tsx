@@ -10,8 +10,7 @@ declare global {
 }
 
 export type Grecaptcha = {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  ready: (callback: Function) => void;
+  ready: (callback: () => void) => void;
   render: (container?: HTMLElement, config?: RecaptchaConfig) => number;
   reset: (id?: number) => void;
   execute: (id?: number) => void;
@@ -29,12 +28,9 @@ type RecaptchaBaseConfig = {
 };
 
 type RecaptchaConfig = RecaptchaBaseConfig & {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  callback?: Function;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  'expired-callback'?: Function;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  'error-callback'?: Function;
+  callback?: (response: string) => void;
+  'expired-callback'?: () => void;
+  'error-callback'?: () => void;
 };
 
 export type RenderProps = {
@@ -95,8 +91,7 @@ class Reaptcha extends Component<Props, State> {
     hl: ''
   };
 
-  _isAvailable = (): boolean =>
-    Boolean(window && window.grecaptcha && window.grecaptcha.ready);
+  _isAvailable = (): boolean => Boolean(window.grecaptcha?.ready);
 
   _inject = (): void => {
     if (this.props.inject && !isAnyScriptPresent(RECAPTCHA_SCRIPT_REGEX)) {
@@ -108,7 +103,8 @@ class Reaptcha extends Component<Props, State> {
 
   _prepare = (): void => {
     const { explicit, onLoad } = this.props;
-    window.grecaptcha?.ready(() => {
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
+    window.grecaptcha.ready(() => {
       this.setState({ ready: true }, () => {
         if (!explicit) {
           this.renderExplicitly();
@@ -123,15 +119,19 @@ class Reaptcha extends Component<Props, State> {
   _renderRecaptcha = (
     container: HTMLDivElement,
     config: RecaptchaConfig
-  ): number => window.grecaptcha?.render(container, config) || 0;
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
+  ): number => window.grecaptcha.render(container, config);
 
-  _resetRecaptcha = (): void => window.grecaptcha?.reset(this.state.instanceId);
+  // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
+  _resetRecaptcha = (): void => window.grecaptcha.reset(this.state.instanceId);
 
   _executeRecaptcha = (): void =>
-    window.grecaptcha?.execute(this.state.instanceId);
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
+    window.grecaptcha.execute(this.state.instanceId);
 
   _getResponseRecaptcha = (): string =>
-    window.grecaptcha?.getResponse(this.state.instanceId) || '';
+    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
+    window.grecaptcha.getResponse(this.state.instanceId);
 
   _stopTimer = (): void => {
     if (this.state.timer) {
