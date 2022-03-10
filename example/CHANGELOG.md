@@ -1,5 +1,16 @@
 # Change Log
 
+## 1.9.0
+
+### Minor Changes
+
+- 58afe5c: Migrate to TypeScript
+
+### Patch Changes
+
+- Updated dependencies [58afe5c]
+  - reaptcha@1.9.0
+
 ## 1.8.0
 
 ### Minor Changes

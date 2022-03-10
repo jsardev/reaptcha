@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.9.0
+
+### Minor Changes
+
+- 58afe5c: Migrate to TypeScript
+
 ## 1.8.0
 
 ### Minor Changes
