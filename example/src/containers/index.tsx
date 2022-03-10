@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { hot } from 'react-hot-loader';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import { theme } from '../config';

@@ -17,7 +17,6 @@
     "@types/styled-components": "^5.1.24",
     "clean-webpack-plugin": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
-    "react-hot-loader": "^4.13.0",
     "ts-loader": "^9.2.7",
     "webpack": "^5.69.1",
     "webpack-cli": "^4.9.2",
