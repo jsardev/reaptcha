@@ -7,7 +7,7 @@ import jsdom from 'jsdom-global';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Reaptcha, { Grecaptcha } from './index';
+import Reaptcha, { Grecaptcha, Props } from './index';
 
 jsdom();
 
@@ -533,4 +533,60 @@ test('should not throw error on unmount when not rendered', t => {
   const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
 
   t.notThrows(() => wrapper.unmount());
+});
+
+test('should derive invisible state from size prop', t => {
+  t.plan(2);
+
+  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} size="normal" />);
+
+  t.is(wrapper.state('invisible'), false);
+
+  wrapper.setProps({ size: 'invisible' });
+
+  t.is(wrapper.state('invisible'), true);
+});
+
+const propsThatShouldRerenderRecaptcha: Array<Partial<Props>> = [
+  { sitekey: 'new-sitekey' },
+  { theme: 'dark' },
+  { size: 'invisible' },
+  { badge: 'bottomleft' },
+  { tabindex: 100 },
+  { hl: 'ja' },
+  { isolated: true }
+];
+
+propsThatShouldRerenderRecaptcha.forEach(props => {
+  test(`should rerender recaptcha when changing ${
+    Object.keys(props)[0]
+  } prop`, t => {
+    t.plan(1);
+
+    const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
+
+    const recaptchaElement = wrapper.find('div');
+    const recaptchaElementKey = recaptchaElement.key();
+
+    return new Promise(resolve => {
+      wrapper.setState({ rendered: true }, () => {
+        wrapper.setProps(props as Pick<Props, keyof Props>, () => {
+          /**
+           * We're doing a setState() in componentDidUpdate
+           * and Enzyme probably doesn't wait for this to process.
+           * This is the cleanest workaround I found.
+           */
+          setTimeout(() => {
+            wrapper.update();
+            const newRecaptchaElement = wrapper.find('div');
+            const newRecaptchaElementKey = newRecaptchaElement.key();
+
+            t.not(recaptchaElementKey, newRecaptchaElementKey);
+
+            resolve();
+          }, 0);
+        });
+      });
+    });
+  });
 });

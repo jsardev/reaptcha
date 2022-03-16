@@ -6,7 +6,6 @@ import { getSiteKey } from '../config';
 import Button from '../components/button';
 import Container from '../components/container';
 import Status from '../components/status';
-import Input from '../components/input';
 import { H2 } from '../components/header';
 
 export type Config = Pick<ReaptchaProps, 'size' | 'theme'> & {
@@ -22,37 +21,44 @@ type State = {
   loaded: boolean;
   rendered: boolean;
   verified: boolean;
-  submitted: boolean;
+  executed: boolean;
   executing: boolean;
 };
+
+const initialState = {
+  token: '',
+  loaded: false,
+  rendered: false,
+  verified: false,
+  executed: false,
+  executing: false
+};
+
+const CONFIG_KEYS_THAT_SHOULD_RESET_STATE: Array<keyof Config> = [
+  'size',
+  'theme'
+];
 
 export default class Example extends Component<Props, State> {
   captcha?: Reaptcha | null;
 
-  state = {
-    token: '',
-    loaded: false,
-    rendered: false,
-    verified: false,
-    submitted: false,
-    executing: false
-  };
+  state = initialState;
 
   onLoad = () => this.setState({ loaded: true });
 
   onRender = () => this.setState({ rendered: true });
 
   onVerify = (invisible: boolean) => (token: string) => {
-    this.setState({ token, verified: true });
+    this.setState({ token, verified: true, executed: true });
     if (invisible) {
-      this.setState({ executing: false, submitted: true });
+      this.setState({ executing: false, executed: true });
     }
   };
 
   onExpire = (invisible: boolean) => () => {
     this.setState({ verified: false });
     if (invisible) {
-      this.setState({ submitted: true });
+      this.setState({ executed: true });
     }
   };
 
@@ -75,7 +81,7 @@ export default class Example extends Component<Props, State> {
       this.captcha.reset();
       this.setState({
         verified: false,
-        submitted: false
+        executed: false
       });
     }
   };
@@ -93,13 +99,26 @@ export default class Example extends Component<Props, State> {
     if (invisible) {
       this.executeRecaptcha();
     } else {
-      this.setState({ submitted: true });
+      this.setState({ executed: true });
     }
   };
 
+  componentDidUpdate(prevProps: Props) {
+    const configDidChange = CONFIG_KEYS_THAT_SHOULD_RESET_STATE.some(
+      key => this.props.config[key] !== prevProps.config[key]
+    );
+
+    if (
+      (this.props.config.render === 'explicit' && configDidChange) ||
+      this.props.config.render !== prevProps.config.render
+    ) {
+      this.setState({ ...initialState, loaded: true });
+    }
+  }
+
   render() {
     const { render, size, theme } = this.props.config;
-    const { loaded, rendered, verified, submitted, executing } = this.state;
+    const { loaded, rendered, verified, executed, executing } = this.state;
 
     const explicit = render === 'explicit';
     const invisible = size === 'invisible';
@@ -118,10 +137,8 @@ export default class Example extends Component<Props, State> {
         </Container>
         <form onSubmit={this.submitForm(invisible)}>
           <Container mb>
-            <Input id="name" name="name" placeholder="Your name" label="Name" />
-          </Container>
-          <Container mb>
             <Reaptcha
+              key={render}
               ref={e => (this.captcha = e)}
               sitekey={sitekey}
               size={size}
@@ -133,26 +150,43 @@ export default class Example extends Component<Props, State> {
               onExpire={this.onExpire(invisible)}
             />
           </Container>
-          <Container inline>
-            {explicit && !rendered && (
-              <Button onClick={this.renderRecaptcha} disabled={!loaded}>
-                Render
+          <Container inline gap>
+            {explicit && (
+              <Button
+                onClick={this.renderRecaptcha}
+                disabled={!loaded || rendered}
+                submitted={rendered}
+              >
+                {rendered ? 'Rendered' : 'Render'}
               </Button>
             )}
-            {(!explicit || rendered) && (
+            {invisible && (
               <Button
                 type="submit"
-                disabled={(!verified && !invisible) || executing || submitted}
+                disabled={
+                  (!verified && !invisible) ||
+                  executing ||
+                  executed ||
+                  !rendered
+                }
                 executing={executing}
-                submitted={submitted}
+                submitted={executed}
               >
-                {submitted ? 'Done!' : executing ? 'Verifying' : 'Submit'}
+                {executed ? 'Verified' : executing ? 'Verifying' : 'Verify'}
               </Button>
             )}
-            <Button onClick={this.resetRecaptcha} disabled={!verified} ml>
+            <Button
+              type="button"
+              onClick={this.resetRecaptcha}
+              disabled={!verified}
+            >
               Reset
             </Button>
-            <Button onClick={this.getResponseRecaptcha} ml>
+            <Button
+              type="button"
+              onClick={this.getResponseRecaptcha}
+              disabled={!verified}
+            >
               Get Response
             </Button>
           </Container>

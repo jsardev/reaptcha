@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Formik, Form } from 'formik';
 
 import Container from '../components/container';
-import Button from '../components/button';
 import Radio from '../components/radio';
 import { FormGroup } from '../components/form';
 import { H2, H3 } from '../components/header';
@@ -25,7 +24,12 @@ const Options = (props: Props) => (
     render={() => (
       <Fragment>
         <H2 mb>Configuration</H2>
-        <Form>
+        <Form
+          onChange={e => {
+            const target = e.target as HTMLInputElement;
+            props.onChange({ [target.name]: target.value });
+          }}
+        >
           <Container flex mb>
             <FormGroup>
               <H3 mbs>Theme</H3>
@@ -59,7 +63,6 @@ const Options = (props: Props) => (
               />
             </FormGroup>
           </Container>
-          <Button type="submit">Apply</Button>
         </Form>
       </Fragment>
     )}
