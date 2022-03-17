@@ -12,7 +12,7 @@
     "dev": "turbo run dev --parallel --no-cache",
     "build": "NODE_ENV=production turbo run build",
     "version": "changeset version",
-    "publish": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.21.0",
