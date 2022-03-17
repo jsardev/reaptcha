@@ -92,6 +92,7 @@ export default styled.button<Props>`
   ${initialState};
 
   outline: none;
+  white-space: nowrap;
   border: none;
   border-radius: 4px;
   padding: ${props => (props.short ? '.3rem' : props.small ? '.5rem' : '1rem')};

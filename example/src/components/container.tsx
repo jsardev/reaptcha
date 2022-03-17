@@ -6,6 +6,7 @@ export type Props = {
   flex?: boolean;
   inline?: boolean;
   between?: boolean;
+  gap?: boolean;
 };
 
 const mb = css`
@@ -40,10 +41,15 @@ const between = css`
   justify-content: space-between;
 `;
 
+const gap = css<Props>`
+  gap: ${props => props.theme.smallmargin};
+`;
+
 export default styled.div<Props>`
   ${props => (props.mb ? mb : null)};
   ${props => (props.page ? page : null)};
   ${props => (props.flex ? flex : null)};
   ${props => (props.inline ? inline : null)};
   ${props => (props.between ? between : null)};
+  ${props => (props.gap ? gap : null)};
 `;

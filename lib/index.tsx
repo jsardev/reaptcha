@@ -55,6 +55,7 @@ export type Props = RecaptchaBaseConfig & {
 };
 
 type State = {
+  instanceKey: number;
   instanceId?: number;
   ready: boolean;
   rendered: boolean;
@@ -65,20 +66,27 @@ type State = {
 const RECAPTCHA_SCRIPT_URL = 'https://recaptcha.net/recaptcha/api.js';
 const RECAPTCHA_SCRIPT_REGEX = /(http|https):\/\/(www)?.+\/recaptcha/;
 
+const PROPS_THAT_SHOULD_CAUSE_RERENDER: Array<keyof RecaptchaBaseConfig> = [
+  'sitekey',
+  'theme',
+  'size',
+  'badge',
+  'tabindex',
+  'hl',
+  'isolated'
+];
+
 class Reaptcha extends Component<Props, State> {
   container?: HTMLDivElement | null;
 
-  constructor(props: Props) {
-    super(props);
+  state: State = {
+    instanceKey: Date.now(),
+    ready: false,
+    rendered: false,
+    invisible: this.props.size === 'invisible'
+  };
 
-    this.state = {
-      ready: false,
-      rendered: false,
-      invisible: this.props.size === 'invisible'
-    };
-  }
-
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
     id: '',
     className: 'g-recaptcha',
     theme: 'light',
@@ -90,6 +98,14 @@ class Reaptcha extends Component<Props, State> {
     isolated: false,
     hl: ''
   };
+
+  static getDerivedStateFromProps(props: Props, state: State) {
+    const invisible = props.size === 'invisible';
+    if (invisible !== state.invisible) {
+      return { invisible };
+    }
+    return null;
+  }
 
   _isAvailable = (): boolean => Boolean(window.grecaptcha?.ready);
 
@@ -155,8 +171,30 @@ class Reaptcha extends Component<Props, State> {
     }
   };
 
-  shouldComponentUpdate = (nextProps: Props): boolean =>
-    this.props.className !== nextProps.className || !this.state.rendered;
+  componentDidUpdate(prevProps: Readonly<Props>) {
+    const changedProps = PROPS_THAT_SHOULD_CAUSE_RERENDER.reduce<
+      Array<keyof RecaptchaBaseConfig>
+    >((changedProps, key) => {
+      if (this.props[key] !== prevProps[key]) {
+        return [...changedProps, key];
+      }
+      return changedProps;
+    }, []);
+
+    if (changedProps.length > 0) {
+      this.setState(
+        {
+          instanceKey: Date.now(),
+          rendered: false
+        },
+        () => {
+          if (!this.props.explicit) {
+            this.renderExplicitly();
+          }
+        }
+      );
+    }
+  }
 
   componentWillUnmount = (): void => {
     this._stopTimer();
@@ -243,6 +281,7 @@ class Reaptcha extends Component<Props, State> {
   render = () => {
     const container = (
       <div
+        key={this.state.instanceKey}
         id={this.props.id}
         className={this.props.className}
         ref={e => (this.container = e)}

@@ -20,13 +20,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 type State = {
-  key: number;
   config: Config;
 };
 
 class App extends Component<Record<string, never>, State> {
   state: State = {
-    key: 0,
     config: {
       size: 'normal',
       theme: 'light',
@@ -34,8 +32,13 @@ class App extends Component<Record<string, never>, State> {
     }
   };
 
-  onChange = (config: Config) =>
-    this.setState({ key: this.state.key + 1, config });
+  onChange = (configChange: Partial<Config>) =>
+    this.setState(state => ({
+      config: {
+        ...state.config,
+        ...configChange
+      }
+    }));
 
   render() {
     return (
@@ -62,7 +65,7 @@ class App extends Component<Record<string, never>, State> {
           </Section>
           <Section gray>
             <Container page>
-              <Example key={this.state.key} config={this.state.config} />
+              <Example config={this.state.config} />
             </Container>
           </Section>
           <Section>
