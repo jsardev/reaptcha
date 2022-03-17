@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.10.0
+
+### Minor Changes
+
+- cb8d8b0: allow for dynamic config changes (after recaptcha has been already rendered)
+
 ## 1.9.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # Change Log
 
+## 1.10.0
+
+### Minor Changes
+
+- cb8d8b0: fix various inconsistencies, support changing config dynamically
+
+### Patch Changes
+
+- Updated dependencies [cb8d8b0]
+  - reaptcha@1.10.0
+
 ## 1.9.0
 
 ### Minor Changes
