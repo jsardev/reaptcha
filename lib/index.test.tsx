@@ -416,16 +416,6 @@ test('should inject only one script on multiple instances', t => {
   t.is(document.scripts.length, 1);
 });
 
-test('should reset recaptcha on unmount', t => {
-  t.plan(1);
-
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
-
-  wrapper.unmount();
-
-  t.true(resetSpy.calledOnce);
-});
-
 test('should call onLoad', t => {
   t.plan(1);
 
