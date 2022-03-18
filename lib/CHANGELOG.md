@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.10.1
+
+### Patch Changes
+
+- abe6170: fix uncaught (in promise) timeout error
+
 ## 1.10.0
 
 ### Minor Changes
