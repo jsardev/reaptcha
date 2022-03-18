@@ -1,9 +1,9 @@
 ![Reaptcha](https://i.imgur.com/44zEjD5.png)
 
-[![Latest npm version](https://img.shields.io/npm/v/reaptcha/latest.svg)]()
+[![Latest npm version](https://img.shields.io/npm/v/reaptcha/latest.svg)](https://www.npmjs.com/package/reaptcha)
 [![GitHub license](https://img.shields.io/github/license/sarneeh/reaptcha.svg)](https://github.com/sarneeh/reaptcha)
-[![TravisCI badge](https://travis-ci.com/sarneeh/reaptcha.svg?branch=master)](https://travis-ci.com/)
-[![Coverage Status](https://coveralls.io/repos/github/sarneeh/reaptcha/badge.svg?branch=master)](https://coveralls.io/github/sarneeh/reaptcha?branch=master)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sarneeh/reaptcha/push)](https://github.com/sarneeh/reaptcha/actions/workflows/push.yml)
+[![Codecov](https://img.shields.io/codecov/c/github/sarneeh/reaptcha?token=b3FQAJsTGL)](https://codecov.io/gh/sarneeh/reaptcha)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Minified package size](https://img.shields.io/bundlephobia/min/reaptcha.svg)]()
@@ -17,7 +17,10 @@ https://sarneeh.github.io/reaptcha/
 
 ## Motivation
 
-I've been using other React wrappers for reCAPTCHA like [react-recaptcha](https://github.com/appleboy/react-recaptcha) or [react-google-recaptcha](https://github.com/dozoisch/react-google-recaptcha) but unfortunately both of them provide a non-react way (declaring the callbacks outside React components, not inside them) to handle all the reCAPTCHA callbacks which didn't feel clean and I didn't like this approach personally.
+I've been using other React wrappers for reCAPTCHA like [react-recaptcha](https://github.com/appleboy/react-recaptcha)
+or [react-google-recaptcha](https://github.com/dozoisch/react-google-recaptcha) but unfortunately both of them provide a
+non-react way (declaring the callbacks outside React components, not inside them) to handle all the reCAPTCHA callbacks
+which didn't feel clean and I didn't like this approach personally.
 
 This is why I've decided to give it a try to create a cleaner approach and this is the result.
 
@@ -47,13 +50,17 @@ yarn add reaptcha
 
 ## Usage
 
-**IMPORTANT NOTE: `Reaptcha` injects reCAPTCHA script into DOM automatically by default. If you are doing it manually, [check out this description](#attaching-recaptcha-script-manually).**
+**IMPORTANT NOTE: `Reaptcha` injects reCAPTCHA script into DOM automatically by default. If you are doing it
+manually, [check out this description](#attaching-recaptcha-script-manually).**
 
-First of all, you'll need a reCAPTCHA API key. To find out how to get it - [check this guide](https://developers.google.com/recaptcha/intro).
+First of all, you'll need a reCAPTCHA API key. To find out how to get it
+
+- [check this guide](https://developers.google.com/recaptcha/intro).
 
 To see how `Reaptcha` actually works, visit the [example page](https://sarneeh.github.io/reaptcha).
 
-If you'd also like to see the code for the example, it is right [here](https://github.com/sarneeh/reaptcha/tree/master/example/src).
+If you'd also like to see the code for the example, it is
+right [here](https://github.com/sarneeh/reaptcha/tree/master/example/src).
 
 ### Default - Automatic render
 
@@ -94,9 +101,11 @@ class MyForm extends Component {
 
 ### Explicit render
 
-In order to render `Reaptcha` explicitly, you need to pass the `explicit` prop, store the reference to the instance and call the `renderExplicitly` function manually.
+In order to render `Reaptcha` explicitly, you need to pass the `explicit` prop, store the reference to the instance and
+call the `renderExplicitly` function manually.
 
-**Caution!** In order to prevent race-conditions, make sure you render the reCAPTCHA after the script successfuly loads. To do that, pass a function the the `onLoad` prop where you'll get informed that everything is ready to render.
+**Caution!** In order to prevent race-conditions, make sure you render the reCAPTCHA after the script successfuly loads.
+To do that, pass a function the the `onLoad` prop where you'll get informed that everything is ready to render.
 
 Here's an example:
 
@@ -149,9 +158,12 @@ class MyForm extends Component {
 
 ### Invisible
 
-When you want to have an invisible reCAPTCHA, you'll have to `execute` it manually (as user won't have any possibility to do it). This can be done similarly to explicit rendering - saving the reference to the `Reaptcha` instance and call the `execute` method on it.
+When you want to have an invisible reCAPTCHA, you'll have to `execute` it manually (as user won't have any possibility
+to do it). This can be done similarly to explicit rendering - saving the reference to the `Reaptcha` instance and call
+the `execute` method on it.
 
-Additionally, invisible reCAPTCHA can be of course also rendered automatically or explicitly - this is your choice and the reference how to do it is right above.
+Additionally, invisible reCAPTCHA can be of course also rendered automatically or explicitly - this is your choice and
+the reference how to do it is right above.
 
 ```js
 import React, { Fragment, Component } from 'react';
@@ -208,7 +220,8 @@ You can also manually reset your reCAPTCHA instance. It's similar to executing i
 
 ### Instance methods
 
-It's known that calling methods of a React component class is a really bad practice, but as we're doing something uncommon to typical React components - it's the only method that popped in that actually is intuitive and React-ish.
+It's known that calling methods of a React component class is a really bad practice, but as we're doing something
+uncommon to typical React components - it's the only method that popped in that actually is intuitive and React-ish.
 
 So to get access to the methods, just save the reference to the component instance:
 
@@ -249,7 +262,8 @@ When passing `children` render prop, you are responsible for rendering `recaptch
 
 ## Customisation
 
-`Reaptcha` allows to customize your reCAPTCHA instances with any available properties documented in the reCAPTCHA docs for all of the types:
+`Reaptcha` allows to customize your reCAPTCHA instances with any available properties documented in the reCAPTCHA docs
+for all of the types:
 
 - [I'm a robot](https://developers.google.com/recaptcha/docs/display#render_param)
 - [Invisible](https://developers.google.com/recaptcha/docs/invisible#render_param)
@@ -278,11 +292,15 @@ When passing `children` render prop, you are responsible for rendering `recaptch
 
 ### Array.from
 
-This library is using `Array.from` which is [not supported by few browsers](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Array/from) i.e. Internet Explorer or Opera. If you want to use `reaptcha` and keep supporting these browsers, you need to use a polyfill for it.
+This library is using `Array.from` which
+is [not supported by few browsers](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Array/from)
+i.e. Internet Explorer or Opera. If you want to use `reaptcha` and keep supporting these browsers, you need to use a
+polyfill for it.
 
 ### Size-specific props
 
-There are props that are size-specific and some of the props are **not available** for all of the sizes. Although if you will pass these props nothing bad will happen, they will just be ignored.
+There are props that are size-specific and some of the props are **not available** for all of the sizes. Although if you
+will pass these props nothing bad will happen, they will just be ignored.
 
 The size-exclusive props are:
 
