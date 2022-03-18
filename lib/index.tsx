@@ -198,10 +198,6 @@ class Reaptcha extends Component<Props, State> {
 
   componentWillUnmount = (): void => {
     this._stopTimer();
-
-    if (this.state.rendered) {
-      this._resetRecaptcha();
-    }
   };
 
   renderExplicitly = (): Promise<void> => {
