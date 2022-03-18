@@ -68,7 +68,7 @@ By default `Reaptcha` injects the reCAPTCHA script into your `head` DOM element 
 
 Here's a quick example how can you use `Reaptcha` to verify your form submission:
 
-```js
+```jsx
 import React, { Component } from 'react';
 import Reaptcha from 'reaptcha';
 
@@ -109,7 +109,7 @@ To do that, pass a function the the `onLoad` prop where you'll get informed that
 
 Here's an example:
 
-```js
+```jsx
 import React, { Fragment, Component } from 'react';
 import Reaptcha from 'reaptcha';
 
@@ -165,7 +165,7 @@ the `execute` method on it.
 Additionally, invisible reCAPTCHA can be of course also rendered automatically or explicitly - this is your choice and
 the reference how to do it is right above.
 
-```js
+```jsx
 import React, { Fragment, Component } from 'react';
 import Reaptcha from 'reaptcha';
 
@@ -205,7 +205,7 @@ class MyForm extends Component {
 
 You can also manually reset your reCAPTCHA instance. It's similar to executing it:
 
-```js
+```jsx
 <Fragment>
   <Reaptcha
     ref={e => (this.captcha = e)}
@@ -225,7 +225,7 @@ uncommon to typical React components - it's the only method that popped in that 
 
 So to get access to the methods, just save the reference to the component instance:
 
-```js
+```jsx
 <Reaptcha ref={e => (this.captcha = e)} />
 ```
 
@@ -244,7 +244,7 @@ Available and usable `Reaptcha` instance methods:
 
 Using instance methods can be avoided by passing `children` render function.
 
-```js
+```jsx
 <Reaptcha>
   {({ renderExplicitly, reset, execute, recaptchaComponent }) => {
     return (
