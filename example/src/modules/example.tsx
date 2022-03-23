@@ -68,8 +68,6 @@ const Example = ({ config }: Props) => {
   };
 
   const onVerify = (invisible: boolean) => (token: string) => {
-    console.log({ name });
-
     dispatch({
       type: 'UPDATE',
       value: {
@@ -137,7 +135,6 @@ const Example = ({ config }: Props) => {
   };
 
   useEffect(() => {
-    console.log(config);
     if (config.render === 'explicit') {
       dispatch({ type: 'RESET' });
     }
