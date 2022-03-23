@@ -1,5 +1,16 @@
 # Change Log
 
+## 1.11.0
+
+### Minor Changes
+
+- 9be85f7: rewrite example component to be a functional component
+
+### Patch Changes
+
+- Updated dependencies [9be85f7]
+  - reaptcha@1.11.0
+
 ## 1.10.0
 
 ### Minor Changes

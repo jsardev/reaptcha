@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.11.0
+
+### Minor Changes
+
+- 9be85f7: fix a problem where local functional state could not be used inside `Reaptcha` callback methods
+
 ## 1.10.1
 
 ### Patch Changes
