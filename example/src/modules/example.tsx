@@ -1,4 +1,11 @@
-import React, { Component, Fragment, SyntheticEvent } from 'react';
+import React, {
+  Fragment,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useReducer,
+  useState
+} from 'react';
 import Reaptcha, { Props as ReaptchaProps } from 'reaptcha';
 
 import { getSiteKey } from '../config';
@@ -34,164 +41,187 @@ const initialState = {
   executing: false
 };
 
-const CONFIG_KEYS_THAT_SHOULD_RESET_STATE: Array<keyof Config> = [
-  'size',
-  'theme'
-];
+type Action = { type: 'RESET' } | { type: 'UPDATE'; value: Partial<State> };
 
-export default class Example extends Component<Props, State> {
-  captcha?: Reaptcha | null;
+const exampleReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'RESET':
+      return { ...initialState, loaded: true };
+    case 'UPDATE':
+      return { ...state, ...action.value };
+    default:
+      return state;
+  }
+};
 
-  state = initialState;
+const Example = ({ config }: Props) => {
+  const captcha = useRef<Reaptcha>(null);
+  const [state, dispatch] = useReducer(exampleReducer, initialState);
+  const [name, setName] = useState('');
 
-  onLoad = () => this.setState({ loaded: true });
+  const onLoad = () => {
+    dispatch({ type: 'UPDATE', value: { loaded: true } });
+  };
 
-  onRender = () => this.setState({ rendered: true });
+  const onRender = () => {
+    dispatch({ type: 'UPDATE', value: { rendered: true } });
+  };
 
-  onVerify = (invisible: boolean) => (token: string) => {
-    this.setState({ token, verified: true, executed: true });
+  const onVerify = (invisible: boolean) => (token: string) => {
+    console.log({ name });
+
+    dispatch({
+      type: 'UPDATE',
+      value: {
+        token,
+        verified: true,
+        executed: true
+      }
+    });
+
     if (invisible) {
-      this.setState({ executing: false, executed: true });
+      dispatch({
+        type: 'UPDATE',
+        value: {
+          executing: false,
+          executed: true
+        }
+      });
     }
   };
 
-  onExpire = (invisible: boolean) => () => {
-    this.setState({ verified: false });
+  const onExpire = (invisible: boolean) => () => {
+    dispatch({ type: 'UPDATE', value: { verified: false } });
+
     if (invisible) {
-      this.setState({ executed: true });
+      dispatch({ type: 'UPDATE', value: { executed: true } });
     }
   };
 
-  renderRecaptcha = () => {
-    if (this.captcha) {
-      this.captcha.renderExplicitly();
-    }
-    this.setState({ rendered: true });
+  const renderRecaptcha = () => {
+    captcha.current?.renderExplicitly();
+    dispatch({ type: 'UPDATE', value: { rendered: true } });
   };
 
-  executeRecaptcha = () => {
-    this.setState({ executing: true });
-    if (this.captcha) {
-      this.captcha.execute();
-    }
+  const executeRecaptcha = () => {
+    dispatch({ type: 'UPDATE', value: { executing: true } });
+    captcha.current?.execute();
   };
 
-  resetRecaptcha = () => {
-    if (this.captcha) {
-      this.captcha.reset();
-      this.setState({
+  const resetRecaptcha = () => {
+    captcha.current?.reset();
+    dispatch({
+      type: 'UPDATE',
+      value: {
         verified: false,
         executed: false
-      });
-    }
+      }
+    });
   };
 
-  getResponseRecaptcha = () => {
-    if (this.captcha) {
-      this.captcha.getResponse().then(response => {
-        alert(response);
-      });
-    }
+  const getResponseRecaptcha = () => {
+    captcha.current?.getResponse().then(response => {
+      alert(response);
+    });
   };
 
-  submitForm = (invisible: boolean) => (e: SyntheticEvent<HTMLFormElement>) => {
+  const submitForm = (invisible: boolean) => (
+    e: SyntheticEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     if (invisible) {
-      this.executeRecaptcha();
+      executeRecaptcha();
     } else {
-      this.setState({ executed: true });
+      dispatch({ type: 'UPDATE', value: { executed: false } });
     }
   };
 
-  componentDidUpdate(prevProps: Props) {
-    const configDidChange = CONFIG_KEYS_THAT_SHOULD_RESET_STATE.some(
-      key => this.props.config[key] !== prevProps.config[key]
-    );
-
-    if (
-      (this.props.config.render === 'explicit' && configDidChange) ||
-      this.props.config.render !== prevProps.config.render
-    ) {
-      this.setState({ ...initialState, loaded: true });
+  useEffect(() => {
+    console.log(config);
+    if (config.render === 'explicit') {
+      dispatch({ type: 'RESET' });
     }
-  }
+  }, [config.render, config.size, config.theme]);
 
-  render() {
-    const { render, size, theme } = this.props.config;
-    const { loaded, rendered, verified, executed, executing } = this.state;
+  const { render, size, theme } = config;
+  const explicit = render === 'explicit';
+  const invisible = size === 'invisible';
+  const sitekey = getSiteKey(invisible);
 
-    const explicit = render === 'explicit';
-    const invisible = size === 'invisible';
-    const sitekey = getSiteKey(invisible);
-
-    return (
-      <Fragment>
-        <H2 mb>Example</H2>
-        <Container inline mb>
-          <div>reCAPTCHA status:</div>
-          <Container inline>
-            <Status active={loaded}>Loaded</Status>
-            <Status active={rendered}>Rendered</Status>
-            <Status active={verified}>Verified</Status>
-          </Container>
+  return (
+    <Fragment>
+      <H2 mb>Example</H2>
+      <input value={name} onChange={e => setName(e.target.value)} />
+      <Container inline mb>
+        <div>reCAPTCHA status:</div>
+        <Container inline>
+          <Status active={state.loaded}>Loaded</Status>
+          <Status active={state.rendered}>Rendered</Status>
+          <Status active={state.verified}>Verified</Status>
         </Container>
-        <form onSubmit={this.submitForm(invisible)}>
-          <Container mb>
-            <Reaptcha
-              key={render}
-              ref={e => (this.captcha = e)}
-              sitekey={sitekey}
-              size={size}
-              theme={theme}
-              explicit={explicit}
-              onLoad={this.onLoad}
-              onRender={this.onRender}
-              onVerify={this.onVerify(invisible)}
-              onExpire={this.onExpire(invisible)}
-            />
-          </Container>
-          <Container inline gap>
-            {explicit && (
-              <Button
-                onClick={this.renderRecaptcha}
-                disabled={!loaded || rendered}
-                submitted={rendered}
-              >
-                {rendered ? 'Rendered' : 'Render'}
-              </Button>
-            )}
-            {invisible && (
-              <Button
-                type="submit"
-                disabled={
-                  (!verified && !invisible) ||
-                  executing ||
-                  executed ||
-                  !rendered
-                }
-                executing={executing}
-                submitted={executed}
-              >
-                {executed ? 'Verified' : executing ? 'Verifying' : 'Verify'}
-              </Button>
-            )}
+      </Container>
+      <form onSubmit={submitForm(invisible)}>
+        <Container mb>
+          <Reaptcha
+            key={render}
+            ref={captcha}
+            sitekey={sitekey}
+            size={size}
+            theme={theme}
+            explicit={explicit}
+            onLoad={onLoad}
+            onRender={onRender}
+            onVerify={onVerify(invisible)}
+            onExpire={onExpire(invisible)}
+          />
+        </Container>
+        <Container inline gap>
+          {explicit && (
             <Button
-              type="button"
-              onClick={this.resetRecaptcha}
-              disabled={!verified}
+              onClick={renderRecaptcha}
+              disabled={!state.loaded || state.rendered}
+              submitted={state.rendered}
             >
-              Reset
+              {state.rendered ? 'Rendered' : 'Render'}
             </Button>
+          )}
+          {invisible && (
             <Button
-              type="button"
-              onClick={this.getResponseRecaptcha}
-              disabled={!verified}
+              type="submit"
+              disabled={
+                (!state.verified && !invisible) ||
+                state.executing ||
+                state.executed ||
+                !state.rendered
+              }
+              executing={state.executing}
+              submitted={state.executed}
             >
-              Get Response
+              {state.executed
+                ? 'Verified'
+                : state.executing
+                ? 'Verifying'
+                : 'Verify'}
             </Button>
-          </Container>
-        </form>
-      </Fragment>
-    );
-  }
-}
+          )}
+          <Button
+            type="button"
+            onClick={resetRecaptcha}
+            disabled={!state.verified}
+          >
+            Reset
+          </Button>
+          <Button
+            type="button"
+            onClick={getResponseRecaptcha}
+            disabled={!state.verified}
+          >
+            Get Response
+          </Button>
+        </Container>
+      </form>
+    </Fragment>
+  );
+};
+
+export default Example;
