@@ -149,6 +149,12 @@ class Reaptcha extends Component<Props, State> {
     // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
     window.grecaptcha.getResponse(this.state.instanceId);
 
+  _onVerify = (response: string) => this.props.onVerify(response);
+
+  _onExpire = () => this.props.onExpire && this.props.onExpire();
+
+  _onError = () => this.props.onError && this.props.onError();
+
   _stopTimer = (): void => {
     if (this.state.timer) {
       clearInterval(this.state.timer);
@@ -214,9 +220,9 @@ class Reaptcha extends Component<Props, State> {
           size: this.props.size,
           badge: this.state.invisible ? this.props.badge : undefined,
           tabindex: this.props.tabindex,
-          callback: this.props.onVerify,
-          'expired-callback': this.props.onExpire,
-          'error-callback': this.props.onError,
+          callback: this._onVerify,
+          'expired-callback': this._onExpire,
+          'error-callback': this._onError,
           isolated: this.state.invisible ? this.props.isolated : undefined,
           hl: this.state.invisible ? undefined : this.props.hl
         });
