@@ -111,21 +111,17 @@ test('should execute render prop if passed', t => {
 test('should render recaptcha', t => {
   t.plan(2);
 
-  const onVerify = sinon.stub();
-  const onExpire = sinon.stub();
-  const onError = sinon.stub();
-
-  mount<Reaptcha>(
+  const wrapper = mount<Reaptcha>(
     <Reaptcha
+      {...defaultProps}
       sitekey="my-key"
       theme="dark"
       size="normal"
       tabindex={2}
-      onVerify={onVerify}
-      onExpire={onExpire}
-      onError={onError}
     />
   );
+
+  const instance = wrapper.instance();
 
   t.true(renderSpy.calledOnce);
   t.true(
@@ -135,9 +131,9 @@ test('should render recaptcha', t => {
       size: 'normal',
       badge: undefined,
       tabindex: 2,
-      callback: onVerify,
-      'expired-callback': onExpire,
-      'error-callback': onError,
+      callback: instance._onVerify,
+      'expired-callback': instance._onExpire,
+      'error-callback': instance._onError,
       isolated: undefined,
       hl: ''
     })
@@ -171,23 +167,19 @@ test('should render recaptcha on delayed grecaptcha load', t => {
 test('should render invisible recaptcha', t => {
   t.plan(2);
 
-  const onVerify = sinon.stub();
-  const onExpire = sinon.stub();
-  const onError = sinon.stub();
-
-  mount<Reaptcha>(
+  const wrapper = mount<Reaptcha>(
     <Reaptcha
+      {...defaultProps}
       sitekey="my-key"
       badge="bottomleft"
       size="invisible"
       tabindex={3}
-      onVerify={onVerify}
-      onExpire={onExpire}
-      onError={onError}
       explicit={false}
       isolated
     />
   );
+
+  const instance = wrapper.instance();
 
   t.true(renderSpy.calledOnce);
   t.true(
@@ -197,9 +189,9 @@ test('should render invisible recaptcha', t => {
       size: 'invisible',
       badge: 'bottomleft',
       tabindex: 3,
-      callback: onVerify,
-      'expired-callback': onExpire,
-      'error-callback': onError,
+      callback: instance._onVerify,
+      'expired-callback': instance._onExpire,
+      'error-callback': instance._onError,
       isolated: true,
       hl: undefined
     })
@@ -209,24 +201,20 @@ test('should render invisible recaptcha', t => {
 test('should render invisible recaptcha in dark mode', t => {
   t.plan(2);
 
-  const onVerify = sinon.stub();
-  const onExpire = sinon.stub();
-  const onError = sinon.stub();
-
-  mount<Reaptcha>(
+  const wrapper = mount<Reaptcha>(
     <Reaptcha
+      {...defaultProps}
       sitekey="my-key"
       badge="bottomleft"
       size="invisible"
       theme="dark"
       tabindex={3}
-      onVerify={onVerify}
-      onExpire={onExpire}
-      onError={onError}
       explicit={false}
       isolated
     />
   );
+
+  const instance = wrapper.instance();
 
   t.true(renderSpy.calledOnce);
   t.true(
@@ -236,9 +224,9 @@ test('should render invisible recaptcha in dark mode', t => {
       size: 'invisible',
       badge: 'bottomleft',
       tabindex: 3,
-      callback: onVerify,
-      'expired-callback': onExpire,
-      'error-callback': onError,
+      callback: instance._onVerify,
+      'expired-callback': instance._onExpire,
+      'error-callback': instance._onError,
       isolated: true,
       hl: undefined
     })
@@ -432,6 +420,46 @@ test('should call onRender', t => {
   mount<Reaptcha>(<Reaptcha {...defaultProps} onRender={onRender} />);
 
   t.true(onRender.calledOnce);
+});
+
+test('should call onVerify', t => {
+  t.plan(2);
+
+  const onVerify = sinon.spy();
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} onVerify={onVerify} />
+  );
+
+  wrapper.instance()._onVerify('response');
+
+  t.true(onVerify.calledOnce);
+  t.true(onVerify.calledWith('response'));
+});
+
+test('should call onExpire', t => {
+  t.plan(1);
+
+  const onExpire = sinon.spy();
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} onExpire={onExpire} />
+  );
+
+  wrapper.instance()._onExpire();
+
+  t.true(onExpire.calledOnce);
+});
+
+test('should call onError', t => {
+  t.plan(1);
+
+  const onError = sinon.spy();
+  const wrapper = mount<Reaptcha>(
+    <Reaptcha {...defaultProps} onError={onError} />
+  );
+
+  wrapper.instance()._onError();
+
+  t.true(onError.calledOnce);
 });
 
 test('should throw error on double render', t => {
