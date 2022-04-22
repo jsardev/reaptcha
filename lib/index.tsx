@@ -51,7 +51,7 @@ export type Props = RecaptchaBaseConfig & {
   onExpire?: () => void;
   onError?: () => void;
   inject?: boolean;
-  children?: (renderProps: RenderProps) => Node;
+  children?: (renderProps: RenderProps) => React.ReactNode;
 };
 
 type State = {
