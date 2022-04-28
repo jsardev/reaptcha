@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.12.0
+
+### Minor Changes
+
+- 2e1033b: support react@^18
+
 ## 1.11.0
 
 ### Minor Changes
