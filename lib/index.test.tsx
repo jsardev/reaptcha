@@ -5,7 +5,7 @@ import test from 'ava';
 import sinon from 'sinon';
 import jsdom from 'jsdom-global';
 import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 import Reaptcha, { Grecaptcha, Props } from './index';
 
