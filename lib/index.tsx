@@ -60,7 +60,6 @@ type State = {
   ready: boolean;
   rendered: boolean;
   invisible: boolean;
-  timer?: number;
 };
 
 const RECAPTCHA_SCRIPT_URL = 'https://recaptcha.net/recaptcha/api.js';
@@ -78,6 +77,7 @@ const PROPS_THAT_SHOULD_CAUSE_RERENDER: Array<keyof RecaptchaBaseConfig> = [
 
 class Reaptcha extends Component<Props, State> {
   container?: HTMLDivElement | null;
+  timer?: number | undefined;
 
   state: State = {
     instanceKey: Date.now(),
@@ -156,8 +156,8 @@ class Reaptcha extends Component<Props, State> {
   _onError = () => this.props.onError && this.props.onError();
 
   _stopTimer = (): void => {
-    if (this.state.timer) {
-      clearInterval(this.state.timer);
+    if (this.timer) {
+      clearInterval(this.timer);
     }
   };
 
@@ -167,13 +167,12 @@ class Reaptcha extends Component<Props, State> {
     if (this._isAvailable()) {
       this._prepare();
     } else {
-      const timer = window.setInterval(() => {
+      this.timer = window.setInterval(() => {
         if (this._isAvailable()) {
           this._prepare();
           this._stopTimer();
         }
       }, 500);
-      this.setState({ timer });
     }
   };
 
