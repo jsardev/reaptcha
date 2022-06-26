@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.12.1
+
+### Patch Changes
+
+- 251fb14: support StrictMode in react@18
+
 ## 1.12.0
 
 ### Minor Changes

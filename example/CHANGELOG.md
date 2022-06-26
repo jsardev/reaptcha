@@ -1,5 +1,16 @@
 # Change Log
 
+## 1.12.0
+
+### Minor Changes
+
+- 251fb14: Use react@18 and enable StrictMode
+
+### Patch Changes
+
+- Updated dependencies [251fb14]
+  - reaptcha@1.12.1
+
 ## 1.11.0
 
 ### Minor Changes

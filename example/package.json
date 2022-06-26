@@ -1,6 +1,6 @@
 {
   "name": "reaptcha-example",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.prod.js",
@@ -10,7 +10,7 @@
     "formik": "^1.1.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "reaptcha": "^1.12.0",
+    "reaptcha": "^1.12.1",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
