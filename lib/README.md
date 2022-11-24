@@ -314,3 +314,9 @@ If you want to attach the reCAPTCHA script manually to the DOM, simply pass the 
 `<Reaptcha {...props} inject={false} />`
 
 This way `Reaptcha` won't inject the scripts by itself and won't break because of multiple reCAPTCHA scripts attached.
+
+## Donate
+
+If you want to support my work, feel free to... buy me a pizza :)
+
+[![Donate](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20pizza&emoji=🍕&slug=jsarnowski&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/jsarnowski)
