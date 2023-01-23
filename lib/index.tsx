@@ -65,6 +65,8 @@ type State = {
 const RECAPTCHA_SCRIPT_URL = 'https://recaptcha.net/recaptcha/api.js';
 const RECAPTCHA_SCRIPT_REGEX = /(http|https):\/\/(www)?.+\/recaptcha/;
 
+let lastInstanceId = 0;
+
 const PROPS_THAT_SHOULD_CAUSE_RERENDER: Array<keyof RecaptchaBaseConfig> = [
   'sitekey',
   'theme',
@@ -135,8 +137,17 @@ class Reaptcha extends Component<Props, State> {
   _renderRecaptcha = (
     container: HTMLDivElement,
     config: RecaptchaConfig
-    // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
-  ): number => window.grecaptcha.render(container, config);
+  ): number => {
+    try {
+      // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
+      const instanceId = window.grecaptcha.render(container, config);
+      lastInstanceId = instanceId;
+      return instanceId;
+    } catch (error) {
+      // console.error(error)
+      return lastInstanceId;
+    }
+  };
 
   // @ts-expect-error: Unreachable code error. We ensure window.grecaptcha is available before executing this method.
   _resetRecaptcha = (): void => window.grecaptcha.reset(this.state.instanceId);
@@ -194,7 +205,11 @@ class Reaptcha extends Component<Props, State> {
         },
         () => {
           if (!this.props.explicit) {
-            this.renderExplicitly();
+            try {
+              this.renderExplicitly();
+            } catch (error) {
+              console.log('This recaptcha instance has been already rendered.');
+            }
           }
         }
       );
@@ -208,8 +223,8 @@ class Reaptcha extends Component<Props, State> {
   renderExplicitly = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (this.state.rendered) {
-        return reject(
-          new Error('This recaptcha instance has been already rendered.')
+        return console.log(
+          'This recaptcha instance has been already rendered.'
         );
       }
       if (this.state.ready && this.container) {

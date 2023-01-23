@@ -1,6 +1,6 @@
 {
-  "name": "reaptcha",
-  "version": "1.12.1",
+  "name": "@cow258/reaptcha",
+  "version": "1.12.4",
   "description": "Google reCAPTCHA for React",
   "repository": {
     "type": "git",
