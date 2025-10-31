@@ -4,3 +4,5 @@ node_modules/
 coverage/
 *.log
 *.d.ts
+.idea/
+package-lock.json
