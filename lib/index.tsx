@@ -285,7 +285,9 @@ class Reaptcha extends Component<Props, State> {
         key={this.state.instanceKey}
         id={this.props.id}
         className={this.props.className}
-        ref={e => (this.container = e)}
+        ref={e => {
+          this.container = e;
+        }}
       />
     );
 
