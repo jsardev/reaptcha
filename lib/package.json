@@ -22,7 +22,7 @@
     "build": "rimraf dist && microbundle --jsx React.createElement"
   },
   "peerDependencies": {
-    "react": "^16 || ^17 || ^18"
+    "react": "^16 || ^17 || ^18 || ^19"
   },
   "devDependencies": {
     "microbundle": "^0.14.2",
