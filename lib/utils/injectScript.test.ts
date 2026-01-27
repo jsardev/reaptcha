@@ -1,41 +1,35 @@
-/* eslint-disable no-global-assign */
-
-import test from 'ava';
-import sinon from 'sinon';
-import jsdom from 'jsdom-global';
-
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import injectScript from './injectScript';
+import { createMockDocumentHead } from '../test/dom';
 
-jsdom();
+describe('injectScript', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
 
-test.serial('should inject script', t => {
-  const scriptObj = {} as HTMLScriptElement;
+  it('should inject script', () => {
+    const scriptObj = {} as HTMLScriptElement;
+    const appendChildSpy = vi.fn();
 
-  const appendChildSpy = sinon.spy();
-  const createElementStub = sinon
-    .stub()
-    .withArgs('script')
-    .returns(scriptObj);
+    vi.spyOn(document, 'createElement').mockReturnValue(scriptObj);
+    vi.spyOn(document.head, 'appendChild').mockImplementation(appendChildSpy);
 
-  sinon.stub(document, 'createElement').get(() => createElementStub);
-  sinon.stub(document.head, 'appendChild').get(() => appendChildSpy);
+    injectScript('src');
 
-  injectScript('src');
+    expect(scriptObj.async).toBe(true);
+    expect(scriptObj.defer).toBe(true);
+    expect(scriptObj.src).toBe('src');
+    expect(appendChildSpy).toHaveBeenCalledWith(scriptObj);
+  });
 
-  t.true(scriptObj.async);
-  t.true(scriptObj.async);
-  t.is(scriptObj.src, 'src');
-  t.true(appendChildSpy.calledOnceWith(scriptObj));
-});
+  it('should not throw when document head not present', () => {
+    const createElementStub = vi.fn().mockReturnValue({});
 
-test.serial('should not throw when document head not present', t => {
-  const createElementStub = sinon
-    .stub()
-    .withArgs('script')
-    .returns({});
+    vi.spyOn(document, 'createElement').mockImplementation(createElementStub);
+    vi.spyOn(document, 'head', 'get').mockReturnValue(
+      createMockDocumentHead(null)
+    );
 
-  sinon.stub(document, 'createElement').get(() => createElementStub);
-  sinon.stub(document, 'head').get(() => null);
-
-  t.notThrows(() => injectScript('src'));
+    expect(() => injectScript('src')).not.toThrow();
+  });
 });

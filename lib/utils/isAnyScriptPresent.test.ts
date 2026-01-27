@@ -1,23 +1,23 @@
-import test from 'ava';
-import sinon from 'sinon';
-import jsdom from 'jsdom-global';
-
+import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import isAnyScriptPresent from './isAnyScriptPresent';
+import { createMockScript, createMockScriptCollection } from '../test/dom';
 
-jsdom();
+describe('isAnyScriptPresent', () => {
+  beforeAll(() => {
+    vi.spyOn(document, 'scripts', 'get').mockReturnValue(
+      createMockScriptCollection([
+        createMockScript('https://first.url?render=explicit'),
+        createMockScript('https://second.url?hl=en'),
+        createMockScript('https://third.url?hl=en')
+      ])
+    );
+  });
 
-sinon
-  .stub(document, 'scripts')
-  .get(() => [
-    { src: 'https://first.url?render=explicit' },
-    { src: 'https://second.url?hl=en' },
-    { src: 'https://third.url?hl=en' }
-  ]);
+  it('should return true', () => {
+    expect(isAnyScriptPresent(/https:\/\/second.url.*/)).toBe(true);
+  });
 
-test('should return true', t => {
-  t.true(isAnyScriptPresent(/https:\/\/second.url.*/));
-});
-
-test('should return false', t => {
-  t.false(isAnyScriptPresent(/https:\/\/unknown.url.*/));
+  it('should return false', () => {
+    expect(isAnyScriptPresent(/https:\/\/unknown.url.*/)).toBe(false);
+  });
 });

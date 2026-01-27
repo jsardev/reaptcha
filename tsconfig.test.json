@@ -3,6 +3,7 @@
   "compilerOptions": {
     "target": "es2015",
     "module": "commonjs",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": ["vitest/globals", "vitest/jsdom"]
   }
 }
