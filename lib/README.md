@@ -1,9 +1,9 @@
 ![Reaptcha](https://i.imgur.com/44zEjD5.png)
 
 [![Latest npm version](https://img.shields.io/npm/v/reaptcha/latest.svg)](https://www.npmjs.com/package/reaptcha)
-[![GitHub license](https://img.shields.io/github/license/sarneeh/reaptcha.svg)](https://github.com/sarneeh/reaptcha)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sarneeh/reaptcha/push)](https://github.com/sarneeh/reaptcha/actions/workflows/push.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/sarneeh/reaptcha?token=b3FQAJsTGL)](https://codecov.io/gh/sarneeh/reaptcha)
+[![GitHub license](https://img.shields.io/github/license/jsardev/reaptcha.svg)](https://github.com/jsardev/reaptcha)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jsardev/reaptcha/push)](https://github.com/jsardev/reaptcha/actions/workflows/push.yml)
+[![Codecov](https://img.shields.io/codecov/c/github/jsardev/reaptcha?token=b3FQAJsTGL)](https://codecov.io/gh/jsardev/reaptcha)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Minified package size](https://img.shields.io/bundlephobia/min/reaptcha.svg)]()
@@ -13,7 +13,7 @@ A clean, modern and simple React wrapper for [Google reCAPTCHA](https://develope
 
 ## Demo
 
-https://sarneeh.github.io/reaptcha/
+https://jsardev.github.io/reaptcha/
 
 ## Motivation
 
@@ -57,10 +57,10 @@ First of all, you'll need a reCAPTCHA API key. To find out how to get it
 
 - [check this guide](https://developers.google.com/recaptcha/intro).
 
-To see how `Reaptcha` actually works, visit the [example page](https://sarneeh.github.io/reaptcha).
+To see how `Reaptcha` actually works, visit the [example page](https://jsardev.github.io/reaptcha).
 
 If you'd also like to see the code for the example, it is
-right [here](https://github.com/sarneeh/reaptcha/tree/master/example/src).
+right [here](https://github.com/jsardev/reaptcha/tree/master/example/src).
 
 ### Default - Automatic render
 
