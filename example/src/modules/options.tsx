@@ -24,6 +24,7 @@ const Options = (props: Props) => (
     render={() => (
       <Fragment>
         <H2 mb>Configuration</H2>
+        {/* @ts-expect-error -- https://github.com/jsardev/reaptcha/issues/272 */}
         <Form
           onChange={e => {
             const target = e.target as HTMLInputElement;

@@ -42,8 +42,10 @@ class App extends Component<Record<string, never>, State> {
 
   render() {
     return (
+      // @ts-expect-error -- https://github.com/jsardev/reaptcha/issues/272
       <ThemeProvider theme={theme}>
         <Fragment>
+          {/* @ts-expect-error -- https://github.com/jsardev/reaptcha/issues/272 */}
           <GlobalStyle />
           <Section blue>
             <Container page>

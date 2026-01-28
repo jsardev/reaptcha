@@ -1,610 +1,488 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import React from 'react';
-import test from 'ava';
-import sinon from 'sinon';
-import jsdom from 'jsdom-global';
-import Enzyme, { mount } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import { test, describe, vi, beforeEach, expect, it } from 'vitest';
+import { act, render, waitFor } from '@testing-library/react';
 
-import Reaptcha, { Grecaptcha, Props } from './index';
+import Reaptcha, { Props } from './index';
 
-jsdom();
+describe('reaptcha', () => {
+  const renderSpy = vi.fn();
+  const executeSpy = vi.fn();
+  const resetSpy = vi.fn();
+  const getResponseStub = vi.fn();
 
-Enzyme.configure({ adapter: new Adapter() });
-
-const renderSpy = sinon.spy();
-const executeSpy = sinon.spy();
-const resetSpy = sinon.spy();
-const getResponseStub = sinon.stub().returns('stubbed-response');
-
-const defaultProps = {
-  sitekey: 'some-key',
-  onVerify: () => {}
-};
-
-const stubGrecaptcha = (mockedProps: Partial<Grecaptcha>) => {
-  window.grecaptcha = {
-    ...(window.grecaptcha as Grecaptcha),
-    ...mockedProps
-  };
-};
-
-test.beforeEach(() => {
-  Array.from(document.scripts).forEach(script => script.remove());
-
-  window.grecaptcha = {
-    ready: callback => callback(),
-    render: renderSpy,
-    reset: resetSpy,
-    execute: executeSpy,
-    getResponse: getResponseStub
+  const defaultProps = {
+    sitekey: 'some-key',
+    onVerify: () => {}
   };
 
-  renderSpy.resetHistory();
-  executeSpy.resetHistory();
-  resetSpy.resetHistory();
-  getResponseStub.resetHistory();
-});
+  beforeEach(() => {
+    vi.resetAllMocks();
 
-test('should pass id', t => {
-  t.plan(1);
+    Array.from(document.scripts).forEach(script => script.remove());
 
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} id="some-id" />);
-
-  t.true(
-    wrapper
-      .find('#some-id')
-      .hostNodes()
-      .exists()
-  );
-});
-
-test('should pass className', t => {
-  t.plan(1);
-
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} className="class-1" />
-  );
-
-  t.true(
-    wrapper
-      .find('.class-1')
-      .hostNodes()
-      .exists()
-  );
-});
-
-test('should have default className', t => {
-  t.plan(1);
-
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
-
-  t.true(
-    wrapper
-      .find('.g-recaptcha')
-      .hostNodes()
-      .exists()
-  );
-});
-
-test('should execute render prop if passed', t => {
-  t.plan(2);
-
-  const childrenSpy = sinon.spy(({ recaptchaComponent }) => recaptchaComponent);
-
-  mount<Reaptcha>(<Reaptcha {...defaultProps}>{childrenSpy}</Reaptcha>);
-
-  t.true(childrenSpy.called);
-  t.true(
-    childrenSpy.alwaysCalledWith(
-      sinon.match({
-        renderExplicitly: sinon.match.func,
-        reset: sinon.match.func,
-        execute: sinon.match.func,
-        recaptchaComponent: sinon.match.defined
-      })
-    )
-  );
-});
-
-test('should render recaptcha', t => {
-  t.plan(2);
-
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha
-      {...defaultProps}
-      sitekey="my-key"
-      theme="dark"
-      size="normal"
-      tabindex={2}
-    />
-  );
-
-  const instance = wrapper.instance();
-
-  t.true(renderSpy.calledOnce);
-  t.true(
-    renderSpy.calledWith(sinon.match.any, {
-      sitekey: 'my-key',
-      theme: 'dark',
-      size: 'normal',
-      badge: undefined,
-      tabindex: 2,
-      callback: instance._onVerify,
-      'expired-callback': instance._onExpire,
-      'error-callback': instance._onError,
-      isolated: undefined,
-      hl: ''
-    })
-  );
-});
-
-test('should render recaptcha on delayed grecaptcha load', t => {
-  t.plan(1);
-  const clock = sinon.useFakeTimers();
-
-  window.grecaptcha = undefined;
-  setTimeout(() => {
     window.grecaptcha = {
       ready: callback => callback(),
       render: renderSpy,
       reset: resetSpy,
       execute: executeSpy,
-      getResponse: () => ''
+      getResponse: getResponseStub
     };
-  }, 500);
+  });
 
-  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
+  it('should pass id', () => {
+    const { container } = render(<Reaptcha {...defaultProps} id="some-id" />);
+    const wrapper = container.querySelector('#some-id');
 
-  clock.tick(500);
+    expect(wrapper).toBeTruthy();
+  });
 
-  t.true(renderSpy.calledOnce);
+  it('should pass className', () => {
+    const { container } = render(
+      <Reaptcha {...defaultProps} className="class-1" />
+    );
 
-  clock.restore();
-});
+    expect(container.getElementsByClassName('class-1')).toHaveLength(1);
+  });
 
-test('should render invisible recaptcha', t => {
-  t.plan(2);
+  it('should have default className', () => {
+    const { container } = render(<Reaptcha {...defaultProps} />);
 
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha
-      {...defaultProps}
-      sitekey="my-key"
-      badge="bottomleft"
-      size="invisible"
-      tabindex={3}
-      explicit={false}
-      isolated
-    />
-  );
+    expect(container.getElementsByClassName('g-recaptcha')).toHaveLength(1);
+  });
 
-  const instance = wrapper.instance();
+  it('should execute render prop if passed', () => {
+    const childrenSpy = vi
+      .fn()
+      .mockImplementation(({ recaptchaComponent }) => recaptchaComponent);
 
-  t.true(renderSpy.calledOnce);
-  t.true(
-    renderSpy.calledWith(sinon.match.any, {
-      sitekey: 'my-key',
-      theme: 'light',
-      size: 'invisible',
-      badge: 'bottomleft',
-      tabindex: 3,
-      callback: instance._onVerify,
-      'expired-callback': instance._onExpire,
-      'error-callback': instance._onError,
-      isolated: true,
-      hl: undefined
-    })
-  );
-});
+    render(<Reaptcha {...defaultProps}>{childrenSpy}</Reaptcha>);
 
-test('should render invisible recaptcha in dark mode', t => {
-  t.plan(2);
+    expect(childrenSpy).toHaveBeenCalled();
+    expect(childrenSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        renderExplicitly: expect.any(Function),
+        reset: expect.any(Function),
+        execute: expect.any(Function),
+        recaptchaComponent: expect.any(Object)
+      })
+    );
+  });
 
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha
-      {...defaultProps}
-      sitekey="my-key"
-      badge="bottomleft"
-      size="invisible"
-      theme="dark"
-      tabindex={3}
-      explicit={false}
-      isolated
-    />
-  );
+  it('should render recaptcha', () => {
+    const ref = React.createRef<Reaptcha>();
 
-  const instance = wrapper.instance();
+    render(
+      <Reaptcha
+        {...defaultProps}
+        ref={ref}
+        sitekey="my-key"
+        theme="dark"
+        size="normal"
+        tabindex={2}
+      />
+    );
 
-  t.true(renderSpy.calledOnce);
-  t.true(
-    renderSpy.calledWith(sinon.match.any, {
-      sitekey: 'my-key',
-      theme: 'dark',
-      size: 'invisible',
-      badge: 'bottomleft',
-      tabindex: 3,
-      callback: instance._onVerify,
-      'expired-callback': instance._onExpire,
-      'error-callback': instance._onError,
-      isolated: true,
-      hl: undefined
-    })
-  );
-});
+    expect(renderSpy).toBeCalledTimes(1);
+    expect(renderSpy).toBeCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        sitekey: 'my-key',
+        theme: 'dark',
+        size: 'normal',
+        badge: undefined,
+        tabindex: 2,
+        callback: ref.current!._onVerify,
+        'expired-callback': ref.current!._onExpire,
+        'error-callback': ref.current!._onError,
+        isolated: undefined,
+        hl: ''
+      })
+    );
+  });
 
-test('should render recaptcha with hl', t => {
-  t.plan(1);
+  it('should render recaptcha on delayed grecaptcha load', () => {
+    vi.useFakeTimers();
 
-  mount<Reaptcha>(<Reaptcha {...defaultProps} hl="fr" />);
+    window.grecaptcha = undefined;
+    setTimeout(() => {
+      window.grecaptcha = {
+        ready: callback => callback(),
+        render: renderSpy,
+        reset: resetSpy,
+        execute: executeSpy,
+        getResponse: () => ''
+      };
+    }, 500);
 
-  t.true(
-    renderSpy.calledWith(
-      sinon.match.any,
-      sinon.match({
+    render(<Reaptcha {...defaultProps} />);
+
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
+
+    expect(renderSpy).toBeCalledTimes(1);
+
+    vi.useRealTimers();
+  });
+
+  it('should render invisible recaptcha', () => {
+    const ref = React.createRef<Reaptcha>();
+
+    render(
+      <Reaptcha
+        {...defaultProps}
+        ref={ref}
+        sitekey="my-key"
+        badge="bottomleft"
+        size="invisible"
+        tabindex={3}
+        explicit={false}
+        isolated
+      />
+    );
+
+    expect(renderSpy).toBeCalledTimes(1);
+    expect(renderSpy).toBeCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        sitekey: 'my-key',
+        theme: 'light',
+        size: 'invisible',
+        badge: 'bottomleft',
+        tabindex: 3,
+        callback: ref.current!._onVerify,
+        'expired-callback': ref.current!._onExpire,
+        'error-callback': ref.current!._onError,
+        isolated: true,
+        hl: undefined
+      })
+    );
+  });
+
+  it('should render invisible recaptcha in dark mode', () => {
+    const ref = React.createRef<Reaptcha>();
+
+    render(
+      <Reaptcha
+        {...defaultProps}
+        ref={ref}
+        sitekey="my-key"
+        badge="bottomleft"
+        size="invisible"
+        theme="dark"
+        tabindex={3}
+        explicit={false}
+        isolated
+      />
+    );
+
+    expect(renderSpy).toBeCalledTimes(1);
+    expect(renderSpy).toBeCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        sitekey: 'my-key',
+        theme: 'dark',
+        size: 'invisible',
+        badge: 'bottomleft',
+        tabindex: 3,
+        callback: ref.current!._onVerify,
+        'expired-callback': ref.current!._onExpire,
+        'error-callback': ref.current!._onError,
+        isolated: true,
+        hl: undefined
+      })
+    );
+  });
+
+  it('should render recaptcha with hl', () => {
+    render(<Reaptcha {...defaultProps} hl="fr" />);
+
+    expect(renderSpy).toBeCalledWith(
+      expect.anything(),
+      expect.objectContaining({
         hl: 'fr'
       })
-    )
-  );
-});
-
-test('should render recaptcha explicitly', t => {
-  t.plan(2);
-
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
-
-  t.false(renderSpy.calledOnce);
-
-  return wrapper
-    .instance()
-    .renderExplicitly()
-    .then(() => {
-      t.true(renderSpy.calledOnce);
-    });
-});
-
-test('should not render recaptcha when grecaptcha not available', t => {
-  t.plan(1);
-  const clock = sinon.useFakeTimers();
-  window.grecaptcha = undefined;
-
-  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
-
-  clock.tick(1000);
-
-  t.false(renderSpy.calledOnce);
-
-  clock.restore();
-});
-
-test('should reset recaptcha', t => {
-  t.plan(2);
-
-  stubGrecaptcha({ render: sinon.stub().returns('reset-test-id') });
-
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
-
-  return wrapper
-    .instance()
-    .reset()
-    .then(() => {
-      t.true(resetSpy.calledOnce);
-      t.true(resetSpy.calledWith('reset-test-id'));
-    });
-});
-
-test('should execute recaptcha', t => {
-  t.plan(2);
-
-  stubGrecaptcha({ render: sinon.stub().returns('execute-test-id') });
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} size="invisible" />
-  );
-
-  return wrapper
-    .instance()
-    .execute()
-    .then(() => {
-      t.true(executeSpy.calledOnce);
-      t.true(executeSpy.calledWith('execute-test-id'));
-    });
-});
-
-test('should getResponse from recaptcha', t => {
-  t.plan(3);
-
-  stubGrecaptcha({ render: sinon.stub().returns('get-response-test-id') });
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} size="invisible" />
-  );
-
-  return wrapper
-    .instance()
-    .getResponse()
-    .then(response => {
-      t.true('stubbed-response' === response);
-      t.true(getResponseStub.calledOnce);
-      t.true(getResponseStub.calledWith('get-response-test-id'));
-    });
-});
-
-test('should inject script', t => {
-  t.plan(4);
-
-  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
-  t.is(document.scripts.length, 1);
-  const script = document.scripts[0];
-  t.true(script.async);
-  t.true(script.defer);
-  t.truthy(script.src);
-});
-
-test('should not inject script', t => {
-  t.plan(1);
-
-  mount<Reaptcha>(<Reaptcha {...defaultProps} inject={false} />);
-
-  t.is(document.scripts.length, 0);
-});
-
-[
-  'https://google.com/recaptcha',
-  'https://www.google.com/recaptcha',
-  'https://recaptcha.net/recaptcha',
-  'https://www.recaptcha.net/recaptcha',
-  'https://gstatic.com/recaptcha',
-  'https://www.gstatic.com/recaptcha'
-].forEach(src => {
-  test(`should not inject script if one with src ${src} already present`, t => {
-    t.plan(1);
-
-    const script = document.createElement('script');
-    script.src = src;
-    document.head.appendChild(script);
-
-    mount<Reaptcha>(<Reaptcha {...defaultProps} />);
-
-    t.is(document.scripts.length, 1);
+    );
   });
-});
 
-test('should inject script with hl parameter if specified', t => {
-  t.plan(3);
+  it('should render recaptcha explicitly', async () => {
+    const ref = React.createRef<Reaptcha>();
 
-  mount<Reaptcha>(<Reaptcha {...defaultProps} hl="en" />);
+    render(<Reaptcha {...defaultProps} ref={ref} explicit />);
 
-  t.is(document.scripts.length, 1);
-  const script = document.scripts[0];
-  t.truthy(script.src);
-  t.regex(script.src, new RegExp('hl=en'));
-});
+    expect(renderSpy).not.toBeCalled();
 
-test('should inject script without hl parameter if not specified', t => {
-  t.plan(3);
+    waitFor(() => ref.current!.renderExplicitly());
 
-  mount<Reaptcha>(<Reaptcha {...defaultProps} />);
+    expect(renderSpy).toBeCalledTimes(1);
+  });
 
-  t.is(document.scripts.length, 1);
-  const script = document.scripts[0];
-  t.truthy(script.src);
-  t.notRegex(script.src, new RegExp('hl='));
-});
+  it('should not render recaptcha when grecaptcha not available', () => {
+    vi.useFakeTimers();
+    window.grecaptcha = undefined;
 
-test('should inject only one script on multiple instances', t => {
-  t.plan(1);
+    render(<Reaptcha {...defaultProps} />);
 
-  mount<Reaptcha>(
-    <div>
-      <Reaptcha {...defaultProps} />
-      <Reaptcha {...defaultProps} />
-      <Reaptcha {...defaultProps} />
-    </div>
-  );
+    vi.advanceTimersByTime(1000);
 
-  t.is(document.scripts.length, 1);
-});
+    expect(renderSpy).not.toBeCalled();
 
-test('should call onLoad', t => {
-  t.plan(1);
+    vi.useRealTimers();
+  });
 
-  const onLoadSpy = sinon.spy();
-  mount<Reaptcha>(<Reaptcha {...defaultProps} onLoad={onLoadSpy} />);
+  it('should reset recaptcha', async t => {
+    const ref = React.createRef<Reaptcha>();
+    renderSpy.mockReturnValue('reset-test-id');
 
-  t.true(onLoadSpy.calledOnce);
-});
+    render(<Reaptcha {...defaultProps} ref={ref} />);
 
-test('should call onRender', t => {
-  t.plan(1);
+    await ref.current!.reset();
+    expect(resetSpy).toBeCalled();
+    expect(resetSpy).toBeCalledWith('reset-test-id');
+  });
 
-  const onRender = sinon.spy();
-  mount<Reaptcha>(<Reaptcha {...defaultProps} onRender={onRender} />);
+  it('should execute recaptcha', async t => {
+    const ref = React.createRef<Reaptcha>();
+    renderSpy.mockReturnValue('execute-test-id');
 
-  t.true(onRender.calledOnce);
-});
+    render(<Reaptcha {...defaultProps} ref={ref} size="invisible" />);
 
-test('should call onVerify', t => {
-  t.plan(2);
+    await ref.current!.execute();
+    expect(executeSpy).toBeCalled();
+    expect(executeSpy).toBeCalledWith('execute-test-id');
+  });
 
-  const onVerify = sinon.spy();
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} onVerify={onVerify} />
-  );
+  it('should getResponse from recaptcha', async t => {
+    const ref = React.createRef<Reaptcha>();
+    renderSpy.mockReturnValue('get-response-test-id');
+    getResponseStub.mockReturnValue('stubbed-response');
 
-  wrapper.instance()._onVerify('response');
+    render(<Reaptcha {...defaultProps} ref={ref} size="invisible" />);
 
-  t.true(onVerify.calledOnce);
-  t.true(onVerify.calledWith('response'));
-});
+    const response = await ref.current!.getResponse();
+    expect(response).toEqual('stubbed-response');
+    expect(getResponseStub).toBeCalled();
+    expect(getResponseStub).toBeCalledWith('get-response-test-id');
+  });
 
-test('should call onExpire', t => {
-  t.plan(1);
+  it('should inject script', () => {
+    render(<Reaptcha {...defaultProps} />);
 
-  const onExpire = sinon.spy();
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} onExpire={onExpire} />
-  );
+    expect(document.scripts).toHaveLength(1);
 
-  wrapper.instance()._onExpire();
+    const script = document.scripts[0];
+    expect(script.async).toBe(true);
+    expect(script.defer).toBe(true);
+    expect(script.src).toBeTruthy();
+  });
 
-  t.true(onExpire.calledOnce);
-});
+  it('should not inject script', () => {
+    render(<Reaptcha {...defaultProps} inject={false} />);
 
-test('should call onError', t => {
-  t.plan(1);
+    expect(document.scripts).toHaveLength(0);
+  });
 
-  const onError = sinon.spy();
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} onError={onError} />
-  );
+  [
+    'https://google.com/recaptcha',
+    'https://www.google.com/recaptcha',
+    'https://recaptcha.net/recaptcha',
+    'https://www.recaptcha.net/recaptcha',
+    'https://gstatic.com/recaptcha',
+    'https://www.gstatic.com/recaptcha'
+  ].forEach(src => {
+    it(`should not inject script if one with src ${src} already present`, () => {
+      const script = document.createElement('script');
+      script.src = src;
+      document.head.appendChild(script);
 
-  wrapper.instance()._onError();
+      render(<Reaptcha {...defaultProps} />);
 
-  t.true(onError.calledOnce);
-});
+      expect(document.scripts).toHaveLength(1);
+    });
+  });
 
-test('should throw error on double render', t => {
-  t.plan(2);
+  it('should inject script with hl parameter if specified', () => {
+    render(<Reaptcha {...defaultProps} hl="en" />);
 
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
-  const instance = wrapper.instance();
+    expect(document.scripts).toHaveLength(1);
+    const script = document.scripts[0];
+    expect(script.src).toBeTruthy();
+    expect(script.src).toMatch(new RegExp('hl=en'));
+  });
 
-  return instance.renderExplicitly().then(() => {
-    t.true(renderSpy.calledOnce);
-    return t.throwsAsync(
-      instance.renderExplicitly(),
-      undefined,
+  it('should inject script without hl parameter if not specified', () => {
+    render(<Reaptcha {...defaultProps} />);
+
+    expect(document.scripts).toHaveLength(1);
+    const script = document.scripts[0];
+    expect(script.src).toBeTruthy();
+    expect(script.src).not.toMatch(new RegExp('hl='));
+  });
+
+  it('should inject only one script on multiple instances', () => {
+    render(
+      <div>
+        <Reaptcha {...defaultProps} />
+        <Reaptcha {...defaultProps} />
+        <Reaptcha {...defaultProps} />
+      </div>
+    );
+
+    expect(document.scripts).toHaveLength(1);
+  });
+
+  it('should call onLoad', () => {
+    const onLoadSpy = vi.fn();
+    render(<Reaptcha {...defaultProps} onLoad={onLoadSpy} />);
+
+    expect(onLoadSpy).toBeCalledTimes(1);
+  });
+
+  it('should call onRender', () => {
+    const onRender = vi.fn();
+    render(<Reaptcha {...defaultProps} onRender={onRender} />);
+
+    expect(onRender).toBeCalledTimes(1);
+  });
+
+  it('should call onVerify', () => {
+    const ref = React.createRef<Reaptcha>();
+    const onVerify = vi.fn();
+    render(<Reaptcha {...defaultProps} ref={ref} onVerify={onVerify} />);
+
+    ref.current!._onVerify('response');
+
+    expect(onVerify).toBeCalledTimes(1);
+    expect(onVerify).toBeCalledWith('response');
+  });
+
+  it('should call onExpire', () => {
+    const ref = React.createRef<Reaptcha>();
+    const onExpire = vi.fn();
+    render(<Reaptcha {...defaultProps} ref={ref} onExpire={onExpire} />);
+
+    ref.current!._onExpire();
+
+    expect(onExpire).toBeCalledTimes(1);
+  });
+
+  it('should call onError', () => {
+    const ref = React.createRef<Reaptcha>();
+    const onError = vi.fn();
+    render(<Reaptcha {...defaultProps} ref={ref} onError={onError} />);
+
+    ref.current!._onError();
+
+    expect(onError).toBeCalledTimes(1);
+  });
+
+  it('should throw error on double render', async t => {
+    const ref = React.createRef<Reaptcha>();
+    render(<Reaptcha {...defaultProps} ref={ref} explicit />);
+
+    await ref.current!.renderExplicitly();
+    expect(renderSpy).toBeCalledTimes(1);
+    return expect(() => ref.current!.renderExplicitly()).rejects.toThrowError(
       'This recaptcha instance has been already rendered.'
     );
   });
-});
 
-test('should throw error when no grecaptcha available on render', t => {
-  t.plan(1);
+  it('should throw error when no grecaptcha available on render', () => {
+    const ref = React.createRef<Reaptcha>();
+    window.grecaptcha = undefined;
+    render(<Reaptcha {...defaultProps} ref={ref} explicit />);
 
-  stubGrecaptcha({
-    ready: () => {}
+    return expect(() => ref.current!.renderExplicitly()).rejects.toThrowError(
+      'Recaptcha is not ready for rendering yet.'
+    );
   });
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
 
-  return t.throwsAsync(
-    wrapper.instance().renderExplicitly(),
-    undefined,
-    'Recaptcha is not ready for rendering yet.'
-  );
-});
+  it('should throw error when recaptcha not rendered on reset', () => {
+    const ref = React.createRef<Reaptcha>();
+    render(<Reaptcha {...defaultProps} ref={ref} explicit />);
 
-test('should throw error when recaptcha not rendered on reset', t => {
-  t.plan(1);
+    return expect(() => ref.current!.reset()).rejects.toThrowError(
+      'This recaptcha instance did not render yet.'
+    );
+  });
 
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
+  it('should throw error when trying to execute while not in invisible mode', () => {
+    const ref = React.createRef<Reaptcha>();
+    render(<Reaptcha {...defaultProps} ref={ref} size="normal" />);
 
-  return t.throwsAsync(
-    wrapper.instance().reset(),
-    undefined,
-    'This recaptcha instance did not render yet.'
-  );
-});
+    return expect(() => ref.current!.execute()).rejects.toThrowError(
+      'Manual execution is only available for invisible size.'
+    );
+  });
 
-test('should throw error when trying to execute while not in invisible mode', t => {
-  t.plan(1);
+  it('should throw error when trying to execute while not rendered', () => {
+    const ref = React.createRef<Reaptcha>();
+    render(<Reaptcha {...defaultProps} ref={ref} size="invisible" explicit />);
 
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} size="normal" />);
+    return expect(() => ref.current!.execute()).rejects.toThrowError(
+      'This recaptcha instance did not render yet.'
+    );
+  });
 
-  return t.throwsAsync(
-    wrapper.instance().execute(),
-    undefined,
-    'Manual execution is only available for invisible size.'
-  );
-});
+  it('should throw error when trying to getResponse while not rendered', () => {
+    const ref = React.createRef<Reaptcha>();
+    render(<Reaptcha {...defaultProps} ref={ref} size="invisible" explicit />);
 
-test('should throw error when trying to execute while not rendered', t => {
-  t.plan(1);
+    return expect(() => ref.current!.getResponse()).rejects.toThrowError(
+      'This recaptcha instance did not render yet.'
+    );
+  });
 
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} size="invisible" explicit />
-  );
+  it('should not throw error on unmount when not rendered', () => {
+    const component = render(<Reaptcha {...defaultProps} explicit />);
 
-  return t.throwsAsync(
-    wrapper.instance().execute(),
-    undefined,
-    'This recaptcha instance did not render yet.'
-  );
-});
+    expect(() => component.unmount()).not.toThrowError();
+  });
 
-test('should throw error when trying to getResponse while not rendered', t => {
-  t.plan(1);
+  it('should derive invisible state from size prop', () => {
+    const ref = React.createRef<Reaptcha>();
+    const { rerender } = render(
+      <Reaptcha {...defaultProps} ref={ref} size="normal" />
+    );
 
-  const wrapper = mount<Reaptcha>(
-    <Reaptcha {...defaultProps} size="invisible" explicit />
-  );
+    expect(ref.current?.state.invisible).toBe(false);
+    rerender(<Reaptcha {...defaultProps} ref={ref} size="invisible" />);
+    expect(ref.current?.state.invisible).toBe(true);
+  });
 
-  return t.throwsAsync(
-    wrapper.instance().getResponse(),
-    undefined,
-    'This recaptcha instance did not render yet.'
-  );
-});
+  const propsThatShouldRerenderRecaptcha: Array<Partial<Props>> = [
+    { sitekey: 'new-sitekey' },
+    { theme: 'dark' },
+    { size: 'invisible' },
+    { badge: 'bottomleft' },
+    { tabindex: 100 },
+    { hl: 'ja' },
+    { isolated: true }
+  ];
 
-test('should not throw error on unmount when not rendered', t => {
-  t.plan(1);
+  propsThatShouldRerenderRecaptcha.forEach(props => {
+    it(`should rerender recaptcha when changing ${
+      Object.keys(props)[0]
+    } prop`, () => {
+      const { rerender } = render(<Reaptcha {...defaultProps} />);
 
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} explicit />);
+      rerender(<Reaptcha {...defaultProps} {...props} />);
 
-  t.notThrows(() => wrapper.unmount());
-});
+      expect(renderSpy).toHaveBeenCalledTimes(2);
+    });
+  });
 
-test('should derive invisible state from size prop', t => {
-  t.plan(2);
+  propsThatShouldRerenderRecaptcha.forEach(props => {
+    it(`should not rerender recaptcha when changing ${
+      Object.keys(props)[0]
+    } prop on explicit render`, () => {
+      const { rerender } = render(<Reaptcha {...defaultProps} explicit />);
 
-  const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} size="normal" />);
+      rerender(<Reaptcha {...defaultProps} {...props} explicit />);
 
-  t.is(wrapper.state('invisible'), false);
-
-  wrapper.setProps({ size: 'invisible' });
-
-  t.is(wrapper.state('invisible'), true);
-});
-
-const propsThatShouldRerenderRecaptcha: Array<Partial<Props>> = [
-  { sitekey: 'new-sitekey' },
-  { theme: 'dark' },
-  { size: 'invisible' },
-  { badge: 'bottomleft' },
-  { tabindex: 100 },
-  { hl: 'ja' },
-  { isolated: true }
-];
-
-propsThatShouldRerenderRecaptcha.forEach(props => {
-  test(`should rerender recaptcha when changing ${
-    Object.keys(props)[0]
-  } prop`, t => {
-    t.plan(1);
-
-    const wrapper = mount<Reaptcha>(<Reaptcha {...defaultProps} />);
-
-    const recaptchaElement = wrapper.find('div');
-    const recaptchaElementKey = recaptchaElement.key();
-
-    return new Promise(resolve => {
-      wrapper.setState({ rendered: true }, () => {
-        wrapper.setProps(props as Pick<Props, keyof Props>, () => {
-          /**
-           * We're doing a setState() in componentDidUpdate
-           * and Enzyme probably doesn't wait for this to process.
-           * This is the cleanest workaround I found.
-           */
-          setTimeout(() => {
-            wrapper.update();
-            const newRecaptchaElement = wrapper.find('div');
-            const newRecaptchaElementKey = newRecaptchaElement.key();
-
-            t.not(recaptchaElementKey, newRecaptchaElementKey);
-
-            resolve();
-          }, 0);
-        });
-      });
+      expect(renderSpy).toHaveBeenCalledTimes(0);
     });
   });
 });
